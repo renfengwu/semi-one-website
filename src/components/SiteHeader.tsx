@@ -1,5 +1,5 @@
 import type { Language } from '../lib/i18n';
-import { routes, siteHref } from '../app/routes';
+import { handleSiteNavigation, routes, siteHref } from '../app/routes';
 
 type SiteHeaderProps = {
   language: Language;
@@ -15,12 +15,21 @@ export function SiteHeader({ language, onLanguageChange }: SiteHeaderProps) {
 
   return (
     <header className="site-header">
-      <a className="brand" href={siteHref('/')} aria-label="芯电元首页">
+      <a
+        className="brand"
+        href={siteHref('/')}
+        aria-label="芯电元首页"
+        onClick={(event) => handleSiteNavigation(event, '/')}
+      >
         <img src={`${import.meta.env.BASE_URL}assets/semi-one-logo.png`} alt="芯电元 Semi-One" />
       </a>
       <nav className="primary-nav" aria-label="主导航">
         {routes.map((route) => (
-          <a key={route.path} href={siteHref(route.path)}>
+          <a
+            key={route.path}
+            href={siteHref(route.path)}
+            onClick={(event) => handleSiteNavigation(event, route.path)}
+          >
             {routeLabel(route)}
           </a>
         ))}

@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import App from '../../src/app/App';
-import { normalizePath, siteHref } from '../../src/app/routes';
+import { handleSiteNavigation, normalizePath, siteHref } from '../../src/app/routes';
 import { AboutPage } from '../../src/pages/AboutPage';
 import { ApplicationsPage } from '../../src/pages/ApplicationsPage';
 import { NotFoundPage } from '../../src/pages/NotFoundPage';
@@ -13,8 +13,22 @@ function setPath(path: string) {
   window.history.pushState({}, '', path);
 }
 
+function navigationEvent(overrides = {}) {
+  return {
+    altKey: false,
+    button: 0,
+    ctrlKey: false,
+    defaultPrevented: false,
+    metaKey: false,
+    shiftKey: false,
+    preventDefault: vi.fn(),
+    ...overrides
+  };
+}
+
 afterEach(() => {
   setPath('/');
+  vi.restoreAllMocks();
 });
 
 describe('static pages', () => {
@@ -63,6 +77,30 @@ describe('App routing', () => {
     expect(siteHref('/')).toBe('/');
     expect(siteHref('/products')).toBe('/products');
     expect(siteHref('mailto:shuangling@semi-one.com')).toBe('mailto:shuangling@semi-one.com');
+  });
+
+  it('intercepts same-tab internal navigation without a page reload', () => {
+    const event = navigationEvent();
+    const listener = vi.fn();
+    const scrollTo = vi.fn();
+    Object.defineProperty(window, 'scrollTo', { value: scrollTo, writable: true });
+    window.addEventListener('semi-one:navigation', listener);
+
+    handleSiteNavigation(event, '/products');
+
+    expect(event.preventDefault).toHaveBeenCalled();
+    expect(window.location.pathname).toBe('/products');
+    expect(listener).toHaveBeenCalled();
+    expect(scrollTo).toHaveBeenCalledWith({ top: 0 });
+    window.removeEventListener('semi-one:navigation', listener);
+  });
+
+  it('keeps modified clicks as normal browser navigation', () => {
+    const event = navigationEvent({ metaKey: true });
+
+    handleSiteNavigation(event, '/products');
+
+    expect(event.preventDefault).not.toHaveBeenCalled();
   });
 
   it('renders route-specific pages', () => {

@@ -2,7 +2,7 @@ import { ArrowRight, Cpu, Factory, Globe2, ShieldCheck } from 'lucide-react';
 import { companyProfile, labCapabilities, technologyTracks } from '../data/company';
 import { applications } from '../data/applications';
 import { products } from '../data/products';
-import { siteHref } from '../app/routes';
+import { handleSiteNavigation, siteHref } from '../app/routes';
 import type { Language } from '../lib/i18n';
 
 type HomePageProps = {
@@ -170,11 +170,19 @@ export function HomePage({ language }: HomePageProps) {
             <h1>{copy.title}</h1>
             <p className="hero-lede">{copy.lede}</p>
             <div className="hero-actions">
-              <a className="button primary" href={siteHref('/products')}>
+              <a
+                className="button primary"
+                href={siteHref('/products')}
+                onClick={(event) => handleSiteNavigation(event, '/products')}
+              >
                 {copy.products}
                 <ArrowRight size={18} aria-hidden="true" />
               </a>
-              <a className="button secondary" href={siteHref('/technology')}>
+              <a
+                className="button secondary"
+                href={siteHref('/technology')}
+                onClick={(event) => handleSiteNavigation(event, '/technology')}
+              >
                 {copy.technology}
               </a>
             </div>
@@ -233,14 +241,23 @@ export function HomePage({ language }: HomePageProps) {
         <div className="product-command-heading">
           <p className="eyebrow">{copy.productTitle}</p>
           <h2>{copy.productLead}</h2>
-          <a className="text-link" href={siteHref('/products')}>
+          <a
+            className="text-link"
+            href={siteHref('/products')}
+            onClick={(event) => handleSiteNavigation(event, '/products')}
+          >
             {copy.productAction}
             <ArrowRight size={16} aria-hidden="true" />
           </a>
         </div>
         <div className="product-signal-grid">
           {featuredProducts.map((product) => (
-            <a className="product-signal" key={product.partNumber} href={siteHref('/products')}>
+            <a
+              className="product-signal"
+              key={product.partNumber}
+              href={siteHref('/products')}
+              onClick={(event) => handleSiteNavigation(event, '/products')}
+            >
               <span>{product.packageName}</span>
               <strong>{product.partNumber}</strong>
               <dl>
@@ -270,7 +287,11 @@ export function HomePage({ language }: HomePageProps) {
         </div>
         <div className="application-strip">
           {applications.slice(0, 6).map((item) => (
-            <a key={item.name} href={siteHref('/applications')}>
+            <a
+              key={item.name}
+              href={siteHref('/applications')}
+              onClick={(event) => handleSiteNavigation(event, '/applications')}
+            >
               <span>
                 {language === 'vi' ? item.nameVi : language === 'en' ? item.nameEn : item.name}
               </span>
