@@ -10,8 +10,8 @@
 
 - **阶段**:`初始化 / 六步交付流程第①步确认门`
 - **上一步完成**:`已初始化本地 Git 仓库,创建私有 GitHub 仓库并推送 main;仓库地址 https://github.com/renfengwu/semi-one-website`
-- **下一步 (TODO 第一条)**:`用户在 GitHub 仓库配置 Actions Secrets: SSH_PRIVATE_KEY / SSH_HOST / SSH_USER`
-- **阻塞项**:`等待用户确认 Secrets 已配置;确认后才能进入第②步创建 feature 分支`
+- **下一步 (TODO 第一条)**:`用户提供部署服务器 SSH_HOST 和 SSH_USER,并把公钥 C:\Users\admin\.ssh\semi-one-website-deploy.pub 加入服务器 authorized_keys`
+- **阻塞项**:`SSH_PRIVATE_KEY 已由 Codex 生成并写入 GitHub Secret;仍缺 SSH_HOST、SSH_USER,且需确认服务器已信任对应公钥`
 
 ---
 
@@ -21,7 +21,9 @@
 - [x] 创建实施计划 `docs/superpowers/plans/2026-07-03-semi-one-website-ci-cd.md`
 - [x] 初始化本地 Git 仓库并创建最小 main 引导提交
 - [x] 创建私有 GitHub 仓库 `https://github.com/renfengwu/semi-one-website` 并推送 `main`
-- [ ] 在 GitHub 仓库配置 Actions Secrets:`SSH_PRIVATE_KEY` / `SSH_HOST` / `SSH_USER`
+- [x] 生成专用部署 SSH key,并写入 GitHub Actions Secret:`SSH_PRIVATE_KEY`
+- [ ] 将公钥 `C:\Users\admin\.ssh\semi-one-website-deploy.pub` 加入部署服务器 `authorized_keys`
+- [ ] 在 GitHub 仓库配置 Actions Secrets:`SSH_HOST` / `SSH_USER`
 - [ ] 确认首版范围:中文+英文是否完整上线、越南语入口是否保留、是否展示客户名称/Logo、证书编号/有效期公开口径
 - [ ] 用户确认 Secrets 已配置后,从 `main` 开第一条 feature 分支
 - [ ] 脚手架 Vite + React + TypeScript + Tailwind + ESLint + Prettier + Vitest + Playwright
@@ -58,6 +60,7 @@
 - 证书 PDF 是扫描件:文本不可直接抽取;已渲染目视确认类别,但编号、日期、范围需上线前人工复核。
 - XLS 为老式 Excel 97-2003 二进制格式:本地通过 Excel COM 读到发明、实用新型、软件著作权工作表;后续建议转换为 `.xlsx` 或 CSV 以便 CI 可复现。
 - 旧官网为 ThinkPHP/Nginx 站点,产品表页面很大且 HTML 较旧;迁移时应结构化清洗数据,不要复刻旧站表格实现。
+- 当前 `gh secret set` 版本不支持 `--body-file`:已改用 stdin 写入 `SSH_PRIVATE_KEY`;以后设置多行 Secret 可用 `Get-Content -Raw <file> | gh secret set <NAME> --repo <owner/repo>`。
 
 ---
 
@@ -69,5 +72,6 @@
 - [x] 2026-07-03 目视核验证书 PDF 类别,读取 XLS 中知识产权工作表
 - [x] 2026-07-03 起草本项目上下文、用户故事验收标准和第一批 TODO
 - [x] 2026-07-03 完成第①步建仓动作:本地 Git 初始化、GitHub 私有仓库创建、`main` 推送
+- [x] 2026-07-03 生成部署专用 SSH key,已把私钥写入 GitHub Secret `SSH_PRIVATE_KEY`,公钥保存在 `C:\Users\admin\.ssh\semi-one-website-deploy.pub`
 
 > 反臃肿:里程碑超过 15 条时,把更早内容合并成一行摘要,保持本文件可快速阅读。
