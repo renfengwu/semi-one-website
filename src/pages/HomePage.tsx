@@ -1,6 +1,7 @@
 import { ArrowRight, Cpu, Factory, Globe2, ShieldCheck } from 'lucide-react';
 import { companyProfile, labCapabilities, technologyTracks } from '../data/company';
 import { applications } from '../data/applications';
+import { products } from '../data/products';
 import type { Language } from '../lib/i18n';
 
 type HomePageProps = {
@@ -26,7 +27,15 @@ const homeText = {
     quality: '质量体系',
     global: '全球布局',
     applications: '应用领域',
-    applicationsTitle: '从电池系统到电机驱动'
+    applicationsTitle: '从电池系统到电机驱动',
+    platformTitle: '围绕低损耗、高可靠和高功率密度建立技术平台',
+    platformBody:
+      '从 Trench、SGT 到 SJ MOS 与 IGBT/SiC/GaN 路线,芯电元用工艺平台、实验室验证和工程支持连接客户应用。',
+    productTitle: '代表器件参数板',
+    productLead: '按耐压、导阻、封装和应用快速识别首批公开型号。',
+    productAction: '进入产品中心',
+    applicationLead: '围绕电池、电源、电机与快充系统组织产品组合。',
+    inspect: '查看方案'
   },
   en: {
     eyebrow: 'Power Semiconductor Platform',
@@ -46,7 +55,17 @@ const homeText = {
     quality: 'Quality Systems',
     global: 'Global Network',
     applications: 'Applications',
-    applicationsTitle: 'From battery systems to motor drives'
+    applicationsTitle: 'From battery systems to motor drives',
+    platformTitle: 'Technology platforms for low loss, reliability and power density',
+    platformBody:
+      'From Trench and SGT to SJ MOS plus IGBT/SiC/GaN roadmaps, Semi-One connects process platforms, lab validation and engineering support.',
+    productTitle: 'Representative Device Board',
+    productLead:
+      'Identify first public models by voltage rating, on-resistance, package and application.',
+    productAction: 'Open Product Center',
+    applicationLead:
+      'Product portfolios organized around battery, power, motor and fast-charging systems.',
+    inspect: 'Inspect solution'
   },
   vi: {
     eyebrow: 'Nền tảng linh kiện công suất bán dẫn',
@@ -71,7 +90,16 @@ const homeText = {
     quality: 'Hệ thống chất lượng',
     global: 'Mạng lưới toàn cầu',
     applications: 'Ứng dụng',
-    applicationsTitle: 'Từ hệ thống pin đến điều khiển động cơ'
+    applicationsTitle: 'Từ hệ thống pin đến điều khiển động cơ',
+    platformTitle: 'Nền tảng công nghệ cho tổn hao thấp, độ tin cậy và mật độ công suất',
+    platformBody:
+      'Từ Trench, SGT đến SJ MOS cùng lộ trình IGBT/SiC/GaN, Semi-One kết nối quy trình, kiểm chứng phòng thí nghiệm và hỗ trợ kỹ thuật.',
+    productTitle: 'Bảng linh kiện đại diện',
+    productLead:
+      'Nhận diện nhanh các mã công khai đầu tiên theo điện áp, Rds(on), đóng gói và ứng dụng.',
+    productAction: 'Mở trung tâm sản phẩm',
+    applicationLead: 'Danh mục sản phẩm được tổ chức quanh hệ pin, nguồn, động cơ và sạc nhanh.',
+    inspect: 'Xem giải pháp'
   }
 } satisfies Record<
   Language,
@@ -90,11 +118,41 @@ const homeText = {
     global: string;
     applications: string;
     applicationsTitle: string;
+    platformTitle: string;
+    platformBody: string;
+    productTitle: string;
+    productLead: string;
+    productAction: string;
+    applicationLead: string;
+    inspect: string;
   }
 >;
 
 export function HomePage({ language }: HomePageProps) {
   const copy = homeText[language];
+  const featuredProducts = products.slice(0, 4);
+  const signatureItems = [
+    {
+      icon: Cpu,
+      title: copy.technologyTracks,
+      body: technologyTracks.join(' / ')
+    },
+    {
+      icon: Factory,
+      title: copy.lab,
+      body: labCapabilities.slice(0, 4).join(' / ')
+    },
+    {
+      icon: ShieldCheck,
+      title: copy.quality,
+      body: 'ISO 9001 / ISO 14001 / ISO 45001 / ISO 37301'
+    },
+    {
+      icon: Globe2,
+      title: copy.global,
+      body: companyProfile.locations.join(' · ')
+    }
+  ];
 
   return (
     <>
@@ -141,38 +199,81 @@ export function HomePage({ language }: HomePageProps) {
         ))}
       </section>
 
-      <section className="section-grid">
-        <article className="feature-panel">
-          <Cpu aria-hidden="true" />
-          <h2>{copy.technologyTracks}</h2>
-          <p>{technologyTracks.join(' / ')}</p>
-        </article>
-        <article className="feature-panel">
-          <Factory aria-hidden="true" />
-          <h2>{copy.lab}</h2>
-          <p>{labCapabilities.slice(0, 4).join('、')}</p>
-        </article>
-        <article className="feature-panel">
-          <ShieldCheck aria-hidden="true" />
-          <h2>{copy.quality}</h2>
-          <p>ISO 9001 / ISO 14001 / ISO 45001 / ISO 37301</p>
-        </article>
-        <article className="feature-panel">
-          <Globe2 aria-hidden="true" />
-          <h2>{copy.global}</h2>
-          <p>{companyProfile.locations.join(' · ')}</p>
-        </article>
+      <section className="platform-section">
+        <div className="platform-copy">
+          <p className="eyebrow">{copy.technologyTracks}</p>
+          <h2>{copy.platformTitle}</h2>
+          <p>{copy.platformBody}</p>
+        </div>
+        <div className="platform-matrix" aria-label="技术平台矩阵">
+          <div className="wafer-map" aria-hidden="true">
+            {technologyTracks.map((track, index) => (
+              <span key={track} style={{ ['--index' as string]: index }}>
+                {track}
+              </span>
+            ))}
+          </div>
+          <div className="signature-grid">
+            {signatureItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article key={item.title}>
+                  <Icon aria-hidden="true" />
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="product-command">
+        <div className="product-command-heading">
+          <p className="eyebrow">{copy.productTitle}</p>
+          <h2>{copy.productLead}</h2>
+          <a className="text-link" href="/products">
+            {copy.productAction}
+            <ArrowRight size={16} aria-hidden="true" />
+          </a>
+        </div>
+        <div className="product-signal-grid">
+          {featuredProducts.map((product) => (
+            <a className="product-signal" key={product.partNumber} href="/products">
+              <span>{product.packageName}</span>
+              <strong>{product.partNumber}</strong>
+              <dl>
+                <div>
+                  <dt>Vds</dt>
+                  <dd>{product.vds}V</dd>
+                </div>
+                <div>
+                  <dt>Id</dt>
+                  <dd>{product.id}A</dd>
+                </div>
+                <div>
+                  <dt>Rds(on)</dt>
+                  <dd>{Math.min(...Object.values(product.rdsOn))}mR</dd>
+                </div>
+              </dl>
+            </a>
+          ))}
+        </div>
       </section>
 
       <section className="content-band">
         <div>
           <p className="eyebrow">{copy.applications}</p>
           <h2>{copy.applicationsTitle}</h2>
+          <p>{copy.applicationLead}</p>
         </div>
         <div className="application-strip">
           {applications.slice(0, 6).map((item) => (
             <a key={item.name} href="/applications">
-              {language === 'vi' ? item.nameVi : language === 'en' ? item.nameEn : item.name}
+              <span>
+                {language === 'vi' ? item.nameVi : language === 'en' ? item.nameEn : item.name}
+              </span>
+              <small>{copy.inspect}</small>
             </a>
           ))}
         </div>

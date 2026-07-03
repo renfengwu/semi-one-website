@@ -8,9 +8,9 @@
 
 ## 当前状态 (最后更新: 2026-07-03 · by Codex)
 
-- **阶段**:`PR Review 中 / 六步交付流程第③步`
-- **上一步完成**:`已实现 Vite/React 官网、GitHub Actions CI、交付型 CD(GitHub artifact + GHCR Docker image)、Docker/Nginx 静态部署包;PR #1 远端 CI 已全绿`
-- **下一步 (TODO 第一条)**:`用户 Review 并合并 PR #1;合并后观察 main CD 发布 artifact 与 GHCR 镜像`
+- **阶段**:`PR Review 中 / 六步交付流程第③步 / 高级视觉二次打磨`
+- **上一步完成**:`按用户反馈安装并读取 figma-generate-design、playwright、screenshot 等 skill;Figma 缺 MCP/设计稿无法直接调用,已用 imagegen + Playwright 截图校验重做首页科技视觉,并补齐越南语入口`
+- **下一步 (TODO 第一条)**:`提交并推送高级首页重构;观察 PR #1 最新远端 CI;用户 Review 并合并后观察 main CD 发布 artifact 与 GHCR 镜像`
 - **阻塞项**:`GitHub 当前套餐不支持私有仓库 Pages;公网 Pages 需升级套餐或改公开仓库。服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权。证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
 ---
@@ -38,8 +38,12 @@
 - [x] 配置 CD workflow:main 合并后自动发布静态 `dist` artifact 与 GHCR Docker 镜像
 - [x] 配置 Docker/Nginx 静态部署包与 `/health`;服务器 SSH CD 待服务器信息补齐后启用
 - [x] 推送 feature 分支并创建 PR #1,远端 CI 全绿,等待人工 Review
+- [x] 按用户反馈查找并使用 skill:已安装/读取 `figma-generate-design`、`playwright`、`screenshot`;因当前无 Figma MCP 与设计稿文件,改用 imagegen 主视觉与 Playwright/Screenshot 流程进行视觉 QA
+- [x] 首页升级为更高端的科技官网首屏:全幅半导体实验室主视觉、技术平台矩阵、晶圆路线图、型号参数板、应用场景条带
+- [x] 补齐越南语基础体验:顶部 VI 切换、核心页面与导航、首页主文案、产品/应用/质量/关于基础文案
+- [x] 本轮高级视觉重构本地自检通过:format、lint、typecheck、coverage、build、E2E、audit、docker build、桌面/移动端截图检查
 - [ ] 用户合并 PR #1 后,观察 main CD,记录 artifact、GHCR 镜像和后续部署地址
-- [ ] 会话结束前更新本文件
+- [x] 会话结束前更新本文件
 
 ---
 
@@ -64,6 +68,9 @@
 - 2026-07-03 Playwright E2E:`chromium` 与 `mobile-chrome` 共 8 条通过;覆盖首页主入口、产品移动端搜索、旧站 `/Product/` 路径迁移、越南语切换
 - 2026-07-03 视觉烟测:桌面/移动端关键页面无横向溢出、无破图、无控制台错误;截图暂存于 `test-results/visual-qa/`(不提交)
 - 2026-07-03 使用 `imagegen` skill 生成并压缩新官网主视觉 `public/assets/hero-semiconductor-lab.webp`;首页切换为全幅半导体实验室/晶圆/功率器件视觉
+- 2026-07-03 按用户要求继续找 skill:通过 `skill-installer` 安装并读取 `figma-generate-design`、`playwright`、`screenshot`;当前无 Figma MCP/设计稿,无法直接走 Figma 生成,已采用其分段设计与截图 QA 工作流落地。
+- 2026-07-03 高级首页重构本地通过:`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`
+- 2026-07-03 高级首页重构覆盖率:`Statements 89.11% / Branches 80.34% / Functions 85.71% / Lines 90.4%`;Playwright E2E 8 条通过;依赖审计 0 漏洞。
 - 2026-07-03 远端 PR CI 通过:GitHub Actions PR verify 包含格式、lint、typecheck、coverage、build、E2E、Docker build
 
 ---
@@ -79,6 +86,7 @@
 - Docker CLI 曾因 Docker Desktop 服务未启动而首次构建失败;启动 Docker Desktop 后 `docker build -t semi-one-website:local .` 已通过。
 - PR #1 首次远端 CI 在 `npm run test:coverage` 失败:根因是 `.gitignore` 的 `data/` 误伤 `src/data/`,本地文件存在但未提交。已改为只忽略根目录 `/data/`,并将 `src/data/*` 纳入版本库。
 - GitHub Pages 启用失败:GitHub API 返回 `Your current plan does not support GitHub Pages for this repository`;私有仓库暂不能用 Pages,除非升级套餐或改公开仓库。
+- `figma-generate-design` skill 需要 Figma MCP(`use_figma`)和明确 Figma 文件;当前会话没有可用 Figma 工具/设计稿,不能伪造调用,只能按其设计流程配合 Playwright/Screenshot 做本地视觉验收。
 
 ---
 
@@ -93,5 +101,6 @@
 - [x] 2026-07-03 生成部署专用 SSH key,已把私钥写入 GitHub Secret `SSH_PRIVATE_KEY`,公钥保存在 `C:\Users\admin\.ssh\semi-one-website-deploy.pub`
 - [x] 2026-07-03 完成官网首版实现、本地全套门禁、视觉烟测、PR #1 创建与远端 CI 全绿
 - [x] 2026-07-03 按用户反馈重做首页科技视觉,并补齐中文/英文/越南语切换与越南语核心页面文案
+- [x] 2026-07-03 继续按用户要求找 skill,完成高级首页二次重构:技术平台矩阵、晶圆路线图、型号参数板、越南语移动端截图验收
 
 > 反臃肿:里程碑超过 15 条时,把更早内容合并成一行摘要,保持本文件可快速阅读。
