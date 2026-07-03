@@ -62,14 +62,14 @@
 - AC1: Given 项目文档已确认,When 开始实施,Then 先创建/确认 Git 仓库和 GitHub 仓库,并提示用户配置 `SSH_PRIVATE_KEY`、`SSH_HOST`、`SSH_USER`。
 - AC2: Given Secrets 已确认,When 从 `main` 开发,Then 使用 `feature/<issue>-<desc>` 分支,不得直接在 `main` 写业务代码。
 - AC3: Given 代码已提交到 PR,When GitHub Actions 运行,Then CI 至少包含格式检查、lint、typecheck、单元测试、覆盖率、E2E、`npm run build`、`docker build`。
-- AC4: Given PR CI 全绿且人工 Review 通过,When 用户合并 `main`,Then CD 自动部署到 GitHub Pages,并输出 Pages 访问地址。
-- AC5: Given 后续提供服务器 `SSH_HOST`/`SSH_USER` 且公钥授权完成,When 启用服务器 CD,Then 容器幂等替换自身并执行 `/health`,日志打印最终主机端口、健康检查结果和访问地址。
+- AC4: Given PR CI 全绿且人工 Review 通过,When 用户合并 `main`,Then CD 自动发布静态 `dist` artifact,并把 Docker/Nginx 镜像推送到 GHCR。
+- AC5: Given 后续提供服务器 `SSH_HOST`/`SSH_USER` 且公钥授权完成,When 启用服务器 CD 或公网 Pages 权限具备,Then 自动发布可访问站点并执行 `/health` 或等价访问检查,日志打印最终地址和健康检查结果。
 - AC6: Given 任一步失败,When AI 修复,Then 必须把现象、根因、修复和验证结果写回 `standards/PROGRESS.md`。
 
 技术备注:
 
-- 本地不强制 Docker;`docker build` 交给 CI/CD。
-- 首个可自主闭环 CD 使用 GitHub Pages;服务器部署端口后续优先 `8080`,回退 `8080-8089`。
+- 本地与 CI 均验证 `docker build`;CD 首阶段推送 GHCR 镜像和静态构建产物。
+- GitHub 当前套餐不支持私有仓库 Pages,因此首个可自主闭环 CD 不依赖 Pages;服务器部署端口后续优先 `8080`,回退 `8080-8089`。
 
 ### US-2 科技感且权威的首页 · 状态: Backlog
 

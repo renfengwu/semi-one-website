@@ -8,10 +8,10 @@
 
 ## 当前状态 (最后更新: 2026-07-03 · by Codex)
 
-- **阶段**:`开发中 / 六步交付流程第②步`
-- **上一步完成**:`已实现 Vite/React 官网、GitHub Actions CI、GitHub Pages CD、Docker/Nginx 静态部署包,本地全套门禁通过`
-- **下一步 (TODO 第一条)**:`推送 feature/1-website-ci-cd 分支并创建 PR,观察 GitHub Actions CI`
-- **阻塞项**:`服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;不阻塞 GitHub Pages CD。证书编号/有效期、客户名称/Logo、越南语公开口径仍需人工复核`
+- **阶段**:`PR Review 中 / 六步交付流程第③步`
+- **上一步完成**:`已实现 Vite/React 官网、GitHub Actions CI、交付型 CD(GitHub artifact + GHCR Docker image)、Docker/Nginx 静态部署包;PR #1 远端 CI 已全绿`
+- **下一步 (TODO 第一条)**:`用户 Review 并合并 PR #1;合并后观察 main CD 发布 artifact 与 GHCR 镜像`
+- **阻塞项**:`GitHub 当前套餐不支持私有仓库 Pages;公网 Pages 需升级套餐或改公开仓库。服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权。证书编号/有效期、客户名称/Logo、越南语公开口径仍需人工复核`
 
 ---
 
@@ -24,7 +24,7 @@
 - [x] 生成专用部署 SSH key,并写入 GitHub Actions Secret:`SSH_PRIVATE_KEY`
 - [ ] 将公钥 `C:\Users\admin\.ssh\semi-one-website-deploy.pub` 加入部署服务器 `authorized_keys`(服务器部署阶段)
 - [ ] 在 GitHub 仓库配置 Actions Secrets:`SSH_HOST` / `SSH_USER`(服务器部署阶段)
-- [x] 决定首个可自主闭环 CD 改用 GitHub Pages,服务器 SSH/Docker 部署后置
+- [x] 决定首个可自主闭环 CD 改用 GitHub Actions artifact + GHCR 镜像,服务器 SSH/Docker 部署后置
 - [ ] 确认首版范围:中文+英文是否完整上线、越南语入口是否保留、是否展示客户名称/Logo、证书编号/有效期公开口径
 - [x] 从 `main` 开第一条 feature 分支:`feature/1-website-ci-cd`
 - [x] 脚手架 Vite + React + TypeScript + ESLint + Prettier + Vitest + Playwright
@@ -35,10 +35,10 @@
 - [x] 编写单元/组件/E2E 测试,覆盖产品筛选、语言切换、关键页面和移动端布局
 - [x] 本地自检通过:format、lint、typecheck、test、coverage、E2E、build、audit、docker build、视觉烟测
 - [x] 配置 GitHub Actions CI:PR 触发格式、lint、typecheck、test、coverage、E2E、build、docker build
-- [x] 配置 GitHub Pages CD workflow:main 合并后自动发布静态站
+- [x] 配置 CD workflow:main 合并后自动发布静态 `dist` artifact 与 GHCR Docker 镜像
 - [x] 配置 Docker/Nginx 静态部署包与 `/health`;服务器 SSH CD 待服务器信息补齐后启用
-- [ ] 推送 feature 分支并创建 PR,等待 CI 和人工 Review
-- [ ] 用户合并 PR 后,观察 CD,记录最终端口、健康检查和访问地址
+- [x] 推送 feature 分支并创建 PR #1,远端 CI 全绿,等待人工 Review
+- [ ] 用户合并 PR #1 后,观察 main CD,记录 artifact、GHCR 镜像和后续部署地址
 - [ ] 会话结束前更新本文件
 
 ---
@@ -52,7 +52,8 @@
 | 2026-07-03 | 原始 `data/` 资料作为参考源,生产只使用确认后的优化素材和结构化数据 | 避免把大文件、扫描件、未复核证书/客户信息直接公开或拖慢构建                                |
 | 2026-07-03 | 本轮只更新 `00/01/PROGRESS`,不开始写代码                           | 用户明确要求先停下确认                                                                     |
 | 2026-07-03 | GitHub 仓库使用私有仓库 `renfengwu/semi-one-website`               | 官网仍处于初始化阶段,避免未复核资料和发布配置提前公开                                      |
-| 2026-07-03 | 首个 CD 目标调整为 GitHub Pages                                    | 用户要求 Codex 自主继续,但没有服务器地址/用户名;Pages 可由 GitHub Actions 自主完成部署闭环 |
+| 2026-07-03 | 首个 CD 目标调整为 GitHub Pages                                    | 用户要求 Codex 自主继续,但没有服务器地址/用户名;Pages 原计划可由 GitHub Actions 自主完成部署闭环 |
+| 2026-07-03 | 首个 CD 目标由 GitHub Pages 改为 Actions artifact + GHCR           | GitHub API 返回当前套餐不支持私有仓库 Pages;交付型 CD 可在私有仓库中无额外密钥运行         |
 
 ---
 
@@ -62,6 +63,7 @@
 - 2026-07-03 覆盖率:`Statements 88.39% / Branches 85.22% / Functions 87.23% / Lines 90.42%`
 - 2026-07-03 Playwright E2E:`chromium` 与 `mobile-chrome` 共 6 条通过;覆盖首页主入口、产品移动端搜索、旧站 `/Product/` 路径迁移
 - 2026-07-03 视觉烟测:桌面/移动端关键页面无横向溢出、无破图、无控制台错误;截图暂存于 `test-results/visual-qa/`(不提交)
+- 2026-07-03 远端 PR CI 通过:GitHub Actions run `28638489229`,包含格式、lint、typecheck、coverage、build、E2E、Docker build
 
 ---
 
@@ -75,6 +77,7 @@
 - 当前 `gh secret set` 版本不支持 `--body-file`:已改用 stdin 写入 `SSH_PRIVATE_KEY`;以后设置多行 Secret 可用 `Get-Content -Raw <file> | gh secret set <NAME> --repo <owner/repo>`。
 - Docker CLI 曾因 Docker Desktop 服务未启动而首次构建失败;启动 Docker Desktop 后 `docker build -t semi-one-website:local .` 已通过。
 - PR #1 首次远端 CI 在 `npm run test:coverage` 失败:根因是 `.gitignore` 的 `data/` 误伤 `src/data/`,本地文件存在但未提交。已改为只忽略根目录 `/data/`,并将 `src/data/*` 纳入版本库。
+- GitHub Pages 启用失败:GitHub API 返回 `Your current plan does not support GitHub Pages for this repository`;私有仓库暂不能用 Pages,除非升级套餐或改公开仓库。
 
 ---
 
@@ -87,6 +90,6 @@
 - [x] 2026-07-03 起草本项目上下文、用户故事验收标准和第一批 TODO
 - [x] 2026-07-03 完成第①步建仓动作:本地 Git 初始化、GitHub 私有仓库创建、`main` 推送
 - [x] 2026-07-03 生成部署专用 SSH key,已把私钥写入 GitHub Secret `SSH_PRIVATE_KEY`,公钥保存在 `C:\Users\admin\.ssh\semi-one-website-deploy.pub`
-- [x] 2026-07-03 完成官网首版实现、本地全套门禁和视觉烟测,准备推送 feature 分支并创建 PR
+- [x] 2026-07-03 完成官网首版实现、本地全套门禁、视觉烟测、PR #1 创建与远端 CI 全绿
 
 > 反臃肿:里程碑超过 15 条时,把更早内容合并成一行摘要,保持本文件可快速阅读。

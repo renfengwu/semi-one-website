@@ -1,0 +1,46 @@
+name: CD
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE_NAME: ghcr.io/renfengwu/semi-one-website
+
+jobs:
+  deliver:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run test:coverage
+      - run: npm run build
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        with:
+          name: semi-one-website-dist
+          path: dist
+      - run: echo "${{ github.token }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+      - run: docker build -t "$IMAGE_NAME:${{ github.sha }}" -t "$IMAGE_NAME:latest" .
+      - run: docker push "$IMAGE_NAME:${{ github.sha }}"
+      - run: docker push "$IMAGE_NAME:latest"
+      - run: |
+          {
+            echo "### Semi-One website CD"
+            echo "- Static artifact: semi-one-website-dist"
+            echo "- Docker image: $IMAGE_NAME:${{ github.sha }}"
+            echo "- Docker image: $IMAGE_NAME:latest"
+          } >> "$GITHUB_STEP_SUMMARY"

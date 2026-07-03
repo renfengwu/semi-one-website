@@ -2,11 +2,11 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build the first production-ready Semi-One corporate website and run the full GitHub Flow, CI, Docker-based CD, and `/health` deployment verification.
+**Goal:** Build the first production-ready Semi-One corporate website and run the full GitHub Flow, CI, delivery-style CD, and Docker/Nginx deployment package verification.
 
-**Architecture:** The site is a Vite + React + TypeScript static application. Content is stored as typed data modules under `src/data` and rendered through page-level React components, with product filtering logic isolated in testable utilities. Deployment builds a static bundle into an Nginx Docker image and serves `/health` for CD verification.
+**Architecture:** The site is a Vite + React + TypeScript static application. Content is stored as typed data modules under `src/data` and rendered through page-level React components, with product filtering logic isolated in testable utilities. The first private-repo CD publishes the static `dist` artifact and a Docker/Nginx image to GHCR; server deployment and `/health` verification are enabled once server details are provided.
 
-**Tech Stack:** Node 24, Vite, React, TypeScript, Tailwind CSS, Vitest, Testing Library, Playwright, ESLint, Prettier, Docker, Nginx, GitHub Actions.
+**Tech Stack:** Node 24, Vite, React, TypeScript, global CSS, Vitest, Testing Library, Playwright, ESLint, Prettier, Docker, Nginx, GitHub Actions, GHCR.
 
 ---
 
@@ -15,7 +15,7 @@
 - Create `.gitignore`: ignore `node_modules`, build output, Playwright reports, local env files, raw generated scratch output, and local worktrees.
 - Create `README.md`: document local commands, CI/CD flow, required GitHub Secrets, and deployment port behavior.
 - Create `package.json`: scripts for dev, build, lint, typecheck, format check, unit tests, coverage, and E2E.
-- Create `index.html`, `vite.config.ts`, `tsconfig.json`, `tsconfig.node.json`, `eslint.config.js`, `.prettierrc`, `postcss.config.js`, `tailwind.config.ts`.
+- Create `index.html`, `vite.config.ts`, `tsconfig.json`, `tsconfig.node.json`, `eslint.config.js`, `.prettierrc`.
 - Create `src/main.tsx`, `src/app/App.tsx`, `src/app/routes.ts`, `src/styles/global.css`.
 - Create `src/data/company.ts`, `src/data/products.ts`, `src/data/applications.ts`, `src/data/certifications.ts`, `src/data/navigation.ts`.
 - Create `src/lib/productFilters.ts`, `src/lib/i18n.ts`, `src/lib/seo.ts`.
@@ -143,7 +143,7 @@ Update `standards/PROGRESS.md` with repository URL and current stage. Tell the u
 
 **Files:**
 
-- Create: `package.json`, `index.html`, `vite.config.ts`, TypeScript, ESLint, Prettier, Tailwind, PostCSS config files
+- Create: `package.json`, `index.html`, `vite.config.ts`, TypeScript, ESLint, Prettier config files
 - Create: `src/main.tsx`, `src/app/App.tsx`, `src/styles/global.css`
 - Test: `tests/unit/app-smoke.test.tsx`
 
@@ -175,7 +175,8 @@ Expected: Vite files are created and dependencies install.
 Run:
 
 ```powershell
-npm install -D tailwindcss @tailwindcss/postcss postcss prettier eslint @eslint/js typescript-eslint vitest @testing-library/react @testing-library/jest-dom jsdom @playwright/test lucide-react
+npm install -D prettier eslint @eslint/js typescript-eslint vitest @testing-library/react @testing-library/jest-dom jsdom @playwright/test
+npm install lucide-react
 ```
 
 Expected: dev dependencies install without peer dependency errors.
@@ -469,7 +470,7 @@ export function TechnologyPage() {
 
 - [ ] **Step 4: Build responsive styles**
 
-`src/styles/global.css` must include Tailwind imports, accessible focus styles, stable layout sizing, and no decorative orphan backgrounds.
+`src/styles/global.css` must include accessible focus styles, stable layout sizing, responsive constraints, and no decorative orphan backgrounds.
 
 - [ ] **Step 5: Run page verification**
 
