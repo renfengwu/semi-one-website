@@ -8,7 +8,7 @@
 ## 1. 项目是什么
 
 - **项目名称**:`芯电元官网升级 / Semi-One Corporate Website Upgrade`
-- **一句话目标**:把旧官网 `http://www.semi-one.com/` 升级为有科技感、权威感、可检索、可持续发布的功率半导体企业官网,并完整跑通 GitHub Flow + CI + CD。
+- **一句话目标**:把旧官网 `http://www.semi-one.com/` 升级为有科技感、权威感、可检索、可持续发布的功率半导体企业官网,并完整跑通 GitHub Flow + CI + CD。首个自主闭环 CD 采用 GitHub Pages;SSH/Docker 服务器部署在取得服务器信息后追加。
 - **使用者/受益者**:
   - 电子工程师、采购、FAE、渠道伙伴:快速理解芯电元能力并筛选产品。
   - 潜在客户与合作伙伴:确认研发、质量、供应链和全球服务能力。
@@ -30,15 +30,15 @@
 
 ## 2. 技术栈
 
-| 层 | 选型 | 理由 |
-|---|---|---|
-| 语言/运行时 | TypeScript + Node 24 | 本机已验证 Node `v24.15.0`;TypeScript 适合长期维护产品数据、组件和测试。 |
-| Web/API 框架 | Vite + React | 企业官网首版以静态站为主,构建快、部署简单、适合组件化和交互式产品筛选。 |
-| 样式/UI | Tailwind CSS + 少量 CSS Modules/全局 tokens | 便于快速建立科技感视觉系统,同时保持一致间距、断点、色彩和组件状态。 |
-| 测试 | Vitest + Testing Library + Playwright | 单元/组件测试覆盖产品筛选、内容渲染和交互;Playwright 覆盖首页、产品、联系、移动端关键路径。 |
-| 格式/静态检查 | ESLint + Prettier + `tsc --noEmit` | 前端 TypeScript 项目的常规质量门禁,可在本地和 CI 一致执行。 |
-| 打包/运行 | Vite build + Docker + Nginx 静态服务 | 构建产物小、部署幂等;CD 可在服务器构建/运行容器并做 `/health` 检查。 |
-| CI/CD | GitHub Actions | 通用、可视化、适合教学与团队协作;按 `standards/05-cicd-standards.md` 跑 PR CI 与 main CD。 |
+| 层            | 选型                                                      | 理由                                                                                        |
+| ------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| 语言/运行时   | TypeScript + Node 24                                      | 本机已验证 Node `v24.15.0`;TypeScript 适合长期维护产品数据、组件和测试。                    |
+| Web/API 框架  | Vite + React                                              | 企业官网首版以静态站为主,构建快、部署简单、适合组件化和交互式产品筛选。                     |
+| 样式/UI       | Tailwind CSS + 少量 CSS Modules/全局 tokens               | 便于快速建立科技感视觉系统,同时保持一致间距、断点、色彩和组件状态。                         |
+| 测试          | Vitest + Testing Library + Playwright                     | 单元/组件测试覆盖产品筛选、内容渲染和交互;Playwright 覆盖首页、产品、联系、移动端关键路径。 |
+| 格式/静态检查 | ESLint + Prettier + `tsc --noEmit`                        | 前端 TypeScript 项目的常规质量门禁,可在本地和 CI 一致执行。                                 |
+| 打包/运行     | Vite build + GitHub Pages;Docker + Nginx 作为服务器部署包 | 构建产物小;Pages 可在没有外部服务器信息时自主跑通 CD;Docker/Nginx 保留后续服务器部署能力。  |
+| CI/CD         | GitHub Actions + GitHub Pages                             | 通用、可视化、适合教学与团队协作;PR 跑 CI,main 合并后自动发布 Pages。                       |
 
 ## 3. 目录地图
 
@@ -76,15 +76,15 @@
 
 ## 4. 质量门槛
 
-| 类型 | 本项目标准 |
-|---|---|
-| 格式检查 | `npm run format:check` |
-| 静态检查 | `npm run lint` + `npm run typecheck` |
-| 单元测试 | `npm run test:run` |
-| 覆盖率 | `npm run test:coverage`,核心逻辑/组件覆盖率 `>=80%` |
-| E2E/可访问性 | `npm run test:e2e`,覆盖桌面与移动端：首页、产品筛选、应用入口、联系页、语言切换、无明显重叠/空白 |
-| 构建 | `npm run build`;CI 额外执行 `docker build` |
-| 业务/发布门禁 | 产品筛选可用;关键页面 SEO metadata 完整;`/health` 返回 200;CD 日志打印最终端口与健康检查结果 |
+| 类型          | 本项目标准                                                                                                    |
+| ------------- | ------------------------------------------------------------------------------------------------------------- |
+| 格式检查      | `npm run format:check`                                                                                        |
+| 静态检查      | `npm run lint` + `npm run typecheck`                                                                          |
+| 单元测试      | `npm run test:run`                                                                                            |
+| 覆盖率        | `npm run test:coverage`,核心逻辑/组件覆盖率 `>=80%`                                                           |
+| E2E/可访问性  | `npm run test:e2e`,覆盖桌面与移动端：首页、产品筛选、应用入口、联系页、语言切换、无明显重叠/空白              |
+| 构建          | `npm run build`;CI 额外执行 `docker build`                                                                    |
+| 业务/发布门禁 | 产品筛选可用;关键页面 SEO metadata 完整;Pages CD 成功并输出站点 URL;服务器部署阶段再验证 `/health` 与最终端口 |
 
 ## 5. 不变约束
 
@@ -97,13 +97,13 @@
 
 ## 6. 部署/CI 占位符取值
 
-| 占位符 | 本项目取值 | 说明 |
-|---|---|---|
-| `<APP>` | `semi-one-website` | 应用名/镜像名/容器名 |
-| `<DEPLOY_DIR>` | `/opt/semi-one-website` | 服务器部署目录,待服务器确认 |
-| `<PORT>` | `8080` | 主机优先端口;2026-07-03 本机检查未占用 |
-| `<PORT_MAX>` | `8089` | 主机端口回退区间上限;CD 不盲删他人容器 |
-| `<PYVER>` | `Node 24` | 模板字段沿用,本项目实际是 Node runtime |
-| `<HEALTHCHECK>` | `/health` | 静态健康检查文件或等价路由 |
-| `<SSH_USER>` | `<待用户配置到 GitHub Secrets>` | 不写真实敏感信息 |
-| `<SSH_HOST>` | `<待用户配置到 GitHub Secrets>` | 服务器公网 IP 或域名,不写密钥 |
+| 占位符          | 本项目取值                                          | 说明                                                   |
+| --------------- | --------------------------------------------------- | ------------------------------------------------------ |
+| `<APP>`         | `semi-one-website`                                  | 应用名/镜像名/容器名                                   |
+| `<DEPLOY_DIR>`  | `GitHub Pages`;服务器部署为 `/opt/semi-one-website` | 首个 CD 目标为 Pages;服务器目录待服务器确认            |
+| `<PORT>`        | `8080`                                              | 主机优先端口;2026-07-03 本机检查未占用                 |
+| `<PORT_MAX>`    | `8089`                                              | 主机端口回退区间上限;CD 不盲删他人容器                 |
+| `<PYVER>`       | `Node 24`                                           | 模板字段沿用,本项目实际是 Node runtime                 |
+| `<HEALTHCHECK>` | `/health`                                           | 服务器部署阶段使用;Pages 阶段以 Pages URL 访问成功为准 |
+| `<SSH_USER>`    | `<服务器部署待提供>`                                | Pages 阶段不需要;服务器部署阶段再配置                  |
+| `<SSH_HOST>`    | `<服务器部署待提供>`                                | Pages 阶段不需要;服务器部署阶段再配置                  |

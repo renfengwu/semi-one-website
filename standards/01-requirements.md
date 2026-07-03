@@ -7,25 +7,25 @@
 
 ## 1. 需求来源
 
-| 类型 | 来源 | 进入方式 |
-|---|---|---|
-| 功能需求 Feature | 用户 / 老师 / 产品 / 客户 | 写成用户故事 |
-| 缺陷 Bug | 测试 / 线上日志 / 用户反馈 | 写复现步骤和期望结果 |
-| 技术债 Tech Debt | 开发 / Review / CI/CD 故障 | 写影响和修复目标 |
+| 类型                    | 来源                                   | 进入方式                         |
+| ----------------------- | -------------------------------------- | -------------------------------- |
+| 功能需求 Feature        | 用户 / 老师 / 产品 / 客户              | 写成用户故事                     |
+| 缺陷 Bug                | 测试 / 线上日志 / 用户反馈             | 写复现步骤和期望结果             |
+| 技术债 Tech Debt        | 开发 / Review / CI/CD 故障             | 写影响和修复目标                 |
 | 内容资料 Content Source | 旧官网、本地 PPT/PDF/XLS、人工确认材料 | 写明来源、公开口径和上线前复核项 |
 
 ---
 
 ## 2. Issue 生命周期
 
-| 阶段 | 状态 | 动作 |
-|---|---|---|
-| 提出 | Open | 写清场景、目标、验收标准 |
-| 排期 | Backlog / Todo | 决定优先级和负责人 |
-| 开发 | In Progress | 从 main 开 feature 分支 |
-| 评审 | In Review | 提 PR,等待 CI 和 Review |
-| 合并 | Done | PR 合并 main,自动关闭 Issue |
-| 验收 | Verified | 按验收标准确认 |
+| 阶段 | 状态           | 动作                        |
+| ---- | -------------- | --------------------------- |
+| 提出 | Open           | 写清场景、目标、验收标准    |
+| 排期 | Backlog / Todo | 决定优先级和负责人          |
+| 开发 | In Progress    | 从 main 开 feature 分支     |
+| 评审 | In Review      | 提 PR,等待 CI 和 Review     |
+| 合并 | Done           | PR 合并 main,自动关闭 Issue |
+| 验收 | Verified       | 按验收标准确认              |
 
 **追踪规则**:分支名带 Issue 号,PR 描述写 `closes #<编号>`。
 
@@ -58,16 +58,18 @@
 以便 后续每次开发都能自动检查并自动部署。
 
 验收标准:
+
 - AC1: Given 项目文档已确认,When 开始实施,Then 先创建/确认 Git 仓库和 GitHub 仓库,并提示用户配置 `SSH_PRIVATE_KEY`、`SSH_HOST`、`SSH_USER`。
 - AC2: Given Secrets 已确认,When 从 `main` 开发,Then 使用 `feature/<issue>-<desc>` 分支,不得直接在 `main` 写业务代码。
 - AC3: Given 代码已提交到 PR,When GitHub Actions 运行,Then CI 至少包含格式检查、lint、typecheck、单元测试、覆盖率、E2E、`npm run build`、`docker build`。
-- AC4: Given PR CI 全绿且人工 Review 通过,When 用户合并 `main`,Then CD 自动部署到服务器,容器幂等替换自身并执行 `/health`。
-- AC5: Given 部署完成,When 查看 CD 日志,Then 能看到最终主机端口、健康检查结果和访问地址。
+- AC4: Given PR CI 全绿且人工 Review 通过,When 用户合并 `main`,Then CD 自动部署到 GitHub Pages,并输出 Pages 访问地址。
+- AC5: Given 后续提供服务器 `SSH_HOST`/`SSH_USER` 且公钥授权完成,When 启用服务器 CD,Then 容器幂等替换自身并执行 `/health`,日志打印最终主机端口、健康检查结果和访问地址。
 - AC6: Given 任一步失败,When AI 修复,Then 必须把现象、根因、修复和验证结果写回 `standards/PROGRESS.md`。
 
 技术备注:
+
 - 本地不强制 Docker;`docker build` 交给 CI/CD。
-- 部署端口优先 `8080`,回退 `8080-8089`。
+- 首个可自主闭环 CD 使用 GitHub Pages;服务器部署端口后续优先 `8080`,回退 `8080-8089`。
 
 ### US-2 科技感且权威的首页 · 状态: Backlog
 
@@ -76,6 +78,7 @@
 以便 判断是否继续查看产品、应用和质量能力。
 
 验收标准:
+
 - AC1: Given 访客打开首页,When 首屏加载完成,Then 能看到公司名称、功率半导体定位、核心价值词和产品/应用/技术入口。
 - AC2: Given 访客继续浏览,When 进入首页主体,Then 能看到研发路线、封装能力、质量体系、全球网络、应用领域和联系入口。
 - AC3: Given 使用桌面和移动端视口,When Playwright 截图检查,Then 不出现文本遮挡、布局重叠、空白主视觉或按钮文字溢出。
@@ -83,6 +86,7 @@
 - AC5: Given 首页展示财务规模、专利数量、客户或证书,When 上线前复核,Then 每条表述都有 `data/` 或旧站公开来源,客户 Logo/名称须经人工确认公开授权。
 
 技术备注:
+
 - 首页应体现“科技感 + 工业可信度”,避免泛 SaaS 营销页。
 
 ### US-3 产品中心与参数化筛选 · 状态: Backlog
@@ -92,6 +96,7 @@
 以便 快速找到适合方案的器件和数据手册。
 
 验收标准:
+
 - AC1: Given 访客进入产品中心,When 页面加载,Then 能看到 MOSFET、功率 IC、TVS、IGBT、模拟开关等分类入口。
 - AC2: Given 产品数据存在,When 访客输入型号或选择参数,Then 产品表格按 Part Number、Package、Config、Vds、Vgs、Id、Vgs(th)、Rds(on) 等字段过滤/排序。
 - AC3: Given 产品有数据手册 URL,When 访客点击数据手册入口,Then 在新标签打开或下载对应 PDF,不存在断链。
@@ -99,6 +104,7 @@
 - AC5: Given 产品数据来自旧站或 PPT,When 数据导入,Then 结构化源文件记录来源和更新时间,不得手工散落在组件里。
 
 技术备注:
+
 - 旧站产品表可作为首批数据源;后续可把数据整理为 JSON/CSV。
 
 ### US-4 应用方案展示 · 状态: Backlog
@@ -108,12 +114,14 @@
 以便 缩短选型与沟通周期。
 
 验收标准:
+
 - AC1: Given 访客进入应用页,When 浏览应用列表,Then 至少展示 3C 数码电池、BMS/储能、电动工具、无线充、电机驱动、电子烟、PD。
 - AC2: Given 访客打开某个应用,When 页面渲染,Then 能看到应用痛点、关键参数、推荐器件、封装/电压/导阻信息和联系技术支持入口。
 - AC3: Given 推荐器件存在于产品中心,When 访客点击型号,Then 能跳转到产品详情或在产品表中定位该型号。
 - AC4: Given 应用数据不足,When 页面上线,Then 不展示空表或模板占位,改为隐藏未确认模块。
 
 技术备注:
+
 - 首批应用素材来自公司 PPT 第 21-29 页和旧站应用页。
 
 ### US-5 技术与创新能力 · 状态: Backlog
@@ -123,12 +131,14 @@
 以便 判断公司是否具备持续研发和工程支持能力。
 
 验收标准:
+
 - AC1: Given 访客进入技术/创新页,When 页面加载,Then 能看到 Trench MOS、SGT MOS、SJ MOS、IGBT、SiC/GaN 的路线图和状态区分。
 - AC2: Given 访客查看实验室模块,When 内容渲染,Then 能看到 Keysight B1506A、雪崩测试、ESD/EMC、X 射线、声学显微镜、HTRB/HTGB、H3TRB、HAST/B-HAST、温冲/恒温恒湿等能力。
 - AC3: Given 技术术语较多,When 页面展示,Then 关键术语有简短解释或视觉辅助,不堆砌长段 PPT 文案。
 - AC4: Given 访客从技术页进入产品或应用,When 点击相关 CTA,Then 能跳转到对应产品分类或应用场景。
 
 技术备注:
+
 - 该页是“创新感”的核心,可加入工艺路线交互轴、实验室能力矩阵和参数对比可视化。
 
 ### US-6 质量、资质与知识产权背书 · 状态: Backlog
@@ -138,6 +148,7 @@
 以便 完成供应商初筛和信任建立。
 
 验收标准:
+
 - AC1: Given 访客进入质量/资质页,When 页面加载,Then 能看到 ISO 9001、ISO 14001、ISO 45001、ISO 37301、知识产权合规管理体系、售后服务认证等分类。
 - AC2: Given 证书图片已获确认可公开,When 访客查看证书,Then 展示清晰缩略图、证书类型、适用范围摘要和下载/查看入口。
 - AC3: Given 证书编号、有效期、认证范围未人工复核,When 内容准备,Then 不把这些字段作为确定文案上线。
@@ -145,6 +156,7 @@
 - AC5: Given 资质页面上线,When CI/E2E 检查,Then 图片有 alt 文本,页面在移动端不横向溢出。
 
 技术备注:
+
 - PDF 证书为扫描件;需人工确认公开口径。
 
 ### US-7 多语言与全球联系 · 状态: Backlog
@@ -154,6 +166,7 @@
 以便 不同地区客户都能理解公司能力并联系对应团队。
 
 验收标准:
+
 - AC1: Given 访客点击语言切换,When 切换中文/英文,Then 导航、首页、产品、应用、技术、质量、关于、联系的核心文案同步切换。
 - AC2: Given 英文内容来自英文 PPT,When 展示英文页面,Then 不出现机器翻译痕迹明显的中英混杂标题。
 - AC3: Given 越南语内容尚未确认,When 首版上线,Then 不展示未翻译空页;如保留越南语入口,必须标注为待确认或先隐藏入口。
@@ -161,6 +174,7 @@
 - AC5: Given 表单上线,When 访客提交,Then 前端有必填校验和成功/失败状态;若暂不接后端,则使用明确的邮件/电话 CTA 替代假提交。
 
 技术备注:
+
 - 旧站已有中文/English/tiếng Việt 入口;首版优先中文+英文完整。
 
 ### US-8 SEO、性能、响应式与可访问性 · 状态: Backlog
@@ -170,6 +184,7 @@
 以便 能稳定找到芯电元并顺畅浏览。
 
 验收标准:
+
 - AC1: Given 构建完成,When 检查生成页面,Then 首页、产品、应用、技术、质量、关于、联系均有 title、description、canonical/OG 基础信息。
 - AC2: Given 移动端视口宽度 360px,When Playwright 访问关键页面,Then 无横向页面溢出、文字遮挡、按钮不可点击或固定元素遮挡内容。
 - AC3: Given 图片进入生产构建,When 运行构建,Then 使用压缩后的 WebP/AVIF/JPEG/PNG,首屏图片有合理尺寸和懒加载策略。
@@ -177,6 +192,7 @@
 - AC5: Given CI 运行,When 构建产物生成,Then 不存在明显 404 静态资源引用。
 
 技术备注:
+
 - 若加入 Lighthouse CI,首版建议作为报告门禁;稳定后再设硬阈值。
 
 ### US-9 内容维护与数据结构 · 状态: Backlog
@@ -186,12 +202,14 @@
 以便 新增产品、证书、应用和新闻时不需要大改组件。
 
 验收标准:
+
 - AC1: Given 新增产品数据,When 修改结构化数据文件,Then 产品中心自动反映分类、筛选和详情内容。
 - AC2: Given 新增证书或新闻,When 修改内容配置,Then 对应页面自动生成卡片/详情,不需要复制粘贴组件。
 - AC3: Given 内容文件被修改,When 运行测试,Then 数据 schema 校验能发现缺字段、错误 URL 或重复型号。
 - AC4: Given 新增目录或内容类型,When 合并前,Then 更新 `standards/00-project-context.md` 的目录地图。
 
 技术备注:
+
 - 优先 JSON/TS 常量或轻量 Markdown/MDX;首版不引入 CMS,除非用户后续明确需要。
 
 ### US-10 旧站升级与迁移保护 · 状态: Backlog
@@ -201,6 +219,7 @@
 以便 升级后不丢失已有访问路径。
 
 验收标准:
+
 - AC1: Given 访客访问 `/Product/`,When 新站部署后,Then 跳转或展示新产品中心。
 - AC2: Given 访客访问 `/applications/`,When 新站部署后,Then 跳转或展示新应用页。
 - AC3: Given 访客访问 `/mosfet_support`,When 新站部署后,Then 跳转或展示新技术支持页。
@@ -208,6 +227,7 @@
 - AC5: Given 旧站 PDF 资料仍需保留,When 数据迁移,Then 不破坏可公开数据手册链接或提供替代下载路径。
 
 技术备注:
+
 - 是否接管旧域名 DNS/服务器由用户确认;本项目先实现静态路由和 Nginx fallback/redirect 规则。
 
 ---

@@ -34,6 +34,7 @@
 ### Task 1: Repository Bootstrap And Confirmation Gate 1
 
 **Files:**
+
 - Create: `.gitignore`
 - Create: `README.md`
 - Modify: `standards/PROGRESS.md`
@@ -141,6 +142,7 @@ Update `standards/PROGRESS.md` with repository URL and current stage. Tell the u
 ### Task 2: Feature Branch And Frontend Scaffold
 
 **Files:**
+
 - Create: `package.json`, `index.html`, `vite.config.ts`, TypeScript, ESLint, Prettier, Tailwind, PostCSS config files
 - Create: `src/main.tsx`, `src/app/App.tsx`, `src/styles/global.css`
 - Test: `tests/unit/app-smoke.test.tsx`
@@ -260,6 +262,7 @@ git commit -m "feat: scaffold website app"
 ### Task 3: Typed Content And Product Filtering
 
 **Files:**
+
 - Create: `src/data/company.ts`
 - Create: `src/data/products.ts`
 - Create: `src/data/applications.ts`
@@ -407,6 +410,7 @@ git commit -m "feat: add typed product content"
 ### Task 4: Website Pages And Responsive UI
 
 **Files:**
+
 - Create/modify: `src/app/App.tsx`, `src/app/routes.ts`
 - Create: `src/components/*.tsx`
 - Create: `src/pages/*.tsx`
@@ -492,6 +496,7 @@ git commit -m "feat: build corporate website pages"
 ### Task 5: Product Center Interaction And I18n
 
 **Files:**
+
 - Modify: `src/components/ProductTable.tsx`
 - Modify: `src/components/ProductFilters.tsx`
 - Modify: `src/lib/i18n.ts`
@@ -526,7 +531,7 @@ export type Language = 'zh' | 'en';
 export type LocalizedText = { zh: string; en?: string };
 
 export function getLocalizedText(text: LocalizedText, language: Language): string {
-  return language === 'en' ? text.en ?? text.zh : text.zh;
+  return language === 'en' ? (text.en ?? text.zh) : text.zh;
 }
 ```
 
@@ -578,6 +583,7 @@ git commit -m "feat: add product filtering and language support"
 ### Task 6: E2E, Docker, CI And CD
 
 **Files:**
+
 - Create: `playwright.config.ts`
 - Create: `tests/e2e/site.spec.ts`
 - Create: `public/health`
@@ -805,6 +811,7 @@ git commit -m "ci: add website quality gates and deployment"
 ### Task 7: PR, CI Watch, Human Merge, CD Watch
 
 **Files:**
+
 - Modify: `standards/PROGRESS.md`
 
 - [ ] **Step 1: Push feature branch**
