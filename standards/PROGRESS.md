@@ -8,10 +8,10 @@
 
 ## 当前状态 (最后更新: 2026-07-03 · by Codex)
 
-- **阶段**:`首轮交付完成 / GitHub Pages 已公网发布`
-- **上一步完成**:`GitHub Pages 已发布 https://renfengwu.github.io/semi-one-website/ ;最新 main CI、CD、Pages 均全绿;公网 Playwright smoke 通过`
-- **下一步 (TODO 第一条)**:`人工复核证书编号/有效期、客户名称/Logo、越南语正式营销措辞;如需正式域名,配置 DNS/CNAME 或提供服务器 SSH 部署信息`
-- **阻塞项**:`服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
+- **阶段**:`按用户反馈完成官网高级视觉二次升级 / 待推送观察 CI/CD`
+- **上一步完成**:`已从 GitHub openai/skills 安装并读取 figma-use、figma-implement-design、playwright-interactive;首页重构为工程平台指挥舱、技术路线面板、产品参数信号板与应用卡片;本地完整门禁与三档截图 QA 通过`
+- **下一步 (TODO 第一条)**:`提交推送 main,观察 GitHub CI、CD、Pages 最新 run;公网 smoke 通过后更新本文件`
+- **阻塞项**:`Figma MCP 插件安装已请求但需用户在界面授权/OAuth,当前不能伪造 Figma 调用;服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
 ---
 
@@ -46,6 +46,13 @@
 - [x] 自主确定公网发布方式:公开仓库并启用 GitHub Pages workflow,目标地址 `https://renfengwu.github.io/semi-one-website/`
 - [x] 修正 Vite/SPA 站内链接以兼容 GitHub Pages 项目子路径 `/semi-one-website/`
 - [x] 推送 Pages workflow 后观察远端 Pages 部署:Pages run `28642487496` 全绿,公网 `https://renfengwu.github.io/semi-one-website/` 访问与浏览器 smoke 通过
+- [x] 按用户明确要求继续去 GitHub 找 skill:从 `openai/skills` 安装并读取 `figma-use`、`figma-implement-design`、`playwright-interactive`
+- [x] 说明 Figma MCP 真实状态:已请求安装 Figma 插件,但需要用户授权/OAuth;当前不能假装调用 Figma
+- [x] 二次高级化首页:首屏改为工程平台指挥舱、硅片/器件视觉面板、技术路线读数、产品参数信号板与应用信号卡
+- [x] 本地视觉 QA:生成 `test-results/visual-qa/after-redesign-home-desktop.png`、`after-redesign-home-mid.png`、`after-redesign-home-mobile.png`;三档视口无横向溢出、无控制台错误
+- [x] 本轮二次高级化完整本地门禁:format、lint、typecheck、coverage、build、GITHUB_PAGES build、E2E、audit、docker build
+- [ ] 推送本轮二次高级化到 `main`,观察 GitHub CI、CD、Pages 最新 run
+- [ ] 公网 `https://renfengwu.github.io/semi-one-website/` smoke 验证首页、产品页导航、越南语切换
 - [x] 会话结束前更新本文件
 
 ---
@@ -81,6 +88,9 @@
 - 2026-07-03 公开前扫描:Git 记录未发现 `.env`、私钥、token、根目录原始 `data/` 文件;命中项均为文档中的 Secret 名称或公开 `src/data` 内容。
 - 2026-07-03 Pages 发布改造本地通过:`npx prettier --check`(改动文件)、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、Pages 子路径 Playwright smoke、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`
 - 2026-07-03 最新远端 main 全绿:`CI 28642487456`、`CD 28642487475`、`Pages 28642487496`;公网 Playwright smoke 通过,覆盖首页渲染、产品页 SPA 导航、越南语切换,无 404/控制台错误。
+- 2026-07-03 按用户要求继续从 GitHub 找 skill:通过 `skill-installer` 从 `openai/skills` 安装并读取 `figma-use`、`figma-implement-design`、`playwright-interactive`;Figma 插件已请求安装但仍需用户授权/OAuth。
+- 2026-07-03 二次高级化首页视觉 QA:截图 `after-redesign-home-desktop.png`、`after-redesign-home-mid.png`、`after-redesign-home-mobile.png`;Playwright 检查三档视口 `overflow=false`,控制台错误 0。
+- 2026-07-03 二次高级化本地门禁通过:`npx prettier --check`(改动文件)、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`
 
 ---
 
@@ -98,6 +108,7 @@
 - GitHub Pages 已在仓库改为 public 后启用;Pages build 必须设置 `GITHUB_PAGES=true`,否则 Vite asset base 会错误。
 - 不要对失败的 Pages run 使用 `gh run rerun --failed`:同一 run 会残留旧 `github-pages` artifact,导致 `deploy-pages` 报 multiple artifacts;应触发新的 Pages workflow run 或推新 commit。
 - `figma-generate-design` skill 需要 Figma MCP(`use_figma`)和明确 Figma 文件;当前会话没有可用 Figma 工具/设计稿,不能伪造调用,只能按其设计流程配合 Playwright/Screenshot 做本地视觉验收。
+- `figma-use` / `figma-implement-design` 已从 GitHub 安装到本机 skills,但 Figma 插件仍需要用户在 Codex 界面完成授权/OAuth;授权前没有 `use_figma` 工具可调用。
 
 ---
 
@@ -116,5 +127,6 @@
 - [x] 2026-07-03 合并 PR #1 到 main,跑通完整 CI + CD:dist artifact 与 GHCR 镜像均已发布
 - [x] 2026-07-03 仓库改 public 并启用 GitHub Pages workflow;本地验证 `/semi-one-website/` 子路径可渲染、导航和越南语可用
 - [x] 2026-07-03 GitHub Pages 公网发布完成:CI/CD/Pages 全绿,公网 URL 浏览器 smoke 通过
+- [x] 2026-07-03 按用户要求继续从 GitHub 找 skill 并安装 `figma-use`、`figma-implement-design`、`playwright-interactive`;首页重做为工程平台指挥舱与产品参数信号板风格
 
 > 反臃肿:里程碑超过 15 条时,把更早内容合并成一行摘要,保持本文件可快速阅读。
