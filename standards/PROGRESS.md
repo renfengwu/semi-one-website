@@ -8,10 +8,10 @@
 
 ## 当前状态 (最后更新: 2026-07-03 · by Codex)
 
-- **阶段**:`首轮交付完成 / main CI + CD 已跑通`
-- **上一步完成**:`PR #1 已合并 main;main CI run 28641302736 全绿;main CD run 28641302668 全绿,已发布静态 dist artifact 与 GHCR Docker 镜像`
-- **下一步 (TODO 第一条)**:`确定公网发布方式:升级/改公开仓库启用 GitHub Pages,或提供服务器 SSH_HOST / SSH_USER / authorized_keys 后启用服务器部署`
-- **阻塞项**:`GitHub 当前套餐不支持私有仓库 Pages;公网 Pages 需升级套餐或改公开仓库。服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权。证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
+- **阶段**:`首轮交付完成 / GitHub Pages 公网发布中`
+- **上一步完成**:`仓库已改为 public 并启用 GitHub Pages workflow;新增 Pages 部署流,站内链接已兼容 /semi-one-website/ 子路径;本地 Pages smoke 通过`
+- **下一步 (TODO 第一条)**:`推送 main 后观察 Pages workflow,确认 https://renfengwu.github.io/semi-one-website/ 可访问`
+- **阻塞项**:`服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
 ---
 
@@ -43,7 +43,9 @@
 - [x] 补齐越南语基础体验:顶部 VI 切换、核心页面与导航、首页主文案、产品/应用/质量/关于基础文案
 - [x] 本轮高级视觉重构本地自检通过:format、lint、typecheck、coverage、build、E2E、audit、docker build、桌面/移动端截图检查
 - [x] 合并 PR #1 到 `main`,观察 main CI/CD:CI 全绿,CD 已上传 `semi-one-website-dist` artifact 并推送 GHCR 镜像 `ghcr.io/renfengwu/semi-one-website:f28565fd9fcb5bf20861470494e93a9b2d6db640` 与 `latest`
-- [ ] 确定公网发布方式:GitHub Pages 套餐/公开仓库,或服务器 SSH 部署信息,或其他托管平台
+- [x] 自主确定公网发布方式:公开仓库并启用 GitHub Pages workflow,目标地址 `https://renfengwu.github.io/semi-one-website/`
+- [x] 修正 Vite/SPA 站内链接以兼容 GitHub Pages 项目子路径 `/semi-one-website/`
+- [ ] 推送 Pages workflow 后观察远端 Pages 部署并记录访问结果
 - [x] 会话结束前更新本文件
 
 ---
@@ -59,6 +61,7 @@
 | 2026-07-03 | GitHub 仓库使用私有仓库 `renfengwu/semi-one-website`               | 官网仍处于初始化阶段,避免未复核资料和发布配置提前公开                                      |
 | 2026-07-03 | 首个 CD 目标调整为 GitHub Pages                                    | 用户要求 Codex 自主继续,但没有服务器地址/用户名;Pages 原计划可由 GitHub Actions 自主完成部署闭环 |
 | 2026-07-03 | 首个 CD 目标由 GitHub Pages 改为 Actions artifact + GHCR           | GitHub API 返回当前套餐不支持私有仓库 Pages;交付型 CD 可在私有仓库中无额外密钥运行         |
+| 2026-07-03 | 仓库改为 public 并恢复 GitHub Pages 作为公网预览通道               | 用户要求 Codex 自主处理公网发布;公开风险扫描未发现密钥/原始资料入 Git,Pages 可无服务器闭环 |
 
 ---
 
@@ -75,6 +78,8 @@
 - 2026-07-03 远端 PR CI 通过:GitHub Actions PR verify 包含格式、lint、typecheck、coverage、build、E2E、Docker build
 - 2026-07-03 main CI 通过:run `28641302736`,包含 format、lint、typecheck、coverage、build、E2E、Docker build。
 - 2026-07-03 main CD 通过:run `28641302668`,已上传 artifact `semi-one-website-dist`(385580 bytes),并推送 GHCR 镜像 `ghcr.io/renfengwu/semi-one-website:f28565fd9fcb5bf20861470494e93a9b2d6db640` 与 `latest`。
+- 2026-07-03 公开前扫描:Git 记录未发现 `.env`、私钥、token、根目录原始 `data/` 文件;命中项均为文档中的 Secret 名称或公开 `src/data` 内容。
+- 2026-07-03 Pages 发布改造本地通过:`npx prettier --check`(改动文件)、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、Pages 子路径 Playwright smoke、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`
 
 ---
 
@@ -88,7 +93,8 @@
 - 当前 `gh secret set` 版本不支持 `--body-file`:已改用 stdin 写入 `SSH_PRIVATE_KEY`;以后设置多行 Secret 可用 `Get-Content -Raw <file> | gh secret set <NAME> --repo <owner/repo>`。
 - Docker CLI 曾因 Docker Desktop 服务未启动而首次构建失败;启动 Docker Desktop 后 `docker build -t semi-one-website:local .` 已通过。
 - PR #1 首次远端 CI 在 `npm run test:coverage` 失败:根因是 `.gitignore` 的 `data/` 误伤 `src/data/`,本地文件存在但未提交。已改为只忽略根目录 `/data/`,并将 `src/data/*` 纳入版本库。
-- GitHub Pages 启用失败:GitHub API 返回 `Your current plan does not support GitHub Pages for this repository`;私有仓库暂不能用 Pages,除非升级套餐或改公开仓库。
+- GitHub Pages 曾在私有仓库启用失败:GitHub API 返回 `Your current plan does not support GitHub Pages for this repository`;仓库改为 public 后已启用。
+- GitHub Pages 已在仓库改为 public 后启用;Pages build 必须设置 `GITHUB_PAGES=true`,否则 Vite asset base 会错误。
 - `figma-generate-design` skill 需要 Figma MCP(`use_figma`)和明确 Figma 文件;当前会话没有可用 Figma 工具/设计稿,不能伪造调用,只能按其设计流程配合 Playwright/Screenshot 做本地视觉验收。
 
 ---
@@ -106,5 +112,6 @@
 - [x] 2026-07-03 按用户反馈重做首页科技视觉,并补齐中文/英文/越南语切换与越南语核心页面文案
 - [x] 2026-07-03 继续按用户要求找 skill,完成高级首页二次重构:技术平台矩阵、晶圆路线图、型号参数板、越南语移动端截图验收
 - [x] 2026-07-03 合并 PR #1 到 main,跑通完整 CI + CD:dist artifact 与 GHCR 镜像均已发布
+- [x] 2026-07-03 仓库改 public 并启用 GitHub Pages workflow;本地验证 `/semi-one-website/` 子路径可渲染、导航和越南语可用
 
 > 反臃肿:里程碑超过 15 条时,把更早内容合并成一行摘要,保持本文件可快速阅读。

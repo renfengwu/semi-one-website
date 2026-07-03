@@ -1,4 +1,5 @@
 import type { Language } from '../lib/i18n';
+import { siteHref } from '../app/routes';
 
 type NotFoundPageProps = {
   language: Language;
@@ -30,7 +31,7 @@ export function NotFoundPage({ language }: NotFoundPageProps) {
     <section className="page-section">
       <h1>{text.title}</h1>
       <p>{text.description}</p>
-      <a className="button primary" href="/">
+      <a className="button primary" href={siteHref('/')}>
         {text.action}
       </a>
     </section>

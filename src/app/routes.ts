@@ -15,10 +15,23 @@ export const routes: AppRoute[] = [
 ];
 
 export function normalizePath(pathname: string) {
-  const withoutRepoBase = pathname.replace(/^\/semi-one-website/, '') || '/';
+  const configuredBase = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const withoutConfiguredBase =
+    configuredBase && pathname.startsWith(configuredBase)
+      ? pathname.slice(configuredBase.length) || '/'
+      : pathname;
+  const withoutRepoBase = withoutConfiguredBase.replace(/^\/semi-one-website/, '') || '/';
   if (withoutRepoBase === '/Product/') return '/products';
   if (withoutRepoBase === '/applications/') return '/applications';
   if (withoutRepoBase === '/mosfet_support') return '/technology';
   if (withoutRepoBase === '/contact') return '/about';
   return withoutRepoBase;
+}
+
+export function siteHref(path: string) {
+  if (/^(https?:|mailto:|#)/.test(path)) return path;
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  if (!base) return path;
+  if (path === '/') return `${base}/`;
+  return `${base}${path.startsWith('/') ? path : `/${path}`}`;
 }

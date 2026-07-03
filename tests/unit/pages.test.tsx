@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 import App from '../../src/app/App';
-import { normalizePath } from '../../src/app/routes';
+import { normalizePath, siteHref } from '../../src/app/routes';
 import { AboutPage } from '../../src/pages/AboutPage';
 import { ApplicationsPage } from '../../src/pages/ApplicationsPage';
 import { NotFoundPage } from '../../src/pages/NotFoundPage';
@@ -57,6 +57,12 @@ describe('App routing', () => {
     expect(normalizePath('/mosfet_support')).toBe('/technology');
     expect(normalizePath('/contact')).toBe('/about');
     expect(normalizePath('/semi-one-website/products')).toBe('/products');
+  });
+
+  it('builds internal links against the configured base path', () => {
+    expect(siteHref('/')).toBe('/');
+    expect(siteHref('/products')).toBe('/products');
+    expect(siteHref('mailto:shuangling@semi-one.com')).toBe('mailto:shuangling@semi-one.com');
   });
 
   it('renders route-specific pages', () => {
