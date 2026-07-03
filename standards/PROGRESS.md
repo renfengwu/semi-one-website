@@ -96,6 +96,7 @@
 - PR #1 首次远端 CI 在 `npm run test:coverage` 失败:根因是 `.gitignore` 的 `data/` 误伤 `src/data/`,本地文件存在但未提交。已改为只忽略根目录 `/data/`,并将 `src/data/*` 纳入版本库。
 - GitHub Pages 曾在私有仓库启用失败:GitHub API 返回 `Your current plan does not support GitHub Pages for this repository`;仓库改为 public 后已启用。
 - GitHub Pages 已在仓库改为 public 后启用;Pages build 必须设置 `GITHUB_PAGES=true`,否则 Vite asset base 会错误。
+- 不要对失败的 Pages run 使用 `gh run rerun --failed`:同一 run 会残留旧 `github-pages` artifact,导致 `deploy-pages` 报 multiple artifacts;应触发新的 Pages workflow run 或推新 commit。
 - `figma-generate-design` skill 需要 Figma MCP(`use_figma`)和明确 Figma 文件;当前会话没有可用 Figma 工具/设计稿,不能伪造调用,只能按其设计流程配合 Playwright/Screenshot 做本地视觉验收。
 
 ---
