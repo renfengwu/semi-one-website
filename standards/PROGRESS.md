@@ -8,9 +8,9 @@
 
 ## 当前状态 (最后更新: 2026-07-03 · by Codex)
 
-- **阶段**:`按用户反馈完成官网高级视觉二次升级 / 待推送观察 CI/CD`
-- **上一步完成**:`已从 GitHub openai/skills 安装并读取 figma-use、figma-implement-design、playwright-interactive;首页重构为工程平台指挥舱、技术路线面板、产品参数信号板与应用卡片;本地完整门禁与三档截图 QA 通过`
-- **下一步 (TODO 第一条)**:`提交推送 main,观察 GitHub CI、CD、Pages 最新 run;公网 smoke 通过后更新本文件`
+- **阶段**:`按用户反馈完成官网高级视觉二次升级 / Pages action 升级后待推送观察`
+- **上一步完成**:`首页高级视觉重构已推送,main CI 与 CD 通过;Pages 构建/上传 artifact 通过但 deploy-pages@v4 返回 GitHub 服务端 Deployment failed, try again later,已升级 Pages actions 待重跑`
+- **下一步 (TODO 第一条)**:`提交推送 Pages action 升级,观察 GitHub CI、CD、Pages 最新 run;公网 smoke 通过后更新本文件`
 - **阻塞项**:`Figma MCP 插件安装已请求但需用户在界面授权/OAuth,当前不能伪造 Figma 调用;服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
 ---
@@ -51,7 +51,10 @@
 - [x] 二次高级化首页:首屏改为工程平台指挥舱、硅片/器件视觉面板、技术路线读数、产品参数信号板与应用信号卡
 - [x] 本地视觉 QA:生成 `test-results/visual-qa/after-redesign-home-desktop.png`、`after-redesign-home-mid.png`、`after-redesign-home-mobile.png`;三档视口无横向溢出、无控制台错误
 - [x] 本轮二次高级化完整本地门禁:format、lint、typecheck、coverage、build、GITHUB_PAGES build、E2E、audit、docker build
-- [ ] 推送本轮二次高级化到 `main`,观察 GitHub CI、CD、Pages 最新 run
+- [x] 推送本轮二次高级化到 `main`:commit `530d289`;main CI 与 CD 通过
+- [x] 定位 Pages 失败:构建与 artifact 上传成功,`actions/deploy-pages@v4` 创建 deployment 后返回 `Deployment failed, try again later`
+- [x] 升级 Pages workflow actions:`configure-pages@v6`、`upload-pages-artifact@v5`、`deploy-pages@v5`
+- [ ] 推送 Pages action 升级并观察 GitHub CI、CD、Pages 最新 run
 - [ ] 公网 `https://renfengwu.github.io/semi-one-website/` smoke 验证首页、产品页导航、越南语切换
 - [x] 会话结束前更新本文件
 
@@ -91,6 +94,7 @@
 - 2026-07-03 按用户要求继续从 GitHub 找 skill:通过 `skill-installer` 从 `openai/skills` 安装并读取 `figma-use`、`figma-implement-design`、`playwright-interactive`;Figma 插件已请求安装但仍需用户授权/OAuth。
 - 2026-07-03 二次高级化首页视觉 QA:截图 `after-redesign-home-desktop.png`、`after-redesign-home-mid.png`、`after-redesign-home-mobile.png`;Playwright 检查三档视口 `overflow=false`,控制台错误 0。
 - 2026-07-03 二次高级化本地门禁通过:`npx prettier --check`(改动文件)、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`
+- 2026-07-03 main CI `28644832626` 通过,CD `28644832635` 通过;Pages push run `28644832752` 与 workflow_dispatch run `28645043656` 均在 `actions/deploy-pages@v4` 部署步骤失败,前置 format/lint/typecheck/coverage/build/upload artifact 均成功。
 
 ---
 
@@ -107,6 +111,7 @@
 - GitHub Pages 曾在私有仓库启用失败:GitHub API 返回 `Your current plan does not support GitHub Pages for this repository`;仓库改为 public 后已启用。
 - GitHub Pages 已在仓库改为 public 后启用;Pages build 必须设置 `GITHUB_PAGES=true`,否则 Vite asset base 会错误。
 - 不要对失败的 Pages run 使用 `gh run rerun --failed`:同一 run 会残留旧 `github-pages` artifact,导致 `deploy-pages` 报 multiple artifacts;应触发新的 Pages workflow run 或推新 commit。
+- 若 Pages 在 `deploy-pages` 步骤仅报 `Deployment failed, try again later`,且 artifact 已成功上传,优先触发新的 run 或升级 Pages actions;2026-07-03 已将 Pages workflow 升至 `configure-pages@v6`、`upload-pages-artifact@v5`、`deploy-pages@v5`。
 - `figma-generate-design` skill 需要 Figma MCP(`use_figma`)和明确 Figma 文件;当前会话没有可用 Figma 工具/设计稿,不能伪造调用,只能按其设计流程配合 Playwright/Screenshot 做本地视觉验收。
 - `figma-use` / `figma-implement-design` 已从 GitHub 安装到本机 skills,但 Figma 插件仍需要用户在 Codex 界面完成授权/OAuth;授权前没有 `use_figma` 工具可调用。
 
