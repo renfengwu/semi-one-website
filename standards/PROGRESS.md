@@ -8,9 +8,9 @@
 
 ## 当前状态 (最后更新: 2026-07-03 · by Codex)
 
-- **阶段**:`PR Review 中 / 六步交付流程第③步 / 高级视觉二次打磨`
-- **上一步完成**:`按用户反馈安装并读取 figma-generate-design、playwright、screenshot 等 skill;Figma 缺 MCP/设计稿无法直接调用,已用 imagegen + Playwright 截图校验重做首页科技视觉,并补齐越南语入口`
-- **下一步 (TODO 第一条)**:`提交并推送高级首页重构;观察 PR #1 最新远端 CI;用户 Review 并合并后观察 main CD 发布 artifact 与 GHCR 镜像`
+- **阶段**:`首轮交付完成 / main CI + CD 已跑通`
+- **上一步完成**:`PR #1 已合并 main;main CI run 28641302736 全绿;main CD run 28641302668 全绿,已发布静态 dist artifact 与 GHCR Docker 镜像`
+- **下一步 (TODO 第一条)**:`确定公网发布方式:升级/改公开仓库启用 GitHub Pages,或提供服务器 SSH_HOST / SSH_USER / authorized_keys 后启用服务器部署`
 - **阻塞项**:`GitHub 当前套餐不支持私有仓库 Pages;公网 Pages 需升级套餐或改公开仓库。服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权。证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
 ---
@@ -42,7 +42,8 @@
 - [x] 首页升级为更高端的科技官网首屏:全幅半导体实验室主视觉、技术平台矩阵、晶圆路线图、型号参数板、应用场景条带
 - [x] 补齐越南语基础体验:顶部 VI 切换、核心页面与导航、首页主文案、产品/应用/质量/关于基础文案
 - [x] 本轮高级视觉重构本地自检通过:format、lint、typecheck、coverage、build、E2E、audit、docker build、桌面/移动端截图检查
-- [ ] 用户合并 PR #1 后,观察 main CD,记录 artifact、GHCR 镜像和后续部署地址
+- [x] 合并 PR #1 到 `main`,观察 main CI/CD:CI 全绿,CD 已上传 `semi-one-website-dist` artifact 并推送 GHCR 镜像 `ghcr.io/renfengwu/semi-one-website:f28565fd9fcb5bf20861470494e93a9b2d6db640` 与 `latest`
+- [ ] 确定公网发布方式:GitHub Pages 套餐/公开仓库,或服务器 SSH 部署信息,或其他托管平台
 - [x] 会话结束前更新本文件
 
 ---
@@ -72,6 +73,8 @@
 - 2026-07-03 高级首页重构本地通过:`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`
 - 2026-07-03 高级首页重构覆盖率:`Statements 89.11% / Branches 80.34% / Functions 85.71% / Lines 90.4%`;Playwright E2E 8 条通过;依赖审计 0 漏洞。
 - 2026-07-03 远端 PR CI 通过:GitHub Actions PR verify 包含格式、lint、typecheck、coverage、build、E2E、Docker build
+- 2026-07-03 main CI 通过:run `28641302736`,包含 format、lint、typecheck、coverage、build、E2E、Docker build。
+- 2026-07-03 main CD 通过:run `28641302668`,已上传 artifact `semi-one-website-dist`(385580 bytes),并推送 GHCR 镜像 `ghcr.io/renfengwu/semi-one-website:f28565fd9fcb5bf20861470494e93a9b2d6db640` 与 `latest`。
 
 ---
 
@@ -102,5 +105,6 @@
 - [x] 2026-07-03 完成官网首版实现、本地全套门禁、视觉烟测、PR #1 创建与远端 CI 全绿
 - [x] 2026-07-03 按用户反馈重做首页科技视觉,并补齐中文/英文/越南语切换与越南语核心页面文案
 - [x] 2026-07-03 继续按用户要求找 skill,完成高级首页二次重构:技术平台矩阵、晶圆路线图、型号参数板、越南语移动端截图验收
+- [x] 2026-07-03 合并 PR #1 到 main,跑通完整 CI + CD:dist artifact 与 GHCR 镜像均已发布
 
 > 反臃肿:里程碑超过 15 条时,把更早内容合并成一行摘要,保持本文件可快速阅读。
