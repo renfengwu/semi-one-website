@@ -8,9 +8,9 @@
 
 ## 当前状态 (最后更新: 2026-07-03 · by Codex)
 
-- **阶段**:`首轮交付完成 / GitHub Pages 公网发布中`
-- **上一步完成**:`仓库已改为 public 并启用 GitHub Pages workflow;新增 Pages 部署流,站内链接已兼容 /semi-one-website/ 子路径;本地 Pages smoke 通过`
-- **下一步 (TODO 第一条)**:`推送 main 后观察 Pages workflow,确认 https://renfengwu.github.io/semi-one-website/ 可访问`
+- **阶段**:`首轮交付完成 / GitHub Pages 已公网发布`
+- **上一步完成**:`GitHub Pages 已发布 https://renfengwu.github.io/semi-one-website/ ;最新 main CI、CD、Pages 均全绿;公网 Playwright smoke 通过`
+- **下一步 (TODO 第一条)**:`人工复核证书编号/有效期、客户名称/Logo、越南语正式营销措辞;如需正式域名,配置 DNS/CNAME 或提供服务器 SSH 部署信息`
 - **阻塞项**:`服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
 ---
@@ -45,7 +45,7 @@
 - [x] 合并 PR #1 到 `main`,观察 main CI/CD:CI 全绿,CD 已上传 `semi-one-website-dist` artifact 并推送 GHCR 镜像 `ghcr.io/renfengwu/semi-one-website:f28565fd9fcb5bf20861470494e93a9b2d6db640` 与 `latest`
 - [x] 自主确定公网发布方式:公开仓库并启用 GitHub Pages workflow,目标地址 `https://renfengwu.github.io/semi-one-website/`
 - [x] 修正 Vite/SPA 站内链接以兼容 GitHub Pages 项目子路径 `/semi-one-website/`
-- [ ] 推送 Pages workflow 后观察远端 Pages 部署并记录访问结果
+- [x] 推送 Pages workflow 后观察远端 Pages 部署:Pages run `28642487496` 全绿,公网 `https://renfengwu.github.io/semi-one-website/` 访问与浏览器 smoke 通过
 - [x] 会话结束前更新本文件
 
 ---
@@ -80,6 +80,7 @@
 - 2026-07-03 main CD 通过:run `28641302668`,已上传 artifact `semi-one-website-dist`(385580 bytes),并推送 GHCR 镜像 `ghcr.io/renfengwu/semi-one-website:f28565fd9fcb5bf20861470494e93a9b2d6db640` 与 `latest`。
 - 2026-07-03 公开前扫描:Git 记录未发现 `.env`、私钥、token、根目录原始 `data/` 文件;命中项均为文档中的 Secret 名称或公开 `src/data` 内容。
 - 2026-07-03 Pages 发布改造本地通过:`npx prettier --check`(改动文件)、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、Pages 子路径 Playwright smoke、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`
+- 2026-07-03 最新远端 main 全绿:`CI 28642487456`、`CD 28642487475`、`Pages 28642487496`;公网 Playwright smoke 通过,覆盖首页渲染、产品页 SPA 导航、越南语切换,无 404/控制台错误。
 
 ---
 
@@ -113,5 +114,6 @@
 - [x] 2026-07-03 继续按用户要求找 skill,完成高级首页二次重构:技术平台矩阵、晶圆路线图、型号参数板、越南语移动端截图验收
 - [x] 2026-07-03 合并 PR #1 到 main,跑通完整 CI + CD:dist artifact 与 GHCR 镜像均已发布
 - [x] 2026-07-03 仓库改 public 并启用 GitHub Pages workflow;本地验证 `/semi-one-website/` 子路径可渲染、导航和越南语可用
+- [x] 2026-07-03 GitHub Pages 公网发布完成:CI/CD/Pages 全绿,公网 URL 浏览器 smoke 通过
 
 > 反臃肿:里程碑超过 15 条时,把更早内容合并成一行摘要,保持本文件可快速阅读。
