@@ -18,12 +18,45 @@ export const companyProfile = {
     website: 'www.semi-one.com'
   },
   timeline: [
-    { year: '2011-2012', event: '深圳公司成立,香港分公司成立' },
-    { year: '2016', event: '销售额突破 1 亿人民币' },
-    { year: '2019', event: '国家高新技术企业,国家专利 12 项' },
-    { year: '2020-2021', event: '12 寸 SGT 工艺量产,首款车规级晶圆量产' },
-    { year: '2022', event: '国家专利 50 余项,低 FOM MOSFET 量产' },
-    { year: '2023-2024', event: '专精特新认证,SJMOS 量产,上海和美国设计公司成立' }
+    {
+      year: '2011-2012',
+      event: '深圳公司成立,香港分公司成立',
+      eventEn: 'Shenzhen company and Hong Kong branch established',
+      eventVi: 'Thành lập công ty tại Thâm Quyến và chi nhánh Hồng Kông'
+    },
+    {
+      year: '2016',
+      event: '销售额突破 1 亿人民币',
+      eventEn: 'Sales exceeded RMB 100 million',
+      eventVi: 'Doanh thu vượt 100 triệu RMB'
+    },
+    {
+      year: '2019',
+      event: '国家高新技术企业,国家专利 12 项',
+      eventEn: 'Recognized as a national high-tech enterprise with 12 national patents',
+      eventVi: 'Được công nhận là doanh nghiệp công nghệ cao quốc gia, có 12 bằng sáng chế'
+    },
+    {
+      year: '2020-2021',
+      event: '12 寸 SGT 工艺量产,首款车规级晶圆量产',
+      eventEn: '12-inch SGT process entered mass production; first automotive-grade wafer launched',
+      eventVi:
+        'Quy trình SGT 12 inch đi vào sản xuất hàng loạt; wafer cấp ô tô đầu tiên được sản xuất'
+    },
+    {
+      year: '2022',
+      event: '国家专利 50 余项,低 FOM MOSFET 量产',
+      eventEn: 'More than 50 national patents; low-FOM MOSFETs entered mass production',
+      eventVi: 'Hơn 50 bằng sáng chế quốc gia; MOSFET FOM thấp đi vào sản xuất hàng loạt'
+    },
+    {
+      year: '2023-2024',
+      event: '专精特新认证,SJMOS 量产,上海和美国设计公司成立',
+      eventEn:
+        'Specialized and innovative enterprise recognition; SJMOS mass production; Shanghai and US design entities established',
+      eventVi:
+        'Được công nhận doanh nghiệp chuyên sâu đổi mới; SJMOS sản xuất hàng loạt; thành lập đơn vị thiết kế tại Thượng Hải và Mỹ'
+    }
   ]
 };
 

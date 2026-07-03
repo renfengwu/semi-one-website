@@ -21,3 +21,12 @@ test('legacy product path reaches product center', async ({ page }) => {
   await page.goto('/Product/');
   await expect(page.getByRole('heading', { name: '产品中心' })).toBeVisible();
 });
+
+test('Vietnamese language switch exposes localized navigation and hero copy', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'VI' }).click();
+  await expect(
+    page.getByRole('navigation', { name: /主导航/i }).getByRole('link', { name: 'Sản phẩm' })
+  ).toBeVisible();
+  await expect(page.getByText(/Nền tảng linh kiện công suất bán dẫn/i)).toBeVisible();
+});

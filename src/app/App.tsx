@@ -30,21 +30,33 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const metaTitle = path === '/' ? '芯电元 Semi-One | 功率半导体器件' : `芯电元${path}`;
+    const metaTitle =
+      language === 'vi'
+        ? 'Semi-One | Linh kiện công suất bán dẫn'
+        : language === 'en'
+          ? 'Semi-One | Power Semiconductor Devices'
+          : path === '/'
+            ? '芯电元 Semi-One | 功率半导体器件'
+            : `芯电元${path}`;
     applyPageMeta({
       title: metaTitle,
-      description: '芯电元科技官网升级版,展示功率半导体产品、应用方案、技术路线与质量体系。'
+      description:
+        language === 'vi'
+          ? 'Website Semi-One giới thiệu sản phẩm công suất bán dẫn, ứng dụng, lộ trình công nghệ và hệ thống chất lượng.'
+          : language === 'en'
+            ? 'Semi-One website for power semiconductor products, applications, technology roadmap and quality systems.'
+            : '芯电元科技官网升级版,展示功率半导体产品、应用方案、技术路线与质量体系。'
     });
-  }, [path]);
+  }, [language, path]);
 
   const page = useMemo(() => {
     if (path === '/') return <HomePage language={language} />;
-    if (path === '/products') return <ProductsPage />;
-    if (path === '/applications') return <ApplicationsPage />;
-    if (path === '/technology') return <TechnologyPage />;
-    if (path === '/quality') return <QualityPage />;
-    if (path === '/about') return <AboutPage />;
-    return <NotFoundPage />;
+    if (path === '/products') return <ProductsPage language={language} />;
+    if (path === '/applications') return <ApplicationsPage language={language} />;
+    if (path === '/technology') return <TechnologyPage language={language} />;
+    if (path === '/quality') return <QualityPage language={language} />;
+    if (path === '/about') return <AboutPage language={language} />;
+    return <NotFoundPage language={language} />;
   }, [language, path]);
 
   return (

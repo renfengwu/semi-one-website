@@ -7,6 +7,12 @@ type SiteHeaderProps = {
 };
 
 export function SiteHeader({ language, onLanguageChange }: SiteHeaderProps) {
+  const routeLabel = (route: (typeof routes)[number]) => {
+    if (language === 'en') return route.labelEn;
+    if (language === 'vi') return route.labelVi;
+    return route.label;
+  };
+
   return (
     <header className="site-header">
       <a className="brand" href="/" aria-label="芯电元首页">
@@ -15,7 +21,7 @@ export function SiteHeader({ language, onLanguageChange }: SiteHeaderProps) {
       <nav className="primary-nav" aria-label="主导航">
         {routes.map((route) => (
           <a key={route.path} href={route.path}>
-            {language === 'en' ? route.labelEn : route.label}
+            {routeLabel(route)}
           </a>
         ))}
       </nav>
@@ -33,6 +39,13 @@ export function SiteHeader({ language, onLanguageChange }: SiteHeaderProps) {
           onClick={() => onLanguageChange('en')}
         >
           EN
+        </button>
+        <button
+          className={language === 'vi' ? 'active' : ''}
+          type="button"
+          onClick={() => onLanguageChange('vi')}
+        >
+          VI
         </button>
       </div>
     </header>

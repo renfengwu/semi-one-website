@@ -9,4 +9,9 @@ describe('getLocalizedText', () => {
   it('falls back to Chinese when English content is missing', () => {
     expect(getLocalizedText({ zh: '质量' }, 'en')).toBe('质量');
   });
+
+  it('returns Vietnamese content and falls back through English when needed', () => {
+    expect(getLocalizedText({ zh: '产品', en: 'Products', vi: 'Sản phẩm' }, 'vi')).toBe('Sản phẩm');
+    expect(getLocalizedText({ zh: '技术', en: 'Technology' }, 'vi')).toBe('Technology');
+  });
 });

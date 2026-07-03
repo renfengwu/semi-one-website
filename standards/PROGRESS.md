@@ -11,7 +11,7 @@
 - **阶段**:`PR Review 中 / 六步交付流程第③步`
 - **上一步完成**:`已实现 Vite/React 官网、GitHub Actions CI、交付型 CD(GitHub artifact + GHCR Docker image)、Docker/Nginx 静态部署包;PR #1 远端 CI 已全绿`
 - **下一步 (TODO 第一条)**:`用户 Review 并合并 PR #1;合并后观察 main CD 发布 artifact 与 GHCR 镜像`
-- **阻塞项**:`GitHub 当前套餐不支持私有仓库 Pages;公网 Pages 需升级套餐或改公开仓库。服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权。证书编号/有效期、客户名称/Logo、越南语公开口径仍需人工复核`
+- **阻塞项**:`GitHub 当前套餐不支持私有仓库 Pages;公网 Pages 需升级套餐或改公开仓库。服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权。证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
 ---
 
@@ -25,13 +25,13 @@
 - [ ] 将公钥 `C:\Users\admin\.ssh\semi-one-website-deploy.pub` 加入部署服务器 `authorized_keys`(服务器部署阶段)
 - [ ] 在 GitHub 仓库配置 Actions Secrets:`SSH_HOST` / `SSH_USER`(服务器部署阶段)
 - [x] 决定首个可自主闭环 CD 改用 GitHub Actions artifact + GHCR 镜像,服务器 SSH/Docker 部署后置
-- [ ] 确认首版范围:中文+英文是否完整上线、越南语入口是否保留、是否展示客户名称/Logo、证书编号/有效期公开口径
+- [ ] 确认首版范围:客户名称/Logo、证书编号/有效期公开口径、越南语正式营销措辞母语复核
 - [x] 从 `main` 开第一条 feature 分支:`feature/1-website-ci-cd`
 - [x] 脚手架 Vite + React + TypeScript + ESLint + Prettier + Vitest + Playwright
 - [x] 建立结构化内容数据:公司信息、产品分类、应用方案、技术路线、实验室、证书、联系信息
 - [x] 从旧站和 PPT/XLS 抽取首批产品与应用数据,记录来源和更新时间
 - [x] 筛选可公开素材并生成生产可用图片:Logo、芯片/晶圆/半导体主视觉
-- [x] 实现首页、产品中心、应用方案、技术创新、质量资质、关于联系、多语言基础
+- [x] 实现首页、产品中心、应用方案、技术创新、质量资质、关于联系、中文/英文/越南语基础
 - [x] 编写单元/组件/E2E 测试,覆盖产品筛选、语言切换、关键页面和移动端布局
 - [x] 本地自检通过:format、lint、typecheck、test、coverage、E2E、build、audit、docker build、视觉烟测
 - [x] 配置 GitHub Actions CI:PR 触发格式、lint、typecheck、test、coverage、E2E、build、docker build
@@ -60,9 +60,10 @@
 ## 验证记录
 
 - 2026-07-03 本地通过:`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm run test:run`、`npm run test:coverage`、`npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`
-- 2026-07-03 覆盖率:`Statements 88.39% / Branches 85.22% / Functions 87.23% / Lines 90.42%`
-- 2026-07-03 Playwright E2E:`chromium` 与 `mobile-chrome` 共 6 条通过;覆盖首页主入口、产品移动端搜索、旧站 `/Product/` 路径迁移
+- 2026-07-03 覆盖率:`Statements 88.65% / Branches 80.34% / Functions 84.9% / Lines 89.91%`
+- 2026-07-03 Playwright E2E:`chromium` 与 `mobile-chrome` 共 8 条通过;覆盖首页主入口、产品移动端搜索、旧站 `/Product/` 路径迁移、越南语切换
 - 2026-07-03 视觉烟测:桌面/移动端关键页面无横向溢出、无破图、无控制台错误;截图暂存于 `test-results/visual-qa/`(不提交)
+- 2026-07-03 使用 `imagegen` skill 生成并压缩新官网主视觉 `public/assets/hero-semiconductor-lab.webp`;首页切换为全幅半导体实验室/晶圆/功率器件视觉
 - 2026-07-03 远端 PR CI 通过:GitHub Actions PR verify 包含格式、lint、typecheck、coverage、build、E2E、Docker build
 
 ---
@@ -91,5 +92,6 @@
 - [x] 2026-07-03 完成第①步建仓动作:本地 Git 初始化、GitHub 私有仓库创建、`main` 推送
 - [x] 2026-07-03 生成部署专用 SSH key,已把私钥写入 GitHub Secret `SSH_PRIVATE_KEY`,公钥保存在 `C:\Users\admin\.ssh\semi-one-website-deploy.pub`
 - [x] 2026-07-03 完成官网首版实现、本地全套门禁、视觉烟测、PR #1 创建与远端 CI 全绿
+- [x] 2026-07-03 按用户反馈重做首页科技视觉,并补齐中文/英文/越南语切换与越南语核心页面文案
 
 > 反臃肿:里程碑超过 15 条时,把更早内容合并成一行摘要,保持本文件可快速阅读。

@@ -2,15 +2,16 @@ export type AppRoute = {
   path: string;
   label: string;
   labelEn: string;
+  labelVi: string;
 };
 
 export const routes: AppRoute[] = [
-  { path: '/', label: '首页', labelEn: 'Home' },
-  { path: '/products', label: '产品', labelEn: 'Products' },
-  { path: '/applications', label: '应用', labelEn: 'Applications' },
-  { path: '/technology', label: '技术', labelEn: 'Technology' },
-  { path: '/quality', label: '质量', labelEn: 'Quality' },
-  { path: '/about', label: '关于我们', labelEn: 'About' }
+  { path: '/', label: '首页', labelEn: 'Home', labelVi: 'Trang chủ' },
+  { path: '/products', label: '产品', labelEn: 'Products', labelVi: 'Sản phẩm' },
+  { path: '/applications', label: '应用', labelEn: 'Applications', labelVi: 'Ứng dụng' },
+  { path: '/technology', label: '技术', labelEn: 'Technology', labelVi: 'Công nghệ' },
+  { path: '/quality', label: '质量', labelEn: 'Quality', labelVi: 'Chất lượng' },
+  { path: '/about', label: '关于我们', labelEn: 'About', labelVi: 'Về chúng tôi' }
 ];
 
 export function normalizePath(pathname: string) {

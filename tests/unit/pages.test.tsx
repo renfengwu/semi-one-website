@@ -19,20 +19,34 @@ afterEach(() => {
 
 describe('static pages', () => {
   it('renders application, technology, quality, about, and not found content', () => {
-    render(<ApplicationsPage />);
+    render(<ApplicationsPage language="zh" />);
     expect(screen.getByRole('heading', { name: '应用方案' })).toBeInTheDocument();
 
-    render(<TechnologyPage />);
+    render(<TechnologyPage language="zh" />);
     expect(screen.getByRole('heading', { name: '技术与创新' })).toBeInTheDocument();
 
-    render(<QualityPage />);
+    render(<QualityPage language="zh" />);
     expect(screen.getByRole('heading', { name: '质量与资质' })).toBeInTheDocument();
 
-    render(<AboutPage />);
+    render(<AboutPage language="zh" />);
     expect(screen.getByRole('heading', { name: '关于芯电元' })).toBeInTheDocument();
 
-    render(<NotFoundPage />);
+    render(<NotFoundPage language="zh" />);
     expect(screen.getByRole('heading', { name: '页面未找到' })).toBeInTheDocument();
+  });
+
+  it('renders Vietnamese content on core pages', () => {
+    render(<ApplicationsPage language="vi" />);
+    expect(screen.getByRole('heading', { name: 'Giải pháp ứng dụng' })).toBeInTheDocument();
+
+    render(<TechnologyPage language="vi" />);
+    expect(screen.getByRole('heading', { name: 'Công nghệ & Đổi mới' })).toBeInTheDocument();
+
+    render(<QualityPage language="vi" />);
+    expect(screen.getByRole('heading', { name: 'Chất lượng & Chứng nhận' })).toBeInTheDocument();
+
+    render(<AboutPage language="vi" />);
+    expect(screen.getByRole('heading', { name: 'Về Semi-One' })).toBeInTheDocument();
   });
 });
 
@@ -58,5 +72,13 @@ describe('App routing', () => {
     expect(
       screen.getByRole('heading', { name: /Shenzhen Semi-One Technology/i })
     ).toBeInTheDocument();
+  });
+
+  it('switches the homepage and navigation to Vietnamese', async () => {
+    setPath('/');
+    render(<App />);
+    await userEvent.click(screen.getByRole('button', { name: 'VI' }));
+    expect(screen.getByText(/Nền tảng linh kiện công suất bán dẫn/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Sản phẩm' })).toBeInTheDocument();
   });
 });
