@@ -8,18 +8,21 @@
 
 ## 当前状态 (最后更新: 2026-07-03 · by Codex)
 
-- **阶段**:`初始化 / 需求确认中 / 六步交付流程第①步前`
-- **上一步完成**:`已读取 standards 全套规范、旧官网、本地 PPT/PDF/XLS 参考资料;已起草 00/01/PROGRESS`
-- **下一步 (TODO 第一条)**:`等待用户确认 00-project-context.md、01-requirements.md 和本文件`
-- **阻塞项**:`需用户确认需求范围、公开口径、GitHub 仓库/Secrets/服务器信息后才能进入第①步建仓与配 Secrets`
+- **阶段**:`初始化 / 六步交付流程第①步确认门`
+- **上一步完成**:`已初始化本地 Git 仓库,创建私有 GitHub 仓库并推送 main;仓库地址 https://github.com/renfengwu/semi-one-website`
+- **下一步 (TODO 第一条)**:`用户在 GitHub 仓库配置 Actions Secrets: SSH_PRIVATE_KEY / SSH_HOST / SSH_USER`
+- **阻塞项**:`等待用户确认 Secrets 已配置;确认后才能进入第②步创建 feature 分支`
 
 ---
 
 ## 待办清单 (TODO,按优先级)
 
-- [ ] 用户确认 `standards/00-project-context.md`、`standards/01-requirements.md`、`standards/PROGRESS.md`
+- [x] 用户确认 `standards/00-project-context.md`、`standards/01-requirements.md`、`standards/PROGRESS.md`
+- [x] 创建实施计划 `docs/superpowers/plans/2026-07-03-semi-one-website-ci-cd.md`
+- [x] 初始化本地 Git 仓库并创建最小 main 引导提交
+- [x] 创建私有 GitHub 仓库 `https://github.com/renfengwu/semi-one-website` 并推送 `main`
+- [ ] 在 GitHub 仓库配置 Actions Secrets:`SSH_PRIVATE_KEY` / `SSH_HOST` / `SSH_USER`
 - [ ] 确认首版范围:中文+英文是否完整上线、越南语入口是否保留、是否展示客户名称/Logo、证书编号/有效期公开口径
-- [ ] 进入六步交付流程第①步:创建/确认 GitHub 仓库,完成最小引导提交,提示用户配置 `SSH_PRIVATE_KEY` / `SSH_HOST` / `SSH_USER`
 - [ ] 用户确认 Secrets 已配置后,从 `main` 开第一条 feature 分支
 - [ ] 脚手架 Vite + React + TypeScript + Tailwind + ESLint + Prettier + Vitest + Playwright
 - [ ] 建立结构化内容数据:公司信息、产品分类、应用方案、技术路线、实验室、证书、联系信息
@@ -44,6 +47,7 @@
 | 2026-07-03 | 部署主机端口优先 `8080`,回退 `8080-8089` | 本机检查常见端口未占用;按标准保留回退区间,避免误删他人容器 |
 | 2026-07-03 | 原始 `data/` 资料作为参考源,生产只使用确认后的优化素材和结构化数据 | 避免把大文件、扫描件、未复核证书/客户信息直接公开或拖慢构建 |
 | 2026-07-03 | 本轮只更新 `00/01/PROGRESS`,不开始写代码 | 用户明确要求先停下确认 |
+| 2026-07-03 | GitHub 仓库使用私有仓库 `renfengwu/semi-one-website` | 官网仍处于初始化阶段,避免未复核资料和发布配置提前公开 |
 
 ---
 
@@ -64,5 +68,6 @@
 - [x] 2026-07-03 抽取中文/英文公司介绍 PPT 的核心信息
 - [x] 2026-07-03 目视核验证书 PDF 类别,读取 XLS 中知识产权工作表
 - [x] 2026-07-03 起草本项目上下文、用户故事验收标准和第一批 TODO
+- [x] 2026-07-03 完成第①步建仓动作:本地 Git 初始化、GitHub 私有仓库创建、`main` 推送
 
 > 反臃肿:里程碑超过 15 条时,把更早内容合并成一行摘要,保持本文件可快速阅读。
