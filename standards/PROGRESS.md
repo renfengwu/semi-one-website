@@ -8,9 +8,9 @@
 
 ## 当前状态 (最后更新: 2026-07-03 · by Codex)
 
-- **阶段**:`按用户反馈完成官网高级视觉二次升级 / Pages action 升级后待推送观察`
-- **上一步完成**:`首页高级视觉重构已推送,main CI 与 CD 通过;Pages 构建/上传 artifact 通过但 deploy-pages@v4 返回 GitHub 服务端 Deployment failed, try again later,已升级 Pages actions 待重跑`
-- **下一步 (TODO 第一条)**:`提交推送 Pages action 升级,观察 GitHub CI、CD、Pages 最新 run;公网 smoke 通过后更新本文件`
+- **阶段**:`官网高级视觉二次升级完成 / CI、CD、Pages 已恢复全绿`
+- **上一步完成**:`首页已重构为工程平台指挥舱、技术路线面板、产品参数信号板与应用卡片;Pages workflow 已升级到 v5/v6 action,最新远端 CI/CD/Pages 全绿;公网 smoke 通过`
+- **下一步 (TODO 第一条)**:`人工复核证书编号/有效期、客户名称/Logo、越南语正式营销措辞;如需正式域名,配置 DNS/CNAME 或提供服务器 SSH 部署信息`
 - **阻塞项**:`Figma MCP 插件安装已请求但需用户在界面授权/OAuth,当前不能伪造 Figma 调用;服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
 ---
@@ -54,8 +54,8 @@
 - [x] 推送本轮二次高级化到 `main`:commit `530d289`;main CI 与 CD 通过
 - [x] 定位 Pages 失败:构建与 artifact 上传成功,`actions/deploy-pages@v4` 创建 deployment 后返回 `Deployment failed, try again later`
 - [x] 升级 Pages workflow actions:`configure-pages@v6`、`upload-pages-artifact@v5`、`deploy-pages@v5`
-- [ ] 推送 Pages action 升级并观察 GitHub CI、CD、Pages 最新 run
-- [ ] 公网 `https://renfengwu.github.io/semi-one-website/` smoke 验证首页、产品页导航、越南语切换
+- [x] 推送 Pages action 升级并观察 GitHub CI、CD、Pages 最新 run
+- [x] 公网 `https://renfengwu.github.io/semi-one-website/` smoke 验证首页、产品页导航、越南语切换
 - [x] 会话结束前更新本文件
 
 ---
@@ -95,6 +95,7 @@
 - 2026-07-03 二次高级化首页视觉 QA:截图 `after-redesign-home-desktop.png`、`after-redesign-home-mid.png`、`after-redesign-home-mobile.png`;Playwright 检查三档视口 `overflow=false`,控制台错误 0。
 - 2026-07-03 二次高级化本地门禁通过:`npx prettier --check`(改动文件)、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`
 - 2026-07-03 main CI `28644832626` 通过,CD `28644832635` 通过;Pages push run `28644832752` 与 workflow_dispatch run `28645043656` 均在 `actions/deploy-pages@v4` 部署步骤失败,前置 format/lint/typecheck/coverage/build/upload artifact 均成功。
+- 2026-07-03 升级 Pages actions 后远端通过:main CI、CD、Pages 全绿;公网 Playwright smoke 通过,覆盖首页渲染、产品页 SPA 导航、越南语切换,无横向溢出、无控制台错误、无失败请求。
 
 ---
 
