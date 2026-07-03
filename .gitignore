@@ -7,6 +7,6 @@ test-results/
 .env.*
 !.env.example
 .worktrees/
-data/
+/data/
 *.log
 *.tmp

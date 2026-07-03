@@ -74,6 +74,7 @@
 - 旧官网为 ThinkPHP/Nginx 站点,产品表页面很大且 HTML 较旧;迁移时应结构化清洗数据,不要复刻旧站表格实现。
 - 当前 `gh secret set` 版本不支持 `--body-file`:已改用 stdin 写入 `SSH_PRIVATE_KEY`;以后设置多行 Secret 可用 `Get-Content -Raw <file> | gh secret set <NAME> --repo <owner/repo>`。
 - Docker CLI 曾因 Docker Desktop 服务未启动而首次构建失败;启动 Docker Desktop 后 `docker build -t semi-one-website:local .` 已通过。
+- PR #1 首次远端 CI 在 `npm run test:coverage` 失败:根因是 `.gitignore` 的 `data/` 误伤 `src/data/`,本地文件存在但未提交。已改为只忽略根目录 `/data/`,并将 `src/data/*` 纳入版本库。
 
 ---
 
