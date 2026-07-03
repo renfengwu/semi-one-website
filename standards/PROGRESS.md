@@ -63,7 +63,7 @@
 - 2026-07-03 覆盖率:`Statements 88.39% / Branches 85.22% / Functions 87.23% / Lines 90.42%`
 - 2026-07-03 Playwright E2E:`chromium` 与 `mobile-chrome` 共 6 条通过;覆盖首页主入口、产品移动端搜索、旧站 `/Product/` 路径迁移
 - 2026-07-03 视觉烟测:桌面/移动端关键页面无横向溢出、无破图、无控制台错误;截图暂存于 `test-results/visual-qa/`(不提交)
-- 2026-07-03 远端 PR CI 通过:GitHub Actions run `28638489229`,包含格式、lint、typecheck、coverage、build、E2E、Docker build
+- 2026-07-03 远端 PR CI 通过:GitHub Actions PR verify 包含格式、lint、typecheck、coverage、build、E2E、Docker build
 
 ---
 
