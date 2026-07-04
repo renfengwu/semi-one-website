@@ -8,9 +8,9 @@
 
 ## 当前状态 (最后更新: 2026-07-04 · by Codex)
 
-- **阶段**:`员工生活与真实企业文化素材升级完成 / 本地完整门禁通过 / 待推送远端 CI、CD、Pages`
-- **上一步完成**:`按用户反馈继续从 GitHub openai/skills 找 skill,同步到 HEAD 49f948f 并补装 figma-create-new-file、figma-generate-library;基于 data/ 员工生日会、团建、运动、年会资料筛选真实照片并生成 WebP;首页新增“员工生活”模块,覆盖中文/英文/越南语,补 E2E 图片加载和越南语断言;本地 format、lint、typecheck、coverage、build、Pages build、E2E、audit、docker build、浏览器 smoke 全部通过`
-- **下一步 (TODO 第一条)**:`推送员工生活升级到 main,观察 GitHub CI/CD/Pages,公网 smoke 复核首页员工生活模块、越南语切换、核心路由直访和移动端无横向溢出`
+- **阶段**:`员工生活与真实企业文化素材升级完成 / CI、CD、Pages 远端通过 / 公网 smoke 通过`
+- **上一步完成**:`按用户反馈继续从 GitHub openai/skills 找 skill,同步到 HEAD 49f948f 并补装 figma-create-new-file、figma-generate-library;基于 data/ 员工生日会、团建、运动、年会资料筛选真实照片并生成 WebP;首页新增“员工生活”模块,覆盖中文/英文/越南语,补 E2E 图片加载和越南语断言;本地完整门禁通过;commit e8a232d 推送后 CI 28701631293、CD 28701631292、Pages 28701631307 全绿;公网 smoke 通过`
+- **下一步 (TODO 第一条)**:`人工复核证书编号/有效期、客户名称/Logo、越南语正式营销措辞;如需正式域名,配置 DNS/CNAME 或提供服务器 SSH 部署信息`
 - **阻塞项**:`Figma MCP 插件安装已请求但需用户在界面授权/OAuth,当前不能伪造 Figma 调用;新装 GitHub skill 需重启 Codex 后自动出现在技能列表;服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
 ---
@@ -76,7 +76,7 @@
 - [x] 2026-07-04 从 `data/` 员工生活资料筛选真实素材:2022 生日会、2023 阳朔、2024 羽毛球、2025 郴州、2025 年会,生成生产 WebP 并加入首页
 - [x] 2026-07-04 首页新增员工生活模块:真实照片画廊、文化叙事、运动/生日会/团建/年会标签,覆盖中文/英文/越南语
 - [x] 2026-07-04 员工生活模块本地门禁通过:format、lint、typecheck、coverage、build、GITHUB_PAGES build、E2E、audit、docker build、桌面/移动端截图、浏览器 smoke
-- [ ] 2026-07-04 推送员工生活升级并观察 GitHub CI、CD、Pages 最新 run;公网验证 `https://renfengwu.github.io/semi-one-website/`
+- [x] 2026-07-04 推送员工生活升级到 `main`:commit `e8a232d`;CI `28701631293` success,CD `28701631292` success,Pages `28701631307` success;公网验证 `https://renfengwu.github.io/semi-one-website/` 通过
 - [x] 会话结束前更新本文件
 
 ---
@@ -130,6 +130,7 @@
 - 2026-07-04 员工生活与真实素材升级:从 GitHub `openai/skills` HEAD `49f948f` 补装 `figma-create-new-file`、`figma-generate-library`;从 `data/` 筛选 5 张员工活动真实照片并生成 `public/assets/life-*.webp`;首页新增员工生活模块并覆盖 zh/en/vi。
 - 2026-07-04 员工生活升级本地通过:`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`;E2E 8 条通过,覆盖率 `Statements 86.56% / Branches 78.52% / Functions 81.6% / Lines 87.28%`;依赖审计 0 漏洞。
 - 2026-07-04 员工生活视觉与浏览器 smoke:截图 `output/playwright/life-home-desktop-full.png`、`life-home-mobile-full.png`;本地桌面/移动端 `/`、`/products/`、`/applications/`、`/technology/`、`/quality/`、`/about/` 均 `status=200`,横向溢出 false,前端 404 文案 0;首页 `.life-showcase-section` 存在,5 张 `life-*` 图片自然宽度均大于 0;越南语 `Đời sống nhân viên` 存在且无横向溢出。
+- 2026-07-04 员工生活升级远端通过:commit `e8a232d`;CI `28701631293` success,CD `28701631292` success,Pages `28701631307` success;公网桌面/移动端 `/`、`/products/`、`/applications/`、`/technology/`、`/quality/`、`/about/` 均 `status=200`,横向溢出 false,前端 404 文案 0;首页 5 张 `life-*` 图片加载成功;越南语 `Đời sống nhân viên` 存在且无横向溢出。
 
 ---
 
