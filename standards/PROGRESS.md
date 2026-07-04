@@ -8,9 +8,9 @@
 
 ## 当前状态 (最后更新: 2026-07-04 · by Codex)
 
-- **阶段**:`企业文化与动态视觉升级、Pages 尾斜杠直访修复完成 / 本地完整门禁通过 / 待观察远端 CI、CD、Pages`
-- **上一步完成**:`按用户要求继续从 GitHub openai/skills 找 skill 并补装 figma、figma-create-design-system-rules;首页新增企业文化动态控制台与信号动效;关于页新增企业文化原则;发现 GitHub Pages 直访 /about/ 会因尾斜杠进入前端 404,已修复 normalizePath 并补测试;本地完整门禁通过`
-- **下一步 (TODO 第一条)**:`推送 main 后观察 GitHub CI、CD、Pages 最新 run,再做公网首页/关于页/尾斜杠内页/越南语 smoke;人工复核证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍后置`
+- **阶段**:`企业文化与动态视觉升级、Pages 尾斜杠直访修复完成 / CI、CD、Pages 远端通过`
+- **上一步完成**:`按用户要求继续从 GitHub openai/skills 找 skill 并补装 figma、figma-create-design-system-rules;首页新增企业文化动态控制台与信号动效;关于页新增企业文化原则;修复 GitHub Pages 尾斜杠直访进入前端 404;最新代码提交 CI、CD 成功,Pages 通过 workflow_dispatch 成功部署;公网 smoke 通过`
+- **下一步 (TODO 第一条)**:`人工复核证书编号/有效期、客户名称/Logo、越南语正式营销措辞;如需正式域名,配置 DNS/CNAME 或提供服务器 SSH 部署信息`
 - **阻塞项**:`Figma MCP 插件安装已请求但需用户在界面授权/OAuth,当前不能伪造 Figma 调用;新装 GitHub skill 需重启 Codex 后自动出现在技能列表;服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
 ---
@@ -71,7 +71,7 @@
 - [x] 2026-07-04 本轮文化动效升级本地门禁通过:format、lint、typecheck、coverage、build、GITHUB_PAGES build、E2E、audit、docker build、Playwright 截图/DOM/动效/越南语检查
 - [x] 2026-07-04 推送本轮文化动效升级到 `main`:CI、CD 成功;Pages 首次 deploy 返回 `Deployment failed, try again later`,重新触发 workflow_dispatch 后成功
 - [x] 2026-07-04 公网 smoke 发现 `/about/` 等 Pages 尾斜杠直访会落到前端 404;已修复路径归一化,并补单元测试覆盖 `/about/`、`/products/`、`/semi-one-website/about/`
-- [ ] 2026-07-04 推送尾斜杠直访修复到 `main`,观察 GitHub CI、CD、Pages 最新 run,并做公网 smoke
+- [x] 2026-07-04 推送尾斜杠直访修复到 `main`:CI `28700841925` success,CD `28700841935` success;Pages push run `28700841924` 和首次 workflow_dispatch `28700890283` 仍遇到 deploy-pages 临时失败,第三次 workflow_dispatch `28700954024` success;公网 smoke 通过
 - [x] 会话结束前更新本文件
 
 ---
@@ -121,6 +121,7 @@
 - 2026-07-04 企业文化动效视觉 QA:Playwright 截图 `output/playwright/culture-home-desktop.png`、`culture-home-mobile.png`、`culture-home-full.png`、`culture-about-desktop.png`、`culture-about-mobile.png`、`culture-about-full.png`;首页/关于页桌面与移动端均 `status=200`,横向溢出 false,控制台错误 0,失败请求 0;DOM 检查确认文化模块、动效 CSS、越南语文化文案存在。
 - 2026-07-04 企业文化动效远端验证:commit `2b20065`;CI `28700614272` success,CD `28700614251` success;Pages push run `28700614273` 在 deploy-pages 返回临时失败,workflow_dispatch run `28700662269` success;公网首页与越南语 smoke 通过,但发现带尾斜杠内页落入前端 404。
 - 2026-07-04 Pages 尾斜杠直访修复本地通过:`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`;本地 `/products/`、`/applications/`、`/technology/`、`/quality/`、`/about/` 均 `status=200`,非 404,横向溢出 false,`/about/` 企业文化文案存在。
+- 2026-07-04 Pages 尾斜杠直访修复远端通过:commit `426cb8c`;CI `28700841925` success,CD `28700841935` success,Pages workflow_dispatch `28700954024` success;公网 `https://renfengwu.github.io/semi-one-website/`、`/products/`、`/applications/`、`/technology/`、`/quality/`、`/about/` 桌面/移动端均 `status=200`,非前端 404,横向溢出 false,控制台错误 0,失败请求 0;首页和关于页企业文化文案存在;越南语文化文案与标题存在。
 
 ---
 
