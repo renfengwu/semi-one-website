@@ -1,4 +1,5 @@
 import { MapPin, Navigation } from 'lucide-react';
+import { LifeShowcase } from '../components/LifeShowcase';
 import { companyProfile } from '../data/company';
 import type { Language } from '../lib/i18n';
 
@@ -212,6 +213,7 @@ export function AboutPage({ language }: AboutPageProps) {
           </a>
         </aside>
       </div>
+      <LifeShowcase language={language} />
     </section>
   );
 }

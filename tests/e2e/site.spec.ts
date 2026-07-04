@@ -6,12 +6,14 @@ test('home page exposes primary routes and visual asset', async ({ page }) => {
   await expect(
     page.getByRole('navigation', { name: /主导航/i }).getByRole('link', { name: '产品' })
   ).toBeVisible();
+  await expect(page.getByAltText(/功率半导体产品/)).toBeVisible();
+  await expect(page.locator('#life')).toHaveCount(0);
   await page
     .getByRole('navigation', { name: /主导航/i })
     .getByRole('link', { name: '员工生活' })
     .click();
+  await expect(page).toHaveURL(/\/about#life$/);
   await expect(page.locator('#life')).toBeInViewport();
-  await expect(page.getByAltText(/功率半导体产品/)).toBeVisible();
   await expect(page.getByRole('heading', { name: /技术之外/ })).toBeVisible();
   await expect(page.locator('#life').getByText('员工生活', { exact: true })).toBeVisible();
   const lifeImage = page.getByAltText(/湖南郴州团建合影/);
@@ -22,7 +24,7 @@ test('home page exposes primary routes and visual asset', async ({ page }) => {
 });
 
 test('employee life photos open a larger image viewer', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/about');
   await page.getByRole('button', { name: /放大查看图片: 同一面旗帜/ }).click();
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
@@ -31,6 +33,13 @@ test('employee life photos open a larger image viewer', async ({ page }) => {
   await expect(dialog.getByRole('heading', { name: '在户外场景里建立协作默契' })).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toHaveCount(0);
+});
+
+test('employee life deep link lands inside the about page section', async ({ page }) => {
+  await page.goto('/about#life');
+  await expect(page.getByRole('heading', { name: /关于芯电元/ })).toBeVisible();
+  await expect(page.locator('#life')).toBeInViewport();
+  await expect(page.locator('#life').getByText('员工生活', { exact: true })).toBeVisible();
 });
 
 test('company address links directly to map search results', async ({ page }) => {
@@ -64,6 +73,12 @@ test('Vietnamese language switch exposes localized navigation and hero copy', as
     page.getByRole('navigation', { name: /主导航/i }).getByRole('link', { name: 'Sản phẩm' })
   ).toBeVisible();
   await expect(page.getByText(/Nền tảng linh kiện công suất bán dẫn/i)).toBeVisible();
+  await page
+    .getByRole('navigation', { name: /主导航/i })
+    .getByRole('link', { name: 'Đời sống' })
+    .click();
+  await expect(page).toHaveURL(/\/about#life$/);
+  await expect(page.locator('#life')).toBeInViewport();
   await expect(
     page.locator('#life').getByText('Đời sống nhân viên', { exact: true })
   ).toBeVisible();

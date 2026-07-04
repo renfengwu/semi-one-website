@@ -50,6 +50,17 @@ export default function App() {
     });
   }, [language, path]);
 
+  useEffect(() => {
+    if (!window.location.hash) return;
+
+    const targetId = decodeURIComponent(window.location.hash.slice(1));
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        document.getElementById(targetId)?.scrollIntoView({ block: 'start' });
+      });
+    });
+  }, [language, path]);
+
   const page = useMemo(() => {
     if (path === '/') return <HomePage language={language} />;
     if (path === '/products') return <ProductsPage language={language} />;

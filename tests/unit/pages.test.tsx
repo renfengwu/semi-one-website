@@ -3,10 +3,10 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import App from '../../src/app/App';
 import { handleSiteNavigation, normalizePath, siteHref } from '../../src/app/routes';
+import { LifeShowcase } from '../../src/components/LifeShowcase';
 import { companyProfile } from '../../src/data/company';
 import { AboutPage } from '../../src/pages/AboutPage';
 import { ApplicationsPage } from '../../src/pages/ApplicationsPage';
-import { HomePage } from '../../src/pages/HomePage';
 import { NotFoundPage } from '../../src/pages/NotFoundPage';
 import { QualityPage } from '../../src/pages/QualityPage';
 import { TechnologyPage } from '../../src/pages/TechnologyPage';
@@ -86,7 +86,7 @@ describe('App routing', () => {
   it('builds internal links against the configured base path', () => {
     expect(siteHref('/')).toBe('/');
     expect(siteHref('/products')).toBe('/products');
-    expect(siteHref('/#life')).toBe('/#life');
+    expect(siteHref('/about#life')).toBe('/about#life');
     expect(siteHref('mailto:shuangling@semi-one.com')).toBe('mailto:shuangling@semi-one.com');
   });
 
@@ -118,9 +118,10 @@ describe('App routing', () => {
       return 0;
     });
 
-    handleSiteNavigation(event, '/#life');
+    handleSiteNavigation(event, '/about#life');
 
     expect(event.preventDefault).toHaveBeenCalled();
+    expect(window.location.pathname).toBe('/about');
     expect(window.location.hash).toBe('#life');
     expect(scrollIntoView).toHaveBeenCalledWith({ block: 'start', behavior: 'smooth' });
     target.remove();
@@ -138,6 +139,33 @@ describe('App routing', () => {
     setPath('/technology');
     render(<App />);
     expect(screen.getByRole('heading', { name: '技术与创新' })).toBeInTheDocument();
+  });
+
+  it('scrolls direct hash links after the route content renders', () => {
+    const scrollIntoView = vi.fn();
+    const originalScrollIntoView = window.HTMLElement.prototype.scrollIntoView;
+    Object.defineProperty(window.HTMLElement.prototype, 'scrollIntoView', {
+      configurable: true,
+      value: scrollIntoView
+    });
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      callback(0);
+      return 0;
+    });
+
+    setPath('/about#life');
+    render(<App />);
+
+    expect(scrollIntoView).toHaveBeenCalledWith({ block: 'start' });
+
+    if (originalScrollIntoView) {
+      Object.defineProperty(window.HTMLElement.prototype, 'scrollIntoView', {
+        configurable: true,
+        value: originalScrollIntoView
+      });
+    } else {
+      Reflect.deleteProperty(window.HTMLElement.prototype, 'scrollIntoView');
+    }
   });
 
   it('switches the homepage to English', async () => {
@@ -162,7 +190,7 @@ describe('App routing', () => {
   });
 
   it('opens employee life photos in a keyboard-friendly viewer', async () => {
-    render(<HomePage language="zh" />);
+    render(<LifeShowcase language="zh" />);
 
     await userEvent.click(screen.getByRole('button', { name: /放大查看图片: 同一面旗帜/ }));
     let dialog = screen.getByRole('dialog');
