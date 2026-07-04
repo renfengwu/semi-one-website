@@ -21,11 +21,11 @@ export function normalizePath(pathname: string) {
       ? pathname.slice(configuredBase.length) || '/'
       : pathname;
   const withoutRepoBase = withoutConfiguredBase.replace(/^\/semi-one-website/, '') || '/';
-  if (withoutRepoBase === '/Product/') return '/products';
-  if (withoutRepoBase === '/applications/') return '/applications';
-  if (withoutRepoBase === '/mosfet_support') return '/technology';
-  if (withoutRepoBase === '/contact') return '/about';
-  return withoutRepoBase;
+  const normalized = withoutRepoBase === '/' ? '/' : withoutRepoBase.replace(/\/+$/, '');
+  if (normalized === '/Product') return '/products';
+  if (normalized === '/mosfet_support') return '/technology';
+  if (normalized === '/contact') return '/about';
+  return normalized;
 }
 
 export function siteHref(path: string) {

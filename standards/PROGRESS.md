@@ -8,9 +8,9 @@
 
 ## 当前状态 (最后更新: 2026-07-04 · by Codex)
 
-- **阶段**:`企业文化与动态视觉升级完成 / 本地完整门禁通过 / 待观察远端 CI、CD、Pages`
-- **上一步完成**:`按用户要求继续从 GitHub openai/skills 找 skill 并补装 figma、figma-create-design-system-rules;首页新增企业文化动态控制台与信号动效;关于页新增企业文化原则;芯片矩阵、读数条、文化轨道、卡片交互均加入克制动效;本地完整门禁通过`
-- **下一步 (TODO 第一条)**:`推送 main 后观察 GitHub CI、CD、Pages 最新 run,再做公网首页/关于页/越南语 smoke;人工复核证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍后置`
+- **阶段**:`企业文化与动态视觉升级、Pages 尾斜杠直访修复完成 / 本地完整门禁通过 / 待观察远端 CI、CD、Pages`
+- **上一步完成**:`按用户要求继续从 GitHub openai/skills 找 skill 并补装 figma、figma-create-design-system-rules;首页新增企业文化动态控制台与信号动效;关于页新增企业文化原则;发现 GitHub Pages 直访 /about/ 会因尾斜杠进入前端 404,已修复 normalizePath 并补测试;本地完整门禁通过`
+- **下一步 (TODO 第一条)**:`推送 main 后观察 GitHub CI、CD、Pages 最新 run,再做公网首页/关于页/尾斜杠内页/越南语 smoke;人工复核证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍后置`
 - **阻塞项**:`Figma MCP 插件安装已请求但需用户在界面授权/OAuth,当前不能伪造 Figma 调用;新装 GitHub skill 需重启 Codex 后自动出现在技能列表;服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
 ---
@@ -69,7 +69,9 @@
 - [x] 2026-07-04 企业文化与动态视觉升级:首页新增文化动态控制台,关于页新增价值观原则;覆盖中文/英文/越南语;新增信号扫掠、数据流、矩阵脉冲、文化轨道和卡片交互
 - [x] 2026-07-04 修复 Windows 本地 `npm run format:check` 因 `core.autocrlf=true` 误报 CRLF:在 `.prettierrc` 增加 `endOfLine:auto`
 - [x] 2026-07-04 本轮文化动效升级本地门禁通过:format、lint、typecheck、coverage、build、GITHUB_PAGES build、E2E、audit、docker build、Playwright 截图/DOM/动效/越南语检查
-- [ ] 2026-07-04 推送本轮文化动效升级到 `main`,观察 GitHub CI、CD、Pages 最新 run,并做公网 smoke
+- [x] 2026-07-04 推送本轮文化动效升级到 `main`:CI、CD 成功;Pages 首次 deploy 返回 `Deployment failed, try again later`,重新触发 workflow_dispatch 后成功
+- [x] 2026-07-04 公网 smoke 发现 `/about/` 等 Pages 尾斜杠直访会落到前端 404;已修复路径归一化,并补单元测试覆盖 `/about/`、`/products/`、`/semi-one-website/about/`
+- [ ] 2026-07-04 推送尾斜杠直访修复到 `main`,观察 GitHub CI、CD、Pages 最新 run,并做公网 smoke
 - [x] 会话结束前更新本文件
 
 ---
@@ -117,6 +119,8 @@
 - 2026-07-04 静态内页入口修复远端通过:commit `47f98a7`;CI `28700023368`、CD `28700023362`、Pages `28700023384` 均 success;公网 `/`、`/products`、`/applications`、`/technology`、`/quality`、`/about` 直访均 `status=200`,移动端 `overflow=false`,控制台错误 0,失败请求 0;越南语首页与产品页导航通过。
 - 2026-07-04 企业文化动效升级本地通过:`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`;覆盖率 `Statements 86.5% / Branches 78.52% / Functions 81.17% / Lines 87.13%`;E2E 8 条通过;依赖审计 0 漏洞。
 - 2026-07-04 企业文化动效视觉 QA:Playwright 截图 `output/playwright/culture-home-desktop.png`、`culture-home-mobile.png`、`culture-home-full.png`、`culture-about-desktop.png`、`culture-about-mobile.png`、`culture-about-full.png`;首页/关于页桌面与移动端均 `status=200`,横向溢出 false,控制台错误 0,失败请求 0;DOM 检查确认文化模块、动效 CSS、越南语文化文案存在。
+- 2026-07-04 企业文化动效远端验证:commit `2b20065`;CI `28700614272` success,CD `28700614251` success;Pages push run `28700614273` 在 deploy-pages 返回临时失败,workflow_dispatch run `28700662269` success;公网首页与越南语 smoke 通过,但发现带尾斜杠内页落入前端 404。
+- 2026-07-04 Pages 尾斜杠直访修复本地通过:`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`;本地 `/products/`、`/applications/`、`/technology/`、`/quality/`、`/about/` 均 `status=200`,非 404,横向溢出 false,`/about/` 企业文化文案存在。
 
 ---
 
@@ -134,6 +138,7 @@
 - GitHub Pages 已在仓库改为 public 后启用;Pages build 必须设置 `GITHUB_PAGES=true`,否则 Vite asset base 会错误。
 - 不要对失败的 Pages run 使用 `gh run rerun --failed`:同一 run 会残留旧 `github-pages` artifact,导致 `deploy-pages` 报 multiple artifacts;应触发新的 Pages workflow run 或推新 commit。
 - 若 Pages 在 `deploy-pages` 步骤仅报 `Deployment failed, try again later`,且 artifact 已成功上传,优先触发新的 run 或升级 Pages actions;2026-07-03 已将 Pages workflow 升至 `configure-pages@v6`、`upload-pages-artifact@v5`、`deploy-pages@v5`。
+- GitHub Pages 对目录入口会以尾斜杠形式加载,前端路由必须把 `/about/`、`/products/` 等归一化到无尾斜杠路径;否则 HTTP 200 但渲染前端 404,普通状态码 smoke 看不出来。
 - `figma-generate-design` skill 需要 Figma MCP(`use_figma`)和明确 Figma 文件;当前会话没有可用 Figma 工具/设计稿,不能伪造调用,只能按其设计流程配合 Playwright/Screenshot 做本地视觉验收。
 - `figma-use` / `figma-implement-design` 已从 GitHub 安装到本机 skills,但 Figma 插件仍需要用户在 Codex 界面完成授权/OAuth;授权前没有 `use_figma` 工具可调用。
 - 2026-07-04 官方 `skill-installer` 的 curated list helper 对 `openai/skills` 返回 HTTP 403 时,可先把 `https://github.com/openai/skills.git` 同步到临时目录后手动列 `SKILL.md` 路径,再用 `install-skill-from-github.py --repo openai/skills --path ...` 安装明确 skill。

@@ -68,9 +68,13 @@ describe('App routing', () => {
   it('normalizes legacy paths', () => {
     expect(normalizePath('/Product/')).toBe('/products');
     expect(normalizePath('/applications/')).toBe('/applications');
+    expect(normalizePath('/products/')).toBe('/products');
+    expect(normalizePath('/about/')).toBe('/about');
     expect(normalizePath('/mosfet_support')).toBe('/technology');
     expect(normalizePath('/contact')).toBe('/about');
     expect(normalizePath('/semi-one-website/products')).toBe('/products');
+    expect(normalizePath('/semi-one-website/about/')).toBe('/about');
+    expect(normalizePath('/semi-one-website/')).toBe('/');
   });
 
   it('builds internal links against the configured base path', () => {
