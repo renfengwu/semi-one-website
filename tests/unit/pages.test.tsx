@@ -1,10 +1,12 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import App from '../../src/app/App';
 import { handleSiteNavigation, normalizePath, siteHref } from '../../src/app/routes';
+import { companyProfile } from '../../src/data/company';
 import { AboutPage } from '../../src/pages/AboutPage';
 import { ApplicationsPage } from '../../src/pages/ApplicationsPage';
+import { HomePage } from '../../src/pages/HomePage';
 import { NotFoundPage } from '../../src/pages/NotFoundPage';
 import { QualityPage } from '../../src/pages/QualityPage';
 import { TechnologyPage } from '../../src/pages/TechnologyPage';
@@ -44,6 +46,10 @@ describe('static pages', () => {
 
     render(<AboutPage language="zh" />);
     expect(screen.getByRole('heading', { name: '关于芯电元' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: companyProfile.contact.address })).toHaveAttribute(
+      'href',
+      companyProfile.contact.mapUrl
+    );
 
     render(<NotFoundPage language="zh" />);
     expect(screen.getByRole('heading', { name: '页面未找到' })).toBeInTheDocument();
@@ -80,6 +86,7 @@ describe('App routing', () => {
   it('builds internal links against the configured base path', () => {
     expect(siteHref('/')).toBe('/');
     expect(siteHref('/products')).toBe('/products');
+    expect(siteHref('/#life')).toBe('/#life');
     expect(siteHref('mailto:shuangling@semi-one.com')).toBe('mailto:shuangling@semi-one.com');
   });
 
@@ -97,6 +104,26 @@ describe('App routing', () => {
     expect(listener).toHaveBeenCalled();
     expect(scrollTo).toHaveBeenCalledWith({ top: 0 });
     window.removeEventListener('semi-one:navigation', listener);
+  });
+
+  it('scrolls to the employee life section for hash navigation', () => {
+    const event = navigationEvent();
+    const target = document.createElement('div');
+    const scrollIntoView = vi.fn();
+    target.id = 'life';
+    target.scrollIntoView = scrollIntoView;
+    document.body.appendChild(target);
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback) => {
+      callback(0);
+      return 0;
+    });
+
+    handleSiteNavigation(event, '/#life');
+
+    expect(event.preventDefault).toHaveBeenCalled();
+    expect(window.location.hash).toBe('#life');
+    expect(scrollIntoView).toHaveBeenCalledWith({ block: 'start', behavior: 'smooth' });
+    target.remove();
   });
 
   it('keeps modified clicks as normal browser navigation', () => {
@@ -127,6 +154,38 @@ describe('App routing', () => {
     render(<App />);
     await userEvent.click(screen.getByRole('button', { name: 'VI' }));
     expect(screen.getByText(/Nền tảng linh kiện công suất bán dẫn/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Sản phẩm' })).toBeInTheDocument();
+    expect(
+      within(screen.getByRole('navigation', { name: /主导航/i })).getByRole('link', {
+        name: 'Sản phẩm'
+      })
+    ).toBeInTheDocument();
+  });
+
+  it('opens employee life photos in a keyboard-friendly viewer', async () => {
+    render(<HomePage language="zh" />);
+
+    await userEvent.click(screen.getByRole('button', { name: /放大查看图片: 同一面旗帜/ }));
+    let dialog = screen.getByRole('dialog');
+    expect(dialog).toBeInTheDocument();
+    expect(
+      within(dialog).getByRole('heading', { name: '同一面旗帜下向下一程出发' })
+    ).toBeInTheDocument();
+    expect(document.body).toHaveClass('is-lightbox-open');
+
+    await userEvent.click(screen.getByRole('button', { name: '下一张' }));
+    dialog = screen.getByRole('dialog');
+    expect(
+      within(dialog).getByRole('heading', { name: '在户外场景里建立协作默契' })
+    ).toBeInTheDocument();
+
+    await userEvent.keyboard('{ArrowLeft}');
+    dialog = screen.getByRole('dialog');
+    expect(
+      within(dialog).getByRole('heading', { name: '同一面旗帜下向下一程出发' })
+    ).toBeInTheDocument();
+
+    await userEvent.keyboard('{Escape}');
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(document.body).not.toHaveClass('is-lightbox-open');
   });
 });

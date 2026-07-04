@@ -11,5 +11,9 @@ describe('Navigation', () => {
     expect(within(navigation).getByRole('link', { name: '应用' })).toBeInTheDocument();
     expect(within(navigation).getByRole('link', { name: '技术' })).toBeInTheDocument();
     expect(within(navigation).getByRole('link', { name: '质量' })).toBeInTheDocument();
+    expect(within(navigation).getByRole('link', { name: '员工生活' })).toHaveAttribute(
+      'href',
+      '/#life'
+    );
   });
 });

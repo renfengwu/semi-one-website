@@ -1,12 +1,17 @@
+import { useEffect, useState } from 'react';
 import {
   Activity,
   ArrowRight,
   BadgeCheck,
+  ChevronLeft,
+  ChevronRight,
   Cpu,
   Factory,
   Globe2,
   Layers3,
+  Maximize2,
   ShieldCheck,
+  X,
   Zap
 } from 'lucide-react';
 import { companyProfile, labCapabilities, technologyTracks } from '../data/company';
@@ -77,6 +82,17 @@ const homeText = {
     lifeLead:
       '从运动赛场、生日会到年度旅行和年会,芯电元把彼此支持、协作与庆祝放进日常,让企业文化有真实的现场。',
     lifeStats: ['年度团建', '运动社群', '生日会', '年会共创'],
+    lifeZoom: '放大查看',
+    lifeOpen: '放大查看图片',
+    lifeClose: '关闭图片查看',
+    lifePrevious: '上一张',
+    lifeNext: '下一张',
+    lifeActions: [
+      { label: '了解企业文化', path: '/about' },
+      { label: '查看技术路线', path: '/technology' },
+      { label: '进入产品中心', path: '/products' },
+      { label: '浏览应用方案', path: '/applications' }
+    ],
     lifeItems: [
       {
         kicker: '2025 郴州共行',
@@ -187,6 +203,17 @@ const homeText = {
     lifeLead:
       'From sports and birthday gatherings to annual trips and year-end sessions, Semi-One turns culture into shared moments people can see and feel.',
     lifeStats: ['Annual trips', 'Sports clubs', 'Birthday gatherings', 'Year-end sessions'],
+    lifeZoom: 'View larger',
+    lifeOpen: 'Open larger image',
+    lifeClose: 'Close image viewer',
+    lifePrevious: 'Previous image',
+    lifeNext: 'Next image',
+    lifeActions: [
+      { label: 'Explore Culture', path: '/about' },
+      { label: 'Technology Roadmap', path: '/technology' },
+      { label: 'Product Center', path: '/products' },
+      { label: 'Applications', path: '/applications' }
+    ],
     lifeItems: [
       {
         kicker: '2025 Chenzhou Trip',
@@ -309,6 +336,17 @@ const homeText = {
     lifeLead:
       'Từ thể thao, sinh nhật đến du lịch hằng năm và tiệc tổng kết, Semi-One biến văn hóa thành những khoảnh khắc chân thực.',
     lifeStats: ['Du lịch hằng năm', 'Câu lạc bộ thể thao', 'Sinh nhật', 'Tổng kết năm'],
+    lifeZoom: 'Xem lớn',
+    lifeOpen: 'Mở ảnh lớn',
+    lifeClose: 'Đóng trình xem ảnh',
+    lifePrevious: 'Ảnh trước',
+    lifeNext: 'Ảnh tiếp theo',
+    lifeActions: [
+      { label: 'Văn hóa', path: '/about' },
+      { label: 'Công nghệ', path: '/technology' },
+      { label: 'Sản phẩm', path: '/products' },
+      { label: 'Ứng dụng', path: '/applications' }
+    ],
     lifeItems: [
       {
         kicker: 'Chuyến đi Sâm Châu 2025',
@@ -396,6 +434,12 @@ const homeText = {
     lifeTitle: string;
     lifeLead: string;
     lifeStats: string[];
+    lifeZoom: string;
+    lifeOpen: string;
+    lifeClose: string;
+    lifePrevious: string;
+    lifeNext: string;
+    lifeActions: { label: string; path: string }[];
     lifeItems: {
       kicker: string;
       title: string;
@@ -416,6 +460,8 @@ const homeText = {
 
 export function HomePage({ language }: HomePageProps) {
   const copy = homeText[language];
+  const [activeLifeIndex, setActiveLifeIndex] = useState<number | null>(null);
+  const activeLifeItem = activeLifeIndex === null ? null : copy.lifeItems[activeLifeIndex];
   const featuredProducts = products.slice(0, 4);
   const dieCells = Array.from({ length: 48 }, (_, index) => index);
   const cultureCells = Array.from({ length: 24 }, (_, index) => index);
@@ -448,6 +494,39 @@ export function HomePage({ language }: HomePageProps) {
   ];
   const signalIcons = [Layers3, BadgeCheck, Zap, Activity];
 
+  useEffect(() => {
+    if (activeLifeIndex === null) return undefined;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setActiveLifeIndex(null);
+      if (event.key === 'ArrowLeft') {
+        setActiveLifeIndex((current) =>
+          current === null ? current : (current + copy.lifeItems.length - 1) % copy.lifeItems.length
+        );
+      }
+      if (event.key === 'ArrowRight') {
+        setActiveLifeIndex((current) =>
+          current === null ? current : (current + 1) % copy.lifeItems.length
+        );
+      }
+    };
+
+    document.body.classList.add('is-lightbox-open');
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.classList.remove('is-lightbox-open');
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [activeLifeIndex, copy.lifeItems.length]);
+
+  const moveLifeImage = (direction: 1 | -1) => {
+    setActiveLifeIndex((current) => {
+      if (current === null) return current;
+      return (current + direction + copy.lifeItems.length) % copy.lifeItems.length;
+    });
+  };
+
   return (
     <>
       <section className="hero-section">
@@ -477,6 +556,13 @@ export function HomePage({ language }: HomePageProps) {
                 onClick={(event) => handleSiteNavigation(event, '/technology')}
               >
                 {copy.technology}
+              </a>
+              <a
+                className="button tertiary"
+                href={siteHref('/#life')}
+                onClick={(event) => handleSiteNavigation(event, '/#life')}
+              >
+                {copy.lifeEyebrow}
               </a>
             </div>
             <div className="hero-micro-grid" aria-label="核心平台信号">
@@ -613,35 +699,71 @@ export function HomePage({ language }: HomePageProps) {
         </div>
       </section>
 
-      <section className="life-showcase-section" aria-labelledby="life-title">
+      <section className="life-showcase-section" id="life" aria-labelledby="life-title">
         <div className="life-showcase-head">
           <div>
             <p className="eyebrow">{copy.lifeEyebrow}</p>
             <h2 id="life-title">{copy.lifeTitle}</h2>
             <p>{copy.lifeLead}</p>
           </div>
-          <div className="life-stat-row" aria-label={copy.lifeEyebrow}>
-            {copy.lifeStats.map((stat) => (
-              <span key={stat}>{stat}</span>
-            ))}
+          <div className="life-quick-panel">
+            <div className="life-stat-row" aria-label={copy.lifeEyebrow}>
+              {copy.lifeStats.map((stat) => (
+                <span key={stat}>{stat}</span>
+              ))}
+            </div>
+            <div className="life-action-grid" aria-label="员工生活相关入口">
+              {copy.lifeActions.map((action) => (
+                <a
+                  key={action.path}
+                  href={siteHref(action.path)}
+                  onClick={(event) => handleSiteNavigation(event, action.path)}
+                >
+                  {action.label}
+                  <ArrowRight size={15} aria-hidden="true" />
+                </a>
+              ))}
+            </div>
           </div>
         </div>
         <div className="life-gallery">
           <article className="life-feature">
-            <img
-              src={`${import.meta.env.BASE_URL}${copy.lifeItems[0].image}`}
-              alt={copy.lifeItems[0].alt}
-            />
-            <div className="life-photo-caption">
-              <small>{copy.lifeItems[0].kicker}</small>
-              <strong>{copy.lifeItems[0].title}</strong>
-              <span>{copy.lifeItems[0].body}</span>
-            </div>
+            <button
+              className="life-photo-button"
+              type="button"
+              aria-label={`${copy.lifeOpen}: ${copy.lifeItems[0].title}`}
+              onClick={() => setActiveLifeIndex(0)}
+            >
+              <img
+                src={`${import.meta.env.BASE_URL}${copy.lifeItems[0].image}`}
+                alt={copy.lifeItems[0].alt}
+              />
+              <span className="life-zoom-badge">
+                <Maximize2 size={16} aria-hidden="true" />
+                {copy.lifeZoom}
+              </span>
+              <span className="life-photo-caption">
+                <small>{copy.lifeItems[0].kicker}</small>
+                <strong>{copy.lifeItems[0].title}</strong>
+                <span>{copy.lifeItems[0].body}</span>
+              </span>
+            </button>
           </article>
           <div className="life-card-grid">
             {copy.lifeItems.slice(1).map((item, index) => (
               <article key={item.title} style={{ ['--index' as string]: index }}>
-                <img src={`${import.meta.env.BASE_URL}${item.image}`} alt={item.alt} />
+                <button
+                  className="life-card-photo"
+                  type="button"
+                  aria-label={`${copy.lifeOpen}: ${item.title}`}
+                  onClick={() => setActiveLifeIndex(index + 1)}
+                >
+                  <img src={`${import.meta.env.BASE_URL}${item.image}`} alt={item.alt} />
+                  <span className="life-zoom-badge">
+                    <Maximize2 size={15} aria-hidden="true" />
+                    {copy.lifeZoom}
+                  </span>
+                </button>
                 <div>
                   <small>{item.kicker}</small>
                   <h3>{item.title}</h3>
@@ -736,6 +858,57 @@ export function HomePage({ language }: HomePageProps) {
           ))}
         </div>
       </section>
+
+      {activeLifeItem ? (
+        <div
+          className="life-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="life-lightbox-title"
+        >
+          <button
+            className="life-lightbox-scrim"
+            type="button"
+            aria-label={copy.lifeClose}
+            onClick={() => setActiveLifeIndex(null)}
+          />
+          <div className="life-lightbox-panel">
+            <button
+              className="life-lightbox-close"
+              type="button"
+              aria-label={copy.lifeClose}
+              onClick={() => setActiveLifeIndex(null)}
+            >
+              <X size={20} aria-hidden="true" />
+            </button>
+            <button
+              className="life-lightbox-nav life-lightbox-nav--prev"
+              type="button"
+              aria-label={copy.lifePrevious}
+              onClick={() => moveLifeImage(-1)}
+            >
+              <ChevronLeft size={26} aria-hidden="true" />
+            </button>
+            <img
+              src={`${import.meta.env.BASE_URL}${activeLifeItem.image}`}
+              alt={activeLifeItem.alt}
+            />
+            <button
+              className="life-lightbox-nav life-lightbox-nav--next"
+              type="button"
+              aria-label={copy.lifeNext}
+              onClick={() => moveLifeImage(1)}
+            >
+              <ChevronRight size={26} aria-hidden="true" />
+            </button>
+            <div className="life-lightbox-caption">
+              <small>{activeLifeItem.kicker}</small>
+              <h2 id="life-lightbox-title">{activeLifeItem.title}</h2>
+              <p>{activeLifeItem.body}</p>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </>
   );
 }

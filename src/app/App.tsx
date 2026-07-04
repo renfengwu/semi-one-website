@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { SiteHeader } from '../components/SiteHeader';
+import { companyProfile } from '../data/company';
 import { AboutPage } from '../pages/AboutPage';
 import { ApplicationsPage } from '../pages/ApplicationsPage';
 import { HomePage } from '../pages/HomePage';
@@ -59,12 +60,17 @@ export default function App() {
     return <NotFoundPage language={language} />;
   }, [language, path]);
 
+  const mapLabel = language === 'vi' ? 'Mở bản đồ' : language === 'en' ? 'Open Map' : '打开地图';
+
   return (
     <div className="app-shell">
       <SiteHeader currentPath={path} language={language} onLanguageChange={setLanguage} />
       <main>{page}</main>
       <footer className="site-footer">
         <span>Copyright 2026 深圳市芯电元科技有限公司</span>
+        <a href={companyProfile.contact.mapUrl} target="_blank" rel="noreferrer">
+          {mapLabel}
+        </a>
         <a href="mailto:shuangling@semi-one.com">shuangling@semi-one.com</a>
       </footer>
     </div>

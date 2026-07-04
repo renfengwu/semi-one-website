@@ -11,6 +11,7 @@ export const routes: AppRoute[] = [
   { path: '/applications', label: '应用', labelEn: 'Applications', labelVi: 'Ứng dụng' },
   { path: '/technology', label: '技术', labelEn: 'Technology', labelVi: 'Công nghệ' },
   { path: '/quality', label: '质量', labelEn: 'Quality', labelVi: 'Chất lượng' },
+  { path: '/#life', label: '员工生活', labelEn: 'Life', labelVi: 'Đời sống' },
   { path: '/about', label: '关于我们', labelEn: 'About', labelVi: 'Về chúng tôi' }
 ];
 
@@ -39,7 +40,18 @@ export function siteHref(path: string) {
 export function navigateTo(path: string) {
   window.history.pushState({}, '', siteHref(path));
   window.dispatchEvent(new Event('semi-one:navigation'));
-  window.scrollTo({ top: 0 });
+
+  const hash = path.includes('#') ? path.split('#')[1] : '';
+  if (!hash) {
+    window.scrollTo({ top: 0 });
+    return;
+  }
+
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      document.getElementById(hash)?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    });
+  });
 }
 
 type SiteNavigationEvent = {

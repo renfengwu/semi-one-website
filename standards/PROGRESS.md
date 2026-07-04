@@ -8,9 +8,9 @@
 
 ## 当前状态 (最后更新: 2026-07-04 · by Codex)
 
-- **阶段**:`员工生活与真实企业文化素材升级完成 / CI、CD、Pages 远端通过 / 公网 smoke 通过`
-- **上一步完成**:`按用户反馈继续从 GitHub openai/skills 找 skill,同步到 HEAD 49f948f 并补装 figma-create-new-file、figma-generate-library;基于 data/ 员工生日会、团建、运动、年会资料筛选真实照片并生成 WebP;首页新增“员工生活”模块,覆盖中文/英文/越南语,补 E2E 图片加载和越南语断言;本地完整门禁通过;commit e8a232d 推送后 CI 28701631293、CD 28701631292、Pages 28701631307 全绿;公网 smoke 通过`
-- **下一步 (TODO 第一条)**:`人工复核证书编号/有效期、客户名称/Logo、越南语正式营销措辞;如需正式域名,配置 DNS/CNAME 或提供服务器 SSH 部署信息`
+- **阶段**:`员工生活入口、图片放大查看、地图地址直达升级完成 / 本地完整门禁通过 / 待推送远端 CI、CD、Pages`
+- **上一步完成**:`按用户继续要求扩大 GitHub skill 搜索,安装并读取第三方 frontend-design skill;导航新增“员工生活”锚点,首页首屏新增员工生活 CTA,员工生活真实照片支持点击放大、左右切换、Esc 关闭;关于页公司地址本身改为高德地图 URI 搜索链接,点击直接打开地图搜索结果;本地 format、lint、typecheck、coverage、build、Pages build、E2E、audit、docker build、Playwright 视觉/smoke 全部通过`
+- **下一步 (TODO 第一条)**:`推送本轮交互升级到 main,观察 GitHub CI/CD/Pages,公网 smoke 复核员工生活导航锚点、图片放大查看、地址地图搜索直达、越南语和移动端无横向溢出`
 - **阻塞项**:`Figma MCP 插件安装已请求但需用户在界面授权/OAuth,当前不能伪造 Figma 调用;新装 GitHub skill 需重启 Codex 后自动出现在技能列表;服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
 ---
@@ -77,6 +77,12 @@
 - [x] 2026-07-04 首页新增员工生活模块:真实照片画廊、文化叙事、运动/生日会/团建/年会标签,覆盖中文/英文/越南语
 - [x] 2026-07-04 员工生活模块本地门禁通过:format、lint、typecheck、coverage、build、GITHUB_PAGES build、E2E、audit、docker build、桌面/移动端截图、浏览器 smoke
 - [x] 2026-07-04 推送员工生活升级到 `main`:commit `e8a232d`;CI `28701631293` success,CD `28701631292` success,Pages `28701631307` success;公网验证 `https://renfengwu.github.io/semi-one-website/` 通过
+- [x] 2026-07-04 按用户要求继续扩大 GitHub skill 搜索:找到并安装第三方 `Sunwood-ai-labs/frontend-design-skill`,读取 `frontend-design` 设计规则后继续改官网视觉交互
+- [x] 2026-07-04 导航和跳转增强:主导航新增“员工生活”锚点,首页首屏新增员工生活 CTA,员工生活模块新增关于/技术/产品/应用 4 个入口
+- [x] 2026-07-04 图片查看增强:员工生活 5 张真实照片支持点击放大查看、上一张/下一张、Esc 关闭,桌面/移动端均已 E2E 覆盖
+- [x] 2026-07-04 地图功能增强:关于页公司地址本身改为高德地图 URI 搜索链接,`keyword` 使用公司地址,带 `view=map` 与 `callnative=0`;页脚保留“打开地图”入口
+- [x] 2026-07-04 本轮交互升级本地门禁通过:format、lint、typecheck、coverage、build、GITHUB_PAGES build、E2E、audit、docker build、Playwright 视觉/smoke
+- [ ] 2026-07-04 推送本轮交互升级并观察 GitHub CI、CD、Pages 最新 run;公网验证 `https://renfengwu.github.io/semi-one-website/`
 - [x] 会话结束前更新本文件
 
 ---
@@ -131,6 +137,8 @@
 - 2026-07-04 员工生活升级本地通过:`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`;E2E 8 条通过,覆盖率 `Statements 86.56% / Branches 78.52% / Functions 81.6% / Lines 87.28%`;依赖审计 0 漏洞。
 - 2026-07-04 员工生活视觉与浏览器 smoke:截图 `output/playwright/life-home-desktop-full.png`、`life-home-mobile-full.png`;本地桌面/移动端 `/`、`/products/`、`/applications/`、`/technology/`、`/quality/`、`/about/` 均 `status=200`,横向溢出 false,前端 404 文案 0;首页 `.life-showcase-section` 存在,5 张 `life-*` 图片自然宽度均大于 0;越南语 `Đời sống nhân viên` 存在且无横向溢出。
 - 2026-07-04 员工生活升级远端通过:commit `e8a232d`;CI `28701631293` success,CD `28701631292` success,Pages `28701631307` success;公网桌面/移动端 `/`、`/products/`、`/applications/`、`/technology/`、`/quality/`、`/about/` 均 `status=200`,横向溢出 false,前端 404 文案 0;首页 5 张 `life-*` 图片加载成功;越南语 `Đời sống nhân viên` 存在且无横向溢出。
+- 2026-07-04 本轮交互升级本地通过:`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`;E2E 12 条通过;覆盖率 `Statements 85.12% / Branches 78.85% / Functions 78.09% / Lines 85.78%`;依赖审计 0 漏洞。
+- 2026-07-04 本轮交互升级视觉与浏览器 smoke:截图 `output/playwright/nav-life-home.png`、`life-lightbox.png`、`about-map-link.png`、`life-lightbox-mobile.png`;本地桌面/移动端员工生活导航锚点 `lifeInViewport=true`,图片弹窗可打开/下一张/Esc 关闭,关于页地址 href 为 `https://uri.amap.com/search?...&view=map&src=semi-one-website&callnative=0`,首页/关于页横向溢出 false,控制台错误 0,失败请求 0。
 
 ---
 
@@ -154,6 +162,8 @@
 - 2026-07-04 官方 `skill-installer` 的 curated list helper 对 `openai/skills` 返回 HTTP 403 时,可先把 `https://github.com/openai/skills.git` 同步到临时目录后手动列 `SKILL.md` 路径,再用 `install-skill-from-github.py --repo openai/skills --path ...` 安装明确 skill。
 - 2026-07-04 继续从 GitHub `openai/skills` 找到并安装 `figma-create-new-file`、`figma-generate-library`;安装成功后仍需重启 Codex 才会进入当前技能列表,且 Figma MCP/OAuth 未完成前不能真实调用 Figma。
 - 员工生活照片来自根目录 `data/` 原始资料,生产仅提交压缩后的 `public/assets/life-*.webp`;不要把 `data/` 原始大文件加入 Git。
+- 2026-07-04 第三方 `frontend-design` skill 已从 `Sunwood-ai-labs/frontend-design-skill` 安装到本机 skills;按 skill-installer 规则,完整纳入技能列表需重启 Codex,但本轮已直接读取本地 `SKILL.md` 并按其“明确视觉方向、生产级交互、避免通用模板感”的规则执行。
+- 地图链接使用高德 URI API 搜索地址:`https://uri.amap.com/search?keyword=<地址>&view=map&src=semi-one-website&callnative=0`;地址文本本身必须保持为可点击链接,不要只保留旁边按钮。
 
 ---
 

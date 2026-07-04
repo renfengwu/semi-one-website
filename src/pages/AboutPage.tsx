@@ -1,3 +1,4 @@
+import { MapPin, Navigation } from 'lucide-react';
 import { companyProfile } from '../data/company';
 import type { Language } from '../lib/i18n';
 
@@ -34,7 +35,9 @@ const copy = {
     ],
     contact: '联系我们',
     tel: '电话',
-    mail: '邮箱'
+    mail: '邮箱',
+    map: '打开地图',
+    mapHint: '自动打开地图并搜索公司地址'
   },
   en: {
     eyebrow: 'About',
@@ -66,7 +69,9 @@ const copy = {
     ],
     contact: 'Contact',
     tel: 'Tel',
-    mail: 'Mail'
+    mail: 'Mail',
+    map: 'Open Map',
+    mapHint: 'Open a map search for the company address'
   },
   vi: {
     eyebrow: 'Về chúng tôi',
@@ -102,7 +107,9 @@ const copy = {
     ],
     contact: 'Liên hệ',
     tel: 'Điện thoại',
-    mail: 'Email'
+    mail: 'Email',
+    map: 'Mở bản đồ',
+    mapHint: 'Mở bản đồ và tìm địa chỉ công ty'
   }
 } satisfies Record<
   Language,
@@ -118,6 +125,8 @@ const copy = {
     contact: string;
     tel: string;
     mail: string;
+    map: string;
+    mapHint: string;
   }
 >;
 
@@ -174,7 +183,16 @@ export function AboutPage({ language }: AboutPageProps) {
         </div>
         <aside className="contact-panel">
           <h2>{text.contact}</h2>
-          <p>{companyProfile.contact.address}</p>
+          <a
+            className="contact-address"
+            href={companyProfile.contact.mapUrl}
+            target="_blank"
+            rel="noreferrer"
+            title={text.mapHint}
+          >
+            <MapPin size={18} aria-hidden="true" />
+            <span>{companyProfile.contact.address}</span>
+          </a>
           <p>
             {text.tel}: {companyProfile.contact.phone}
           </p>
@@ -182,6 +200,16 @@ export function AboutPage({ language }: AboutPageProps) {
             {text.mail}: {companyProfile.contact.email}
           </p>
           <p>{companyProfile.locations.join(' · ')}</p>
+          <a
+            className="contact-map-link"
+            href={companyProfile.contact.mapUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={text.mapHint}
+          >
+            <Navigation size={18} aria-hidden="true" />
+            {text.map}
+          </a>
         </aside>
       </div>
     </section>

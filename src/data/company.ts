@@ -1,3 +1,5 @@
+const address = '深圳市南山区留仙大道3370号南山智园崇文园区3号楼1901/1902';
+
 export const companyProfile = {
   nameZh: '深圳市芯电元科技有限公司',
   nameEn: 'Shenzhen Semi-One Technology Co., Ltd.',
@@ -12,10 +14,13 @@ export const companyProfile = {
   ],
   locations: ['深圳', '无锡', '佛山', '上海', '香港', '台湾', '美国', '越南'],
   contact: {
-    address: '深圳市南山区留仙大道3370号南山智园崇文园区3号楼1901/1902',
+    address,
     phone: '86-755-82771533',
     email: 'shuangling@semi-one.com',
-    website: 'www.semi-one.com'
+    website: 'www.semi-one.com',
+    mapUrl: `https://uri.amap.com/search?keyword=${encodeURIComponent(
+      address
+    )}&view=map&src=semi-one-website&callnative=0`
   },
   timeline: [
     {
