@@ -49,6 +49,29 @@ const homeText = {
     platformBody:
       '从 Trench、SGT 到 SJ MOS 与 IGBT/SiC/GaN 路线,芯电元用工艺平台、实验室验证和工程支持连接客户应用。',
     platformStats: ['低导阻', '热稳定', '量产交付'],
+    cultureEyebrow: '企业文化',
+    cultureTitle: '把“引领、专业、可靠、共赢”写进产品交付链路',
+    cultureLead:
+      '芯电元不只展示器件参数,更把研发路线、质量验证、现场支持和伙伴协同组织成一套可执行的工程承诺。',
+    culturePanelTitle: 'Culture Operating System',
+    culturePillars: [
+      {
+        title: '引领',
+        body: '用产品路线和工艺平台提前响应高效率电源、储能与电机系统的下一代需求。'
+      },
+      {
+        title: '专业',
+        body: '以器件参数、可靠性验证和现场工程支持把研发语言转成客户可落地方案。'
+      },
+      {
+        title: '可靠',
+        body: '从工艺、封装、实验室到供应交付建立可追溯的质量闭环。'
+      },
+      {
+        title: '共赢',
+        body: '与客户、渠道和生态伙伴共同推进功率半导体国产化与全球化交付。'
+      }
+    ],
     capabilityStats: ['6 条技术路线', '6 类可靠性验证', '8 个区域触点', '4 套管理体系'],
     productTitle: '代表器件参数板',
     productLead: '按耐压、导阻、封装和应用快速识别首批公开型号。',
@@ -94,6 +117,29 @@ const homeText = {
     platformBody:
       'From Trench and SGT to SJ MOS plus IGBT/SiC/GaN roadmaps, Semi-One connects process platforms, lab validation and engineering support.',
     platformStats: ['Low Rds(on)', 'Thermal stability', 'Mass delivery'],
+    cultureEyebrow: 'Culture',
+    cultureTitle: 'Leadership, expertise, reliability and win-win built into delivery',
+    cultureLead:
+      'Semi-One turns culture into an engineering operating system: product roadmaps, quality validation, field support and partner collaboration working as one promise.',
+    culturePanelTitle: 'Culture Operating System',
+    culturePillars: [
+      {
+        title: 'Leadership',
+        body: 'Product roadmaps and process platforms anticipate the next needs of efficient power, storage and motor systems.'
+      },
+      {
+        title: 'Expertise',
+        body: 'Device data, reliability validation and field engineering translate R&D language into deployable solutions.'
+      },
+      {
+        title: 'Reliability',
+        body: 'A traceable quality loop links process, package, laboratory validation and supply delivery.'
+      },
+      {
+        title: 'Win-win',
+        body: 'Customers, channels and ecosystem partners advance local innovation and global power semiconductor delivery together.'
+      }
+    ],
     capabilityStats: [
       '6 technology tracks',
       '6 reliability validations',
@@ -151,6 +197,29 @@ const homeText = {
     platformBody:
       'Từ Trench, SGT đến SJ MOS cùng lộ trình IGBT/SiC/GaN, Semi-One kết nối quy trình, kiểm chứng phòng thí nghiệm và hỗ trợ kỹ thuật.',
     platformStats: ['Rds(on) thấp', 'Ổn định nhiệt', 'Giao hàng hàng loạt'],
+    cultureEyebrow: 'Văn hóa doanh nghiệp',
+    cultureTitle: 'Dẫn dắt, chuyên nghiệp, đáng tin cậy và cùng thắng trong từng lần giao hàng',
+    cultureLead:
+      'Semi-One biến văn hóa thành hệ vận hành kỹ thuật: lộ trình sản phẩm, kiểm chứng chất lượng, hỗ trợ hiện trường và hợp tác đối tác cùng hướng tới một cam kết.',
+    culturePanelTitle: 'Hệ điều hành văn hóa',
+    culturePillars: [
+      {
+        title: 'Dẫn dắt',
+        body: 'Lộ trình sản phẩm và nền tảng quy trình chủ động đáp ứng nhu cầu mới của nguồn hiệu suất cao, lưu trữ năng lượng và điều khiển động cơ.'
+      },
+      {
+        title: 'Chuyên nghiệp',
+        body: 'Thông số linh kiện, kiểm chứng độ tin cậy và kỹ thuật hiện trường chuyển ngôn ngữ R&D thành giải pháp triển khai được.'
+      },
+      {
+        title: 'Đáng tin cậy',
+        body: 'Vòng chất lượng có thể truy xuất kết nối quy trình, đóng gói, phòng thí nghiệm và giao hàng.'
+      },
+      {
+        title: 'Cùng thắng',
+        body: 'Khách hàng, kênh phân phối và đối tác sinh thái cùng thúc đẩy đổi mới và giao hàng toàn cầu.'
+      }
+    ],
     capabilityStats: [
       '6 lộ trình công nghệ',
       '6 nhóm kiểm chứng',
@@ -192,6 +261,11 @@ const homeText = {
     platformTitle: string;
     platformBody: string;
     platformStats: string[];
+    cultureEyebrow: string;
+    cultureTitle: string;
+    cultureLead: string;
+    culturePanelTitle: string;
+    culturePillars: { title: string; body: string }[];
     capabilityStats: string[];
     productTitle: string;
     productLead: string;
@@ -207,6 +281,8 @@ export function HomePage({ language }: HomePageProps) {
   const copy = homeText[language];
   const featuredProducts = products.slice(0, 4);
   const dieCells = Array.from({ length: 48 }, (_, index) => index);
+  const cultureCells = Array.from({ length: 24 }, (_, index) => index);
+  const cultureRail = [...copy.culturePillars, ...copy.culturePillars];
   const signatureItems = [
     {
       icon: Cpu,
@@ -361,6 +437,41 @@ export function HomePage({ language }: HomePageProps) {
                 </article>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      <section className="culture-motion-section" aria-labelledby="culture-title">
+        <div className="culture-copy">
+          <p className="eyebrow">{copy.cultureEyebrow}</p>
+          <h2 id="culture-title">{copy.cultureTitle}</h2>
+          <p>{copy.cultureLead}</p>
+          <div className="culture-signal-rail" aria-hidden="true">
+            <div>
+              {cultureRail.map((pillar, index) => (
+                <span key={`${pillar.title}-${index}`}>{pillar.title}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="culture-console" aria-label={copy.culturePanelTitle}>
+          <div className="culture-console-head">
+            <span>{copy.culturePanelTitle}</span>
+            <strong>{copy.commandStatus}</strong>
+          </div>
+          <div className="culture-flow" aria-hidden="true">
+            {cultureCells.map((cell) => (
+              <span key={cell} style={{ ['--index' as string]: cell }} />
+            ))}
+          </div>
+          <div className="culture-pillar-grid">
+            {copy.culturePillars.map((pillar, index) => (
+              <article key={pillar.title} style={{ ['--index' as string]: index }}>
+                <small>0{index + 1}</small>
+                <h3>{pillar.title}</h3>
+                <p>{pillar.body}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>

@@ -1478,6 +1478,319 @@ p {
   font-size: 0.86rem;
 }
 
+@keyframes signalGridPan {
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
+  to {
+    background-position:
+      72px 72px,
+      72px 72px;
+  }
+}
+
+@keyframes diagonalSignalSweep {
+  from {
+    background-position: -260px 0;
+  }
+  to {
+    background-position: 320px 0;
+  }
+}
+
+@keyframes diePulse {
+  0%,
+  100% {
+    opacity: 0.78;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes progressFlow {
+  0%,
+  100% {
+    filter: saturate(1);
+  }
+  50% {
+    filter: saturate(1.55) brightness(1.16);
+  }
+}
+
+@keyframes cultureRail {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes cultureCellPulse {
+  0%,
+  100% {
+    opacity: 0.42;
+    transform: translateY(0);
+  }
+  45% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes cardSignalIn {
+  from {
+    transform: translateY(10px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.hero-section::after,
+.platform-section::before,
+.product-command::before {
+  animation: signalGridPan 18s linear infinite;
+}
+
+.hero-command-panel::before {
+  background-size: 240% 100%;
+  animation: diagonalSignalSweep 7.5s linear infinite;
+}
+
+.die-cell {
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.die-cell:nth-child(7n),
+.die-cell:nth-child(13n),
+.die-cell:nth-child(29) {
+  animation: diePulse 4.6s ease-in-out infinite;
+}
+
+.command-lane i::before {
+  animation: progressFlow 3.8s ease-in-out infinite;
+}
+
+.wafer-map::before {
+  animation: diePulse 5.8s ease-in-out infinite;
+}
+
+.signature-grid article,
+.product-signal,
+.application-strip a {
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.signature-grid article:hover,
+.product-signal:hover,
+.application-strip a:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 167, 183, 0.36);
+  box-shadow: 0 28px 80px rgba(8, 28, 46, 0.14);
+}
+
+.culture-motion-section {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(340px, 0.38fr) minmax(0, 0.62fr);
+  gap: 42px;
+  align-items: center;
+  padding: 96px 64px;
+  border-top: 1px solid rgba(178, 228, 238, 0.16);
+  border-bottom: 1px solid rgba(178, 228, 238, 0.16);
+  background:
+    linear-gradient(135deg, rgba(0, 167, 183, 0.18), transparent 32%),
+    linear-gradient(180deg, #081a2a, #050a12 72%);
+  color: #f4fbff;
+}
+
+.culture-motion-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(122, 213, 226, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(122, 213, 226, 0.07) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.34));
+  animation: signalGridPan 20s linear infinite;
+}
+
+.culture-copy,
+.culture-console {
+  position: relative;
+  z-index: 1;
+}
+
+.culture-copy h2 {
+  max-width: 720px;
+  margin: 0;
+  color: #ffffff;
+  font-size: 3.35rem;
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.culture-copy > p:not(.eyebrow) {
+  max-width: 680px;
+  margin: 22px 0 0;
+  color: #c8dce5;
+  font-size: 1.06rem;
+  line-height: 1.78;
+}
+
+.culture-signal-rail {
+  max-width: 680px;
+  margin-top: 32px;
+  overflow: hidden;
+  border-block: 1px solid rgba(178, 228, 238, 0.2);
+  background: rgba(255, 255, 255, 0.035);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.culture-signal-rail div {
+  display: flex;
+  width: max-content;
+  gap: 10px;
+  padding: 12px 0;
+  animation: cultureRail 22s linear infinite;
+}
+
+.culture-signal-rail span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 16px;
+  border: 1px solid rgba(122, 213, 226, 0.24);
+  color: #74ecf4;
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.culture-console {
+  overflow: hidden;
+  border: 1px solid rgba(178, 228, 238, 0.24);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(11, 36, 55, 0.92), rgba(4, 14, 24, 0.96)), #06111f;
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.3);
+}
+
+.culture-console::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    120deg,
+    transparent 0 52%,
+    rgba(243, 173, 63, 0.16) 52% 53%,
+    transparent 53%
+  );
+  background-size: 240% 100%;
+  animation: diagonalSignalSweep 9s linear infinite reverse;
+}
+
+.culture-console-head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(178, 228, 238, 0.18);
+}
+
+.culture-console-head span,
+.culture-console-head strong {
+  color: #edfaff;
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.culture-console-head strong {
+  color: #7af0f7;
+  text-align: right;
+}
+
+.culture-flow {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 6px;
+  padding: 24px 22px;
+  border-bottom: 1px solid rgba(178, 228, 238, 0.18);
+}
+
+.culture-flow span {
+  min-height: 34px;
+  border: 1px solid rgba(122, 213, 226, 0.22);
+  background: linear-gradient(135deg, rgba(0, 167, 183, 0.42), rgba(12, 31, 48, 0.24));
+  animation: cultureCellPulse 3.4s ease-in-out infinite;
+  animation-delay: calc(var(--index) * 70ms);
+}
+
+.culture-pillar-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(178, 228, 238, 0.18);
+}
+
+.culture-pillar-grid article {
+  min-height: 180px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.055);
+  animation: cardSignalIn 520ms ease both;
+  animation-delay: calc(var(--index) * 80ms);
+  transition:
+    transform 180ms ease,
+    background 180ms ease;
+}
+
+.culture-pillar-grid article:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.085);
+}
+
+.culture-pillar-grid small {
+  color: #f3ad3f;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.culture-pillar-grid h3 {
+  margin: 14px 0 10px;
+  color: #ffffff;
+  font-size: 1.34rem;
+}
+
+.culture-pillar-grid p {
+  margin: 0;
+  color: #c2d9e2;
+  line-height: 1.68;
+}
+
 @media (max-width: 1180px) {
   .hero-inner {
     grid-template-columns: 1fr;
@@ -1503,12 +1816,14 @@ p {
 
   .platform-section,
   .platform-matrix,
+  .culture-motion-section,
   .product-command,
   .content-band {
     grid-template-columns: 1fr;
   }
 
   .platform-section,
+  .culture-motion-section,
   .product-command,
   .content-band {
     padding: 72px 32px;
@@ -1591,12 +1906,14 @@ p {
   }
 
   .platform-section,
+  .culture-motion-section,
   .product-command,
   .content-band {
     padding: 54px 20px;
   }
 
   .platform-copy h2,
+  .culture-copy h2,
   .product-command-heading h2,
   .content-band h2 {
     font-size: 2.18rem;
@@ -1604,9 +1921,23 @@ p {
   }
 
   .platform-metrics-strip,
+  .culture-pillar-grid,
   .product-signal-grid,
   .application-strip {
     grid-template-columns: 1fr;
+  }
+
+  .culture-console-head {
+    display: grid;
+  }
+
+  .culture-console-head strong {
+    text-align: left;
+  }
+
+  .culture-flow {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    padding: 18px;
   }
 
   .wafer-map {
@@ -2070,6 +2401,102 @@ p {
   color: #c0d7df;
 }
 
+.about-main {
+  display: grid;
+  gap: 28px;
+}
+
+.culture-principles {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(178, 228, 238, 0.2);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(0, 167, 183, 0.14), transparent 36%),
+    linear-gradient(180deg, #071827, #050d17);
+  box-shadow: 0 24px 70px rgba(10, 25, 41, 0.1);
+}
+
+.culture-principles::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(122, 213, 226, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(122, 213, 226, 0.07) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.84), rgba(0, 0, 0, 0.3));
+  animation: signalGridPan 20s linear infinite;
+}
+
+.culture-principles-heading,
+.culture-principle-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.culture-principles-heading {
+  padding: 28px 28px 22px;
+}
+
+.culture-principles-heading h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 2.4rem;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.culture-principles-heading p:not(.eyebrow) {
+  max-width: 760px;
+  margin: 14px 0 0;
+  color: #c4d9e2;
+  line-height: 1.72;
+}
+
+.culture-principle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  border-top: 1px solid rgba(178, 228, 238, 0.18);
+  background: rgba(178, 228, 238, 0.18);
+}
+
+.culture-principle-grid article {
+  min-height: 176px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.055);
+  animation: cardSignalIn 520ms ease both;
+  animation-delay: calc(var(--index) * 80ms);
+  transition:
+    transform 180ms ease,
+    background 180ms ease;
+}
+
+.culture-principle-grid article:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.085);
+}
+
+.culture-principle-grid small {
+  color: #f3ad3f;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.culture-principle-grid h3 {
+  margin: 14px 0 10px;
+  color: #ffffff;
+  font-size: 1.22rem;
+}
+
+.culture-principle-grid p {
+  margin: 0;
+  color: #c4d9e2;
+  line-height: 1.66;
+}
+
 @media (max-width: 980px) {
   .page-section > .section-heading,
   .lab-console,
@@ -2079,6 +2506,10 @@ p {
 
   .page-hero-panel {
     justify-self: stretch;
+  }
+
+  .culture-principle-grid {
+    grid-template-columns: 1fr;
   }
 
   .filter-grid {
@@ -2124,5 +2555,21 @@ p {
 
   .timeline article {
     grid-template-columns: 1fr;
+  }
+
+  .culture-principles-heading,
+  .culture-principle-grid article {
+    padding: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
   }
 }
