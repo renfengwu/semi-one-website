@@ -8,9 +8,9 @@
 
 ## 当前状态 (最后更新: 2026-07-04 · by Codex)
 
-- **阶段**:`全站内页高级视觉升级完成 / 待推送观察 CI、CD、Pages`
-- **上一步完成**:`产品、应用、技术、质量、关于、404 已统一成深色工程页眉、信号面板、专业内容矩阵;导航增加当前页状态;本地完整门禁和 Playwright 视觉 QA 通过`
-- **下一步 (TODO 第一条)**:`提交推送本轮内页升级,观察 GitHub CI、CD、Pages 最新 run;公网 smoke 通过后更新本文件`
+- **阶段**:`全站内页高级视觉升级完成 / 静态内页入口修复待推送观察`
+- **上一步完成**:`产品、应用、技术、质量、关于、404 已统一成深色工程页眉、信号面板、专业内容矩阵;导航增加当前页状态;构建脚本已为核心路由生成静态 index.html,避免 GitHub Pages 直接打开内页走 404 fallback`
+- **下一步 (TODO 第一条)**:`提交推送静态内页入口修复,观察 GitHub CI、CD、Pages 最新 run;公网直访内页 smoke 通过后更新本文件`
 - **阻塞项**:`Figma MCP 插件安装已请求但需用户在界面授权/OAuth,当前不能伪造 Figma 调用;服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
 ---
@@ -60,8 +60,11 @@
 - [x] 2026-07-04 导航增加当前页高亮;Playwright 截图目录 `output/playwright/` 加入 `.gitignore`
 - [x] 2026-07-04 本轮内页升级本地门禁通过:format、lint、typecheck、coverage、build、GITHUB_PAGES build、E2E、audit、docker build
 - [x] 2026-07-04 本轮内页视觉 QA:桌面/移动端首页和 5 个核心内页均无横向溢出、控制台错误 0
-- [ ] 2026-07-04 推送本轮内页升级到 `main`,观察 GitHub CI、CD、Pages 最新 run
-- [ ] 2026-07-04 公网 smoke 验证首页、产品页、应用/技术页、越南语切换
+- [x] 2026-07-04 推送本轮内页升级到 `main`,观察 GitHub CI、CD、Pages 最新 run
+- [x] 2026-07-04 定位公网直访 `/products` 等内页会触发 GitHub Pages 404 fallback 控制台错误;已扩展 `scripts/copy-404.mjs` 为核心路由生成静态 `index.html`
+- [x] 2026-07-04 静态内页入口修复本地门禁通过:format、lint、typecheck、coverage、build、GITHUB_PAGES build、E2E、audit、docker build
+- [ ] 2026-07-04 推送静态内页入口修复并观察 GitHub CI、CD、Pages 最新 run
+- [ ] 2026-07-04 公网 smoke 验证首页、产品页、应用/技术页、越南语切换与直访内页 200 化
 - [x] 会话结束前更新本文件
 
 ---
@@ -104,6 +107,7 @@
 - 2026-07-03 升级 Pages actions 后远端通过:main CI、CD、Pages 全绿;公网 Playwright smoke 通过,覆盖首页渲染、产品页 SPA 导航、越南语切换,无横向溢出、无控制台错误、无失败请求。
 - 2026-07-04 内页高级视觉升级本地通过:`npx prettier --check`(改动源码/CSS)、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`
 - 2026-07-04 内页视觉 QA:使用 Playwright 截图 `output/playwright/after-products.png`、`after-applications.png`、`after-technology.png`、`after-quality.png`、`after-about.png`、`after-products-mobile.png`;桌面/移动端 `/`、`/products`、`/applications`、`/technology`、`/quality`、`/about` 均 `overflow=false`,控制台错误 0。
+- 2026-07-04 静态内页入口修复本地通过:`npx prettier --check`(改动源码/CSS/脚本)、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`;构建产物已确认生成 `dist/products/index.html`、`dist/applications/index.html`、`dist/technology/index.html`、`dist/quality/index.html`、`dist/about/index.html`。
 
 ---
 
