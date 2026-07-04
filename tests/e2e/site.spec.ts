@@ -52,7 +52,13 @@ test('product search works on mobile', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/products');
   await page.getByLabel(/搜索型号/i).fill('PE54130');
-  await expect(page.getByText('PE54130GT')).toBeVisible();
+  const partLink = page.getByRole('link', { name: '打开 PE54130GT PDF' });
+  await expect(partLink).toBeVisible();
+  await expect(partLink).toHaveAttribute('href', /PE54130GT\.PDF$/i);
+  await expect(page.getByRole('link', { name: '下载 PE54130GT PDF' })).toHaveAttribute(
+    'download',
+    'PE54130GT.pdf'
+  );
   await expect(page.getByText('PE4612')).toHaveCount(0);
 });
 

@@ -33,7 +33,7 @@ const productText: Record<Language, ProductCopy> = {
   zh: {
     eyebrow: 'Products',
     title: '产品中心',
-    description: '按型号、应用、封装和耐压筛选首批 MOSFET 代表器件。',
+    description: '基于 2026-06-15 产品选型表补齐全量 MOSFET 型号,支持 PDF 资料直达与下载。',
     panelTitle: '器件选型信号',
     deviceCount: '公开型号',
     voltageSpan: '耐压覆盖',
@@ -53,7 +53,7 @@ const productText: Record<Language, ProductCopy> = {
     eyebrow: 'Products',
     title: 'Product Center',
     description:
-      'Filter the first MOSFET representative devices by part number, application, package and voltage rating.',
+      'Full MOSFET selection data from the 2026-06-15 product table, with direct PDF access and downloads.',
     panelTitle: 'Device Selection Signal',
     deviceCount: 'Public parts',
     voltageSpan: 'Voltage span',
@@ -73,7 +73,7 @@ const productText: Record<Language, ProductCopy> = {
     eyebrow: 'Sản phẩm',
     title: 'Trung tâm sản phẩm',
     description:
-      'Lọc các linh kiện MOSFET đại diện theo mã sản phẩm, ứng dụng, kiểu đóng gói và điện áp chịu đựng.',
+      'Dữ liệu chọn MOSFET đầy đủ từ bảng sản phẩm 2026-06-15, hỗ trợ mở và tải PDF trực tiếp.',
     panelTitle: 'Tín hiệu chọn linh kiện',
     deviceCount: 'Mã công khai',
     voltageSpan: 'Dải điện áp',

@@ -689,6 +689,44 @@ p {
   font-size: 0.9rem;
 }
 
+.part-number-link,
+.part-number-static,
+.datasheet-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.part-number-link,
+.part-number-static {
+  font-weight: 900;
+}
+
+.part-number-link {
+  color: #007f8d;
+  text-decoration: none;
+}
+
+.part-number-link:hover,
+.datasheet-download:hover {
+  color: #005f69;
+}
+
+.datasheet-download {
+  min-height: 34px;
+  padding: 7px 10px;
+  border: 1px solid rgba(0, 127, 141, 0.26);
+  border-radius: 4px;
+  color: #007f8d;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.product-table-muted {
+  color: #8290a4;
+  font-weight: 800;
+}
+
 .application-grid,
 .cert-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
