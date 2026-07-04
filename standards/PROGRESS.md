@@ -6,11 +6,11 @@
 
 ---
 
-## 当前状态 (最后更新: 2026-07-03 · by Codex)
+## 当前状态 (最后更新: 2026-07-04 · by Codex)
 
-- **阶段**:`官网高级视觉二次升级完成 / CI、CD、Pages 已恢复全绿`
-- **上一步完成**:`首页已重构为工程平台指挥舱、技术路线面板、产品参数信号板与应用卡片;Pages workflow 已升级到 v5/v6 action,最新远端 CI/CD/Pages 全绿;公网 smoke 通过`
-- **下一步 (TODO 第一条)**:`人工复核证书编号/有效期、客户名称/Logo、越南语正式营销措辞;如需正式域名,配置 DNS/CNAME 或提供服务器 SSH 部署信息`
+- **阶段**:`全站内页高级视觉升级完成 / 待推送观察 CI、CD、Pages`
+- **上一步完成**:`产品、应用、技术、质量、关于、404 已统一成深色工程页眉、信号面板、专业内容矩阵;导航增加当前页状态;本地完整门禁和 Playwright 视觉 QA 通过`
+- **下一步 (TODO 第一条)**:`提交推送本轮内页升级,观察 GitHub CI、CD、Pages 最新 run;公网 smoke 通过后更新本文件`
 - **阻塞项**:`Figma MCP 插件安装已请求但需用户在界面授权/OAuth,当前不能伪造 Figma 调用;服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
 ---
@@ -56,6 +56,12 @@
 - [x] 升级 Pages workflow actions:`configure-pages@v6`、`upload-pages-artifact@v5`、`deploy-pages@v5`
 - [x] 推送 Pages action 升级并观察 GitHub CI、CD、Pages 最新 run
 - [x] 公网 `https://renfengwu.github.io/semi-one-website/` smoke 验证首页、产品页导航、越南语切换
+- [x] 2026-07-04 继续升级内页:产品中心、应用方案、技术与创新、质量与资质、关于、404 统一高级工程视觉
+- [x] 2026-07-04 导航增加当前页高亮;Playwright 截图目录 `output/playwright/` 加入 `.gitignore`
+- [x] 2026-07-04 本轮内页升级本地门禁通过:format、lint、typecheck、coverage、build、GITHUB_PAGES build、E2E、audit、docker build
+- [x] 2026-07-04 本轮内页视觉 QA:桌面/移动端首页和 5 个核心内页均无横向溢出、控制台错误 0
+- [ ] 2026-07-04 推送本轮内页升级到 `main`,观察 GitHub CI、CD、Pages 最新 run
+- [ ] 2026-07-04 公网 smoke 验证首页、产品页、应用/技术页、越南语切换
 - [x] 会话结束前更新本文件
 
 ---
@@ -96,6 +102,8 @@
 - 2026-07-03 二次高级化本地门禁通过:`npx prettier --check`(改动文件)、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`
 - 2026-07-03 main CI `28644832626` 通过,CD `28644832635` 通过;Pages push run `28644832752` 与 workflow_dispatch run `28645043656` 均在 `actions/deploy-pages@v4` 部署步骤失败,前置 format/lint/typecheck/coverage/build/upload artifact 均成功。
 - 2026-07-03 升级 Pages actions 后远端通过:main CI、CD、Pages 全绿;公网 Playwright smoke 通过,覆盖首页渲染、产品页 SPA 导航、越南语切换,无横向溢出、无控制台错误、无失败请求。
+- 2026-07-04 内页高级视觉升级本地通过:`npx prettier --check`(改动源码/CSS)、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`
+- 2026-07-04 内页视觉 QA:使用 Playwright 截图 `output/playwright/after-products.png`、`after-applications.png`、`after-technology.png`、`after-quality.png`、`after-about.png`、`after-products-mobile.png`;桌面/移动端 `/`、`/products`、`/applications`、`/technology`、`/quality`、`/about` 均 `overflow=false`,控制台错误 0。
 
 ---
 

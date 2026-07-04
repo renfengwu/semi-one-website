@@ -28,16 +28,22 @@ export function NotFoundPage({ language }: NotFoundPageProps) {
   const text = copy[language];
 
   return (
-    <section className="page-section">
-      <h1>{text.title}</h1>
-      <p>{text.description}</p>
-      <a
-        className="button primary"
-        href={siteHref('/')}
-        onClick={(event) => handleSiteNavigation(event, '/')}
-      >
-        {text.action}
-      </a>
+    <section className="page-section page-section--not-found">
+      <div className="section-heading">
+        <div>
+          <h1>{text.title}</h1>
+          <p>{text.description}</p>
+        </div>
+      </div>
+      <div className="page-body">
+        <a
+          className="button primary"
+          href={siteHref('/')}
+          onClick={(event) => handleSiteNavigation(event, '/')}
+        >
+          {text.action}
+        </a>
+      </div>
     </section>
   );
 }

@@ -61,7 +61,7 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      <SiteHeader language={language} onLanguageChange={setLanguage} />
+      <SiteHeader currentPath={path} language={language} onLanguageChange={setLanguage} />
       <main>{page}</main>
       <footer className="site-footer">
         <span>Copyright 2026 深圳市芯电元科技有限公司</span>

@@ -2,11 +2,12 @@ import type { Language } from '../lib/i18n';
 import { handleSiteNavigation, routes, siteHref } from '../app/routes';
 
 type SiteHeaderProps = {
+  currentPath: string;
   language: Language;
   onLanguageChange: (language: Language) => void;
 };
 
-export function SiteHeader({ language, onLanguageChange }: SiteHeaderProps) {
+export function SiteHeader({ currentPath, language, onLanguageChange }: SiteHeaderProps) {
   const routeLabel = (route: (typeof routes)[number]) => {
     if (language === 'en') return route.labelEn;
     if (language === 'vi') return route.labelVi;
@@ -27,6 +28,7 @@ export function SiteHeader({ language, onLanguageChange }: SiteHeaderProps) {
         {routes.map((route) => (
           <a
             key={route.path}
+            aria-current={currentPath === route.path ? 'page' : undefined}
             href={siteHref(route.path)}
             onClick={(event) => handleSiteNavigation(event, route.path)}
           >

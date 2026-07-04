@@ -10,6 +10,8 @@ const copy = {
     eyebrow: 'About',
     title: '关于芯电元',
     description: '芯电元成立于 2011 年,专注功率半导体研发、制造、销售与技术服务,总部位于深圳南山。',
+    panelTitle: '组织网络',
+    panelItems: ['深圳总部', '8 个区域触点', '研发 / 制造 / 销售 / 服务'],
     contact: '联系我们',
     tel: '电话',
     mail: '邮箱'
@@ -19,6 +21,8 @@ const copy = {
     title: 'About Semi-One',
     description:
       'Founded in 2011 and headquartered in Nanshan, Shenzhen, Semi-One focuses on R&D, manufacturing, sales and technical service for power semiconductors.',
+    panelTitle: 'Organization Network',
+    panelItems: ['Shenzhen HQ', '8 regional touchpoints', 'R&D / Manufacturing / Sales / Service'],
     contact: 'Contact',
     tel: 'Tel',
     mail: 'Mail'
@@ -28,42 +32,74 @@ const copy = {
     title: 'Về Semi-One',
     description:
       'Thành lập năm 2011 và đặt trụ sở tại Nam Sơn, Thâm Quyến, Semi-One tập trung vào R&D, sản xuất, kinh doanh và dịch vụ kỹ thuật cho linh kiện công suất bán dẫn.',
+    panelTitle: 'Mạng lưới tổ chức',
+    panelItems: [
+      'Trụ sở Thâm Quyến',
+      '8 điểm hỗ trợ khu vực',
+      'R&D / Sản xuất / Kinh doanh / Dịch vụ'
+    ],
     contact: 'Liên hệ',
     tel: 'Điện thoại',
     mail: 'Email'
   }
-} satisfies Record<Language, Record<string, string>>;
+} satisfies Record<
+  Language,
+  {
+    eyebrow: string;
+    title: string;
+    description: string;
+    panelTitle: string;
+    panelItems: string[];
+    contact: string;
+    tel: string;
+    mail: string;
+  }
+>;
 
 export function AboutPage({ language }: AboutPageProps) {
   const text = copy[language];
 
   return (
-    <section className="page-section about-layout">
+    <section className="page-section page-section--about">
       <div className="section-heading">
-        <p className="eyebrow">{text.eyebrow}</p>
-        <h1>{text.title}</h1>
-        <p>{text.description}</p>
+        <div>
+          <p className="eyebrow">{text.eyebrow}</p>
+          <h1>{text.title}</h1>
+          <p>{text.description}</p>
+        </div>
+        <aside className="page-hero-panel" aria-label={text.panelTitle}>
+          <span>{text.panelTitle}</span>
+          <ul>
+            {text.panelItems.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </aside>
       </div>
-      <div className="timeline">
-        {companyProfile.timeline.map((item) => (
-          <article key={item.year}>
-            <strong>{item.year}</strong>
-            <span>
-              {language === 'vi' ? item.eventVi : language === 'en' ? item.eventEn : item.event}
-            </span>
-          </article>
-        ))}
+
+      <div className="page-body about-body">
+        <div className="timeline">
+          {companyProfile.timeline.map((item) => (
+            <article key={item.year}>
+              <strong>{item.year}</strong>
+              <span>
+                {language === 'vi' ? item.eventVi : language === 'en' ? item.eventEn : item.event}
+              </span>
+            </article>
+          ))}
+        </div>
+        <aside className="contact-panel">
+          <h2>{text.contact}</h2>
+          <p>{companyProfile.contact.address}</p>
+          <p>
+            {text.tel}: {companyProfile.contact.phone}
+          </p>
+          <p>
+            {text.mail}: {companyProfile.contact.email}
+          </p>
+          <p>{companyProfile.locations.join(' · ')}</p>
+        </aside>
       </div>
-      <aside className="contact-panel">
-        <h2>{text.contact}</h2>
-        <p>{companyProfile.contact.address}</p>
-        <p>
-          {text.tel}: {companyProfile.contact.phone}
-        </p>
-        <p>
-          {text.mail}: {companyProfile.contact.email}
-        </p>
-      </aside>
     </section>
   );
 }
