@@ -8,8 +8,8 @@
 
 ## 当前状态 (最后更新: 2026-07-04 · by Codex)
 
-- **阶段**:`员工生活独立标签移除 / 本地完整门禁通过 / 待远端 CI、CD、Pages 与公网 smoke`
-- **上一步完成**:`按用户要求拿掉“员工生活”独立标签:顶部主导航不再展示员工生活,首页首屏不再展示员工生活按钮;员工生活模块继续保留在关于我们页面内部,直访 /about#life 仍可滚到该模块;本地 format、lint、typecheck、coverage、build、GITHUB_PAGES build、E2E、audit、docker build、桌面/移动端浏览器 smoke 均通过`
+- **阶段**:`员工生活独立标签移除完成 / CI、CD、Pages 远端通过 / 公网 smoke 通过`
+- **上一步完成**:`按用户要求拿掉“员工生活”独立标签:顶部主导航不再展示员工生活,首页首屏不再展示员工生活按钮;员工生活模块继续保留在关于我们页面内部,直访 /about#life 仍可滚到该模块;commit e9fc85a 推送后 CI 28703393951、CD 28703393934、Pages 28703393945 成功;公网桌面/移动端 smoke 通过`
 - **下一步 (TODO 第一条)**:`人工复核证书编号/有效期、客户名称/Logo、越南语正式营销措辞;如需正式域名,配置 DNS/CNAME 或提供服务器 SSH 部署信息`
 - **阻塞项**:`Figma MCP 插件安装已请求但需用户在界面授权/OAuth,当前不能伪造 Figma 调用;新装 GitHub skill 需重启 Codex 后自动出现在技能列表;服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
@@ -88,7 +88,7 @@
 - [x] 2026-07-04 推送员工生活迁入关于页到 `main`:commit `efdb6fd`;CI `28703018407` success,CD `28703018382` success,Pages `28703018399` success;公网验证 `https://renfengwu.github.io/semi-one-website/` 通过
 - [x] 2026-07-04 按用户要求拿掉“员工生活”独立标签:主导航删除该项,首页首屏删除该按钮,关于页内部员工生活模块保留
 - [x] 2026-07-04 员工生活标签移除本地验证通过:format、lint、typecheck、coverage、build、GITHUB_PAGES build、E2E、audit、docker build、桌面/移动端 Playwright smoke
-- [ ] 2026-07-04 推送员工生活标签移除到 `main`,观察 CI、CD、Pages 并做公网 smoke
+- [x] 2026-07-04 推送员工生活标签移除到 `main`:commit `e9fc85a`;CI `28703393951` success,CD `28703393934` success,Pages `28703393945` success;公网验证 `https://renfengwu.github.io/semi-one-website/` 通过
 - [x] 会话结束前更新本文件
 
 ---
@@ -151,6 +151,7 @@
 - 2026-07-04 员工生活迁入关于页远端通过:commit `efdb6fd`;CI `28703018407` success,CD `28703018382` success,Pages `28703018399` success;公网 `https://renfengwu.github.io/semi-one-website/` 桌面/移动端 smoke 通过:首页 `#life` 数量 0,点击主导航“员工生活”与直访 `/about#life` 均 `lifeInViewport=true`,5 张员工生活图片加载成功,图片弹窗可打开/Esc 关闭,关于页地图地址 href 为高德 URI 搜索且含 `view=map`,首页/关于页横向溢出 false,控制台错误 0,失败请求 0。
 - 2026-07-04 员工生活独立标签移除本地通过:`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`;E2E 14 条通过;覆盖率 `Statements 87.25% / Branches 80.79% / Functions 79.62% / Lines 87.67%`;依赖审计 0 漏洞。
 - 2026-07-04 员工生活独立标签移除浏览器 smoke:本地桌面/移动端主导航“员工生活”数量 0,首页“员工生活”按钮数量 0,越南语导航 `Đời sống` 数量 0;关于页内部 `#life` 员工生活模块可见;横向溢出 false,控制台错误 0,失败请求 0。
+- 2026-07-04 员工生活独立标签移除远端通过:commit `e9fc85a`;CI `28703393951` success,CD `28703393934` success,Pages `28703393945` success;公网桌面/移动端主导航“员工生活”数量 0,首页“员工生活”按钮数量 0,越南语导航 `Đời sống` 数量 0;关于页内部 `#life` 员工生活模块可见,5 张员工生活图片加载成功;横向溢出 false,控制台错误 0,失败请求 0。
 
 ---
 
