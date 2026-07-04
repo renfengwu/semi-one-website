@@ -2949,6 +2949,22 @@ p {
   color: #c0d7df;
 }
 
+.contact-email-link {
+  color: #75eff6;
+  font-weight: 850;
+  text-decoration: none;
+  text-underline-offset: 4px;
+  transition:
+    color 180ms ease,
+    text-decoration-color 180ms ease;
+}
+
+.contact-email-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
+  text-decoration-color: rgba(117, 239, 246, 0.72);
+}
+
 .contact-address,
 .contact-map-link {
   display: flex;

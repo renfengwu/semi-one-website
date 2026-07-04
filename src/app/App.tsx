@@ -72,6 +72,13 @@ export default function App() {
   }, [language, path]);
 
   const mapLabel = language === 'vi' ? 'Mở bản đồ' : language === 'en' ? 'Open Map' : '打开地图';
+  const emailLabel =
+    language === 'vi'
+      ? 'Gửi email đến Semi-One'
+      : language === 'en'
+        ? 'Send an email to Semi-One'
+        : '发送邮件到公司邮箱';
+  const emailHref = `mailto:${companyProfile.contact.email}`;
 
   return (
     <div className="app-shell">
@@ -82,7 +89,9 @@ export default function App() {
         <a href={companyProfile.contact.mapUrl} target="_blank" rel="noreferrer">
           {mapLabel}
         </a>
-        <a href="mailto:shuangling@semi-one.com">shuangling@semi-one.com</a>
+        <a href={emailHref} aria-label={emailLabel} title={emailLabel}>
+          {companyProfile.contact.email}
+        </a>
       </footer>
     </div>
   );

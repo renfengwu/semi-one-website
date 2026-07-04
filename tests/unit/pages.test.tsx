@@ -50,6 +50,10 @@ describe('static pages', () => {
       'href',
       companyProfile.contact.mapUrl
     );
+    expect(screen.getByRole('link', { name: '发送邮件到公司邮箱' })).toHaveAttribute(
+      'href',
+      `mailto:${companyProfile.contact.email}`
+    );
 
     render(<NotFoundPage language="zh" />);
     expect(screen.getByRole('heading', { name: '页面未找到' })).toBeInTheDocument();

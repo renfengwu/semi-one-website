@@ -37,6 +37,7 @@ const copy = {
     contact: '联系我们',
     tel: '电话',
     mail: '邮箱',
+    mailHint: '发送邮件到公司邮箱',
     map: '打开地图',
     mapHint: '自动打开地图并搜索公司地址'
   },
@@ -71,6 +72,7 @@ const copy = {
     contact: 'Contact',
     tel: 'Tel',
     mail: 'Mail',
+    mailHint: 'Send an email to Semi-One',
     map: 'Open Map',
     mapHint: 'Open a map search for the company address'
   },
@@ -109,6 +111,7 @@ const copy = {
     contact: 'Liên hệ',
     tel: 'Điện thoại',
     mail: 'Email',
+    mailHint: 'Gửi email đến Semi-One',
     map: 'Mở bản đồ',
     mapHint: 'Mở bản đồ và tìm địa chỉ công ty'
   }
@@ -126,6 +129,7 @@ const copy = {
     contact: string;
     tel: string;
     mail: string;
+    mailHint: string;
     map: string;
     mapHint: string;
   }
@@ -198,7 +202,15 @@ export function AboutPage({ language }: AboutPageProps) {
             {text.tel}: {companyProfile.contact.phone}
           </p>
           <p>
-            {text.mail}: {companyProfile.contact.email}
+            {text.mail}:{' '}
+            <a
+              className="contact-email-link"
+              href={`mailto:${companyProfile.contact.email}`}
+              aria-label={text.mailHint}
+              title={text.mailHint}
+            >
+              {companyProfile.contact.email}
+            </a>
           </p>
           <p>{companyProfile.locations.join(' · ')}</p>
           <a

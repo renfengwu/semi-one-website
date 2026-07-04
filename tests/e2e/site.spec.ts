@@ -48,6 +48,15 @@ test('company address links directly to map search results', async ({ page }) =>
   await expect(mapLink).toHaveAttribute('href', /view=map/);
 });
 
+test('company email opens as a mail link from about and footer', async ({ page }) => {
+  await page.goto('/about');
+  await expect(page.getByRole('link', { name: '发送邮件到公司邮箱' }).first()).toHaveAttribute(
+    'href',
+    'mailto:shuangling@semi-one.com'
+  );
+  await expect(page.locator('.site-footer a[href="mailto:shuangling@semi-one.com"]')).toBeVisible();
+});
+
 test('product search works on mobile', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/products');

@@ -8,8 +8,8 @@
 
 ## 当前状态 (最后更新: 2026-07-04 · by Codex)
 
-- **阶段**:`全量产品选型与 PDF 下载补齐完成 / CI、CD、Pages 远端通过 / 公网 smoke 通过`
-- **上一步完成**:`按用户提供的 C:/Users/admin/Desktop/舒雨测试文件/产品选型表20260615.xlsx 补齐产品中心:从“选型表”抽取 414 个有效产品型号,从“超链接”精确抽取 134 个可用 PDF 链接,并保留旧站已存在的 11 个公开 datasheet 作为保底,共 145 个可点击 PDF;产品表型号名有 PDF 时直接跳转 PDF,右侧新增下载按钮,无 PDF 的型号显示“暂无”;commit 4c3cecd 推送后 CI 28703835870、CD 28703835884、Pages 28703835908 成功;公网桌面/移动端 smoke 通过`
+- **阶段**:`邮箱跳转修复完成 / 本地 CI 门禁通过 / 待远端 CI、CD、Pages 验证`
+- **上一步完成**:`按用户截图反馈修复页脚与关于页邮箱跳转:页脚邮箱改为从 companyProfile.contact.email 统一生成 mailto 链接,关于页联系面板邮箱由普通文本改为可点击 mailto 链接;补充 unit 与 E2E 覆盖,本地 lint、typecheck、coverage、build、GITHUB_PAGES build、E2E 通过`
 - **下一步 (TODO 第一条)**:`人工复核证书编号/有效期、客户名称/Logo、越南语正式营销措辞;如需正式域名,配置 DNS/CNAME 或提供服务器 SSH 部署信息`
 - **阻塞项**:`Figma MCP 插件安装已请求但需用户在界面授权/OAuth,当前不能伪造 Figma 调用;新装 GitHub skill 需重启 Codex 后自动出现在技能列表;服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
@@ -92,6 +92,8 @@
 - [x] 2026-07-04 从 `产品选型表20260615.xlsx` 补齐产品中心:414 个产品型号,134 个 Excel 精确 PDF 链接 + 11 个旧站保底 PDF,共 145 个可点击 PDF;型号名直达 PDF,新增下载按钮
 - [x] 2026-07-04 全量产品与 PDF 下载本地验证通过:format、lint、typecheck、coverage、build、GITHUB_PAGES build、E2E、audit、docker build、桌面/移动端 Playwright smoke
 - [x] 2026-07-04 推送全量产品与 PDF 下载到 `main`:commit `4c3cecd`;CI `28703835870` success,CD `28703835884` success,Pages `28703835908` success;公网验证 `https://renfengwu.github.io/semi-one-website/products` 通过
+- [x] 2026-07-04 修复邮箱跳转:页脚邮箱改为从公司联系数据统一生成 `mailto:` 链接,关于页联系面板邮箱从普通文本改为可点击 `mailto:` 链接
+- [x] 2026-07-04 邮箱跳转本地验证通过:lint、typecheck、coverage、build、GITHUB_PAGES build、E2E;E2E 覆盖关于页与页脚邮箱 `mailto:shuangling@semi-one.com`
 - [x] 会话结束前更新本文件
 
 ---
@@ -158,6 +160,7 @@
 - 2026-07-04 全量产品与 PDF 下载本地通过:使用 spreadsheets skill 读取 `C:/Users/admin/Desktop/舒雨测试文件/产品选型表20260615.xlsx`;从 `选型表` 生成 414 个有效 MOSFET 型号,跳过 `SJ MOS` 分组行;从 `超链接` 精确提取 134 个可用 `.pdf` URL,并保留旧站已存在的 11 个公开 datasheet 作为保底,共 145 个可点击 PDF,其余无 PDF 的型号显示“暂无”。本地通过:`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`;E2E 14 条通过;覆盖率 `Statements 87.15% / Branches 81.42% / Functions 79.46% / Lines 87.61%`;依赖审计 0 漏洞。
 - 2026-07-04 全量产品与 PDF 下载浏览器 smoke:截图 `output/playwright/products-pdf-links-desktop.png`、`products-pdf-links-mobile.png`;本地桌面/移动端 `/products` 显示 414 个公开型号,搜索 `PE54130` 后型号名 `PE54130GT` href 为 `http://www.semi-one.com/Uploads/pdf/PE54130GT.PDF`,下载按钮 `download=PE54130GT.pdf`;搜索 `PE2305AT` 显示“暂无”;横向溢出 false,控制台错误 0,失败请求 0。
 - 2026-07-04 全量产品与 PDF 下载远端通过:commit `4c3cecd`;CI `28703835870` success,CD `28703835884` success,Pages `28703835908` success;公网桌面/移动端 `/products` 显示 414 个公开型号,搜索 `PE54130` 后型号名 `PE54130GT` href 为 `http://www.semi-one.com/Uploads/pdf/PE54130GT.PDF`,下载按钮 `download=PE54130GT.pdf`;搜索 `PE2305AT` 显示“暂无”;横向溢出 false,控制台错误 0,失败请求 0。
+- 2026-07-04 邮箱跳转本地通过:页脚邮箱从 `companyProfile.contact.email` 生成 `mailto:shuangling@semi-one.com`;关于页联系面板邮箱由普通文本改为 `mailto:` 链接;本地通过:`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`;E2E 16 条通过;覆盖率 `Statements 87.25% / Branches 81.81% / Functions 79.46% / Lines 87.71%`。
 
 ---
 
