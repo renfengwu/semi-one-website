@@ -8,8 +8,8 @@
 
 ## 当前状态 (最后更新: 2026-07-04 · by Codex)
 
-- **阶段**:`邮箱跳转修复完成 / 本地 CI 门禁通过 / 待远端 CI、CD、Pages 验证`
-- **上一步完成**:`按用户截图反馈修复页脚与关于页邮箱跳转:页脚邮箱改为从 companyProfile.contact.email 统一生成 mailto 链接,关于页联系面板邮箱由普通文本改为可点击 mailto 链接;补充 unit 与 E2E 覆盖,本地 lint、typecheck、coverage、build、GITHUB_PAGES build、E2E 通过`
+- **阶段**:`邮箱跳转修复完成 / CI、CD、Pages 远端通过 / 公网 smoke 通过`
+- **上一步完成**:`按用户截图反馈修复页脚与关于页邮箱跳转:页脚邮箱改为从 companyProfile.contact.email 统一生成 mailto 链接,关于页联系面板邮箱由普通文本改为可点击 mailto 链接;commit 0bd40a6 推送后 CI 28704113836、CD 28704113816、Pages 28704113826 成功;公网 /about smoke 确认两个可见邮箱链接 href 均为 mailto:shuangling@semi-one.com`
 - **下一步 (TODO 第一条)**:`人工复核证书编号/有效期、客户名称/Logo、越南语正式营销措辞;如需正式域名,配置 DNS/CNAME 或提供服务器 SSH 部署信息`
 - **阻塞项**:`Figma MCP 插件安装已请求但需用户在界面授权/OAuth,当前不能伪造 Figma 调用;新装 GitHub skill 需重启 Codex 后自动出现在技能列表;服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
@@ -94,6 +94,7 @@
 - [x] 2026-07-04 推送全量产品与 PDF 下载到 `main`:commit `4c3cecd`;CI `28703835870` success,CD `28703835884` success,Pages `28703835908` success;公网验证 `https://renfengwu.github.io/semi-one-website/products` 通过
 - [x] 2026-07-04 修复邮箱跳转:页脚邮箱改为从公司联系数据统一生成 `mailto:` 链接,关于页联系面板邮箱从普通文本改为可点击 `mailto:` 链接
 - [x] 2026-07-04 邮箱跳转本地验证通过:lint、typecheck、coverage、build、GITHUB_PAGES build、E2E;E2E 覆盖关于页与页脚邮箱 `mailto:shuangling@semi-one.com`
+- [x] 2026-07-04 推送邮箱跳转修复到 `main`:commit `0bd40a6`;CI `28704113836` success,CD `28704113816` success,Pages `28704113826` success;公网验证 `https://renfengwu.github.io/semi-one-website/about/` 通过
 - [x] 会话结束前更新本文件
 
 ---
@@ -161,6 +162,7 @@
 - 2026-07-04 全量产品与 PDF 下载浏览器 smoke:截图 `output/playwright/products-pdf-links-desktop.png`、`products-pdf-links-mobile.png`;本地桌面/移动端 `/products` 显示 414 个公开型号,搜索 `PE54130` 后型号名 `PE54130GT` href 为 `http://www.semi-one.com/Uploads/pdf/PE54130GT.PDF`,下载按钮 `download=PE54130GT.pdf`;搜索 `PE2305AT` 显示“暂无”;横向溢出 false,控制台错误 0,失败请求 0。
 - 2026-07-04 全量产品与 PDF 下载远端通过:commit `4c3cecd`;CI `28703835870` success,CD `28703835884` success,Pages `28703835908` success;公网桌面/移动端 `/products` 显示 414 个公开型号,搜索 `PE54130` 后型号名 `PE54130GT` href 为 `http://www.semi-one.com/Uploads/pdf/PE54130GT.PDF`,下载按钮 `download=PE54130GT.pdf`;搜索 `PE2305AT` 显示“暂无”;横向溢出 false,控制台错误 0,失败请求 0。
 - 2026-07-04 邮箱跳转本地通过:页脚邮箱从 `companyProfile.contact.email` 生成 `mailto:shuangling@semi-one.com`;关于页联系面板邮箱由普通文本改为 `mailto:` 链接;本地通过:`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`;E2E 16 条通过;覆盖率 `Statements 87.25% / Branches 81.81% / Functions 79.46% / Lines 87.71%`。
+- 2026-07-04 邮箱跳转远端通过:commit `0bd40a6`;CI `28704113836` success,CD `28704113816` success,Pages `28704113826` success;公网 `https://renfengwu.github.io/semi-one-website/about/` smoke 确认两个可见邮箱链接 href 均为 `mailto:shuangling@semi-one.com`,页脚邮箱链接数量 1。
 
 ---
 
