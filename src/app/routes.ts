@@ -11,7 +11,6 @@ export const routes: AppRoute[] = [
   { path: '/applications', label: '应用', labelEn: 'Applications', labelVi: 'Ứng dụng' },
   { path: '/technology', label: '技术', labelEn: 'Technology', labelVi: 'Công nghệ' },
   { path: '/quality', label: '质量', labelEn: 'Quality', labelVi: 'Chất lượng' },
-  { path: '/about#life', label: '员工生活', labelEn: 'Life', labelVi: 'Đời sống' },
   { path: '/about', label: '关于我们', labelEn: 'About', labelVi: 'Về chúng tôi' }
 ];
 

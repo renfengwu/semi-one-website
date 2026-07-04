@@ -517,13 +517,6 @@ export function HomePage({ language }: HomePageProps) {
               >
                 {copy.technology}
               </a>
-              <a
-                className="button tertiary"
-                href={siteHref('/about#life')}
-                onClick={(event) => handleSiteNavigation(event, '/about#life')}
-              >
-                {copy.lifeEyebrow}
-              </a>
             </div>
             <div className="hero-micro-grid" aria-label="核心平台信号">
               {copy.heroSignals.map((signal, index) => {
