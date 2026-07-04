@@ -8,9 +8,9 @@
 
 ## 当前状态 (最后更新: 2026-07-04 · by Codex)
 
-- **阶段**:`企业文化与动态视觉升级、Pages 尾斜杠直访修复完成 / CI、CD、Pages 远端通过`
-- **上一步完成**:`按用户要求继续从 GitHub openai/skills 找 skill 并补装 figma、figma-create-design-system-rules;首页新增企业文化动态控制台与信号动效;关于页新增企业文化原则;修复 GitHub Pages 尾斜杠直访进入前端 404;最新代码提交 CI、CD 成功,Pages 通过 workflow_dispatch 成功部署;公网 smoke 通过`
-- **下一步 (TODO 第一条)**:`人工复核证书编号/有效期、客户名称/Logo、越南语正式营销措辞;如需正式域名,配置 DNS/CNAME 或提供服务器 SSH 部署信息`
+- **阶段**:`员工生活与真实企业文化素材升级完成 / 本地完整门禁通过 / 待推送远端 CI、CD、Pages`
+- **上一步完成**:`按用户反馈继续从 GitHub openai/skills 找 skill,同步到 HEAD 49f948f 并补装 figma-create-new-file、figma-generate-library;基于 data/ 员工生日会、团建、运动、年会资料筛选真实照片并生成 WebP;首页新增“员工生活”模块,覆盖中文/英文/越南语,补 E2E 图片加载和越南语断言;本地 format、lint、typecheck、coverage、build、Pages build、E2E、audit、docker build、浏览器 smoke 全部通过`
+- **下一步 (TODO 第一条)**:`推送员工生活升级到 main,观察 GitHub CI/CD/Pages,公网 smoke 复核首页员工生活模块、越南语切换、核心路由直访和移动端无横向溢出`
 - **阻塞项**:`Figma MCP 插件安装已请求但需用户在界面授权/OAuth,当前不能伪造 Figma 调用;新装 GitHub skill 需重启 Codex 后自动出现在技能列表;服务器 SSH 部署仍缺 SSH_HOST、SSH_USER 与 authorized_keys 授权;证书编号/有效期、客户名称/Logo、越南语正式营销措辞仍需人工复核`
 
 ---
@@ -72,6 +72,11 @@
 - [x] 2026-07-04 推送本轮文化动效升级到 `main`:CI、CD 成功;Pages 首次 deploy 返回 `Deployment failed, try again later`,重新触发 workflow_dispatch 后成功
 - [x] 2026-07-04 公网 smoke 发现 `/about/` 等 Pages 尾斜杠直访会落到前端 404;已修复路径归一化,并补单元测试覆盖 `/about/`、`/products/`、`/semi-one-website/about/`
 - [x] 2026-07-04 推送尾斜杠直访修复到 `main`:CI `28700841925` success,CD `28700841935` success;Pages push run `28700841924` 和首次 workflow_dispatch `28700890283` 仍遇到 deploy-pages 临时失败,第三次 workflow_dispatch `28700954024` success;公网 smoke 通过
+- [x] 2026-07-04 按用户要求再次从 GitHub 找 skill:同步 `openai/skills` 到 HEAD `49f948f`,安装 `figma-create-new-file`、`figma-generate-library`;当前仍无可调用 Figma MCP,不能伪造 Figma 文件操作
+- [x] 2026-07-04 从 `data/` 员工生活资料筛选真实素材:2022 生日会、2023 阳朔、2024 羽毛球、2025 郴州、2025 年会,生成生产 WebP 并加入首页
+- [x] 2026-07-04 首页新增员工生活模块:真实照片画廊、文化叙事、运动/生日会/团建/年会标签,覆盖中文/英文/越南语
+- [x] 2026-07-04 员工生活模块本地门禁通过:format、lint、typecheck、coverage、build、GITHUB_PAGES build、E2E、audit、docker build、桌面/移动端截图、浏览器 smoke
+- [ ] 2026-07-04 推送员工生活升级并观察 GitHub CI、CD、Pages 最新 run;公网验证 `https://renfengwu.github.io/semi-one-website/`
 - [x] 会话结束前更新本文件
 
 ---
@@ -122,6 +127,9 @@
 - 2026-07-04 企业文化动效远端验证:commit `2b20065`;CI `28700614272` success,CD `28700614251` success;Pages push run `28700614273` 在 deploy-pages 返回临时失败,workflow_dispatch run `28700662269` success;公网首页与越南语 smoke 通过,但发现带尾斜杠内页落入前端 404。
 - 2026-07-04 Pages 尾斜杠直访修复本地通过:`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`;本地 `/products/`、`/applications/`、`/technology/`、`/quality/`、`/about/` 均 `status=200`,非 404,横向溢出 false,`/about/` 企业文化文案存在。
 - 2026-07-04 Pages 尾斜杠直访修复远端通过:commit `426cb8c`;CI `28700841925` success,CD `28700841935` success,Pages workflow_dispatch `28700954024` success;公网 `https://renfengwu.github.io/semi-one-website/`、`/products/`、`/applications/`、`/technology/`、`/quality/`、`/about/` 桌面/移动端均 `status=200`,非前端 404,横向溢出 false,控制台错误 0,失败请求 0;首页和关于页企业文化文案存在;越南语文化文案与标题存在。
+- 2026-07-04 员工生活与真实素材升级:从 GitHub `openai/skills` HEAD `49f948f` 补装 `figma-create-new-file`、`figma-generate-library`;从 `data/` 筛选 5 张员工活动真实照片并生成 `public/assets/life-*.webp`;首页新增员工生活模块并覆盖 zh/en/vi。
+- 2026-07-04 员工生活升级本地通过:`npm run format:check`、`npm run lint`、`npm run typecheck`、`npm run test:coverage`、`npm run build`、`GITHUB_PAGES=true npm run build`、`npm run test:e2e`、`npm audit --audit-level=moderate`、`docker build -t semi-one-website:local .`;E2E 8 条通过,覆盖率 `Statements 86.56% / Branches 78.52% / Functions 81.6% / Lines 87.28%`;依赖审计 0 漏洞。
+- 2026-07-04 员工生活视觉与浏览器 smoke:截图 `output/playwright/life-home-desktop-full.png`、`life-home-mobile-full.png`;本地桌面/移动端 `/`、`/products/`、`/applications/`、`/technology/`、`/quality/`、`/about/` 均 `status=200`,横向溢出 false,前端 404 文案 0;首页 `.life-showcase-section` 存在,5 张 `life-*` 图片自然宽度均大于 0;越南语 `Đời sống nhân viên` 存在且无横向溢出。
 
 ---
 
@@ -143,6 +151,8 @@
 - `figma-generate-design` skill 需要 Figma MCP(`use_figma`)和明确 Figma 文件;当前会话没有可用 Figma 工具/设计稿,不能伪造调用,只能按其设计流程配合 Playwright/Screenshot 做本地视觉验收。
 - `figma-use` / `figma-implement-design` 已从 GitHub 安装到本机 skills,但 Figma 插件仍需要用户在 Codex 界面完成授权/OAuth;授权前没有 `use_figma` 工具可调用。
 - 2026-07-04 官方 `skill-installer` 的 curated list helper 对 `openai/skills` 返回 HTTP 403 时,可先把 `https://github.com/openai/skills.git` 同步到临时目录后手动列 `SKILL.md` 路径,再用 `install-skill-from-github.py --repo openai/skills --path ...` 安装明确 skill。
+- 2026-07-04 继续从 GitHub `openai/skills` 找到并安装 `figma-create-new-file`、`figma-generate-library`;安装成功后仍需重启 Codex 才会进入当前技能列表,且 Figma MCP/OAuth 未完成前不能真实调用 Figma。
+- 员工生活照片来自根目录 `data/` 原始资料,生产仅提交压缩后的 `public/assets/life-*.webp`;不要把 `data/` 原始大文件加入 Git。
 
 ---
 

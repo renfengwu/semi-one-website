@@ -4,6 +4,7 @@ coverage/
 playwright-report/
 test-results/
 output/playwright/
+output/contact-sheets/
 .vite/
 .env
 .env.*
